@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/home_page"
+            android:icon="@mipmap/ic_home_grey600_48dp"
+            android:title="@string/home_page" />
+
+        <item
+            android:id="@+id/chart"
+            android:icon="@mipmap/ic_poll_grey600_48dp"
+            android:title="@string/chart" />
+
+        <item
+            android:id="@+id/account_water"
+            android:icon="@mipmap/ic_assignment_grey600_48dp"
+            android:title="@string/account_water" />
+
+        <item
+            android:id="@+id/account"
+            android:icon="@mipmap/ic_credit_card_grey600_48dp"
+            android:title="@string/account" />
+
+        <item
+            android:id="@+id/add_user"
+            android:icon="@mipmap/ic_people_grey600_48dp"
+            android:title="@string/add_user" />
+    </group>
+
+
+    <item
+        android:title="更多"
+        >
+        <menu>
+            <item
+                android:id="@+id/logout"
+                android:title="@string/logout" />
+        </menu>
+    </item>
+</menu>

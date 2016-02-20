@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">AccountBook</string>
+    <string name="title_activity_main2">Main2Activity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">设置</string>
+    <string name="exit">退出应用</string>
+    <string name="notification_center">信息中心</string>
+
+
+    <string name="loginHint">点击头像登录</string>
+
+    <string name="home_page">首页</string>
+    <string name="chart">图表</string>
+    <string name="account_water">流水清单</string>
+    <string name="account">账户结余</string>
+    <string name="add_user">多人记录</string>
+    <string name="logout">注销用户</string>
+    <string name="title_activity_test">TestActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+</resources>
