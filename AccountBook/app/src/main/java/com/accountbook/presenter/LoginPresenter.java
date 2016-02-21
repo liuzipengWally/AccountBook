@@ -7,15 +7,19 @@ import com.accountbook.biz.api.IUserBiz;
 import com.accountbook.biz.api.OnLoginListener;
 import com.accountbook.view.api.ILoginView;
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
 public class LoginPresenter {
     private ILoginView view;
-    private IUserBiz userModel;
+    private IUserBiz userBiz;
     private String username;
     private String password;
 
     public LoginPresenter(ILoginView view) {
         this.view = view;
-        userModel = new UserBiz();
+        userBiz = UserBiz.getInstance();
     }
 
     /**
@@ -46,7 +50,7 @@ public class LoginPresenter {
         }else if(validatePassword()){
             view.showPasswordError("密码不能为空!");
         }else{
-            userModel.login(username, password, new OnLoginListener() {
+            userBiz.login(username, password, new OnLoginListener() {
 
                 @Override
                 public void loginSuccess() {
