@@ -13,15 +13,13 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.accountbook.R;
-<<<<<<< HEAD
 import com.accountbook.view.api.ToolbarMenuOnClickListener;
 import com.accountbook.view.fragment.AccountFragment;
 import com.accountbook.view.fragment.ChartFragment;
 import com.accountbook.view.fragment.HomeFragment;
 import com.accountbook.view.fragment.WaterFragment;
-=======
 import com.accountbook.biz.impl.LeanCloud;
->>>>>>> master
+
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, ToolbarMenuOnClickListener {
     private DrawerLayout mDrawerLayout;
