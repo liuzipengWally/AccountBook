@@ -1,4 +1,4 @@
-package com.accountbook.viewAPI;
+package com.accountbook.view.api;
 
 /**
  * Created by Grady on 2016.2.21.

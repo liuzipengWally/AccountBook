@@ -2,23 +2,23 @@ package com.accountbook.presenter;
 
 import android.os.Handler;
 
-import com.accountbook.model.UserModel;
-import com.accountbook.modelAPI.IUserModel;
-import com.accountbook.modelAPI.OnLoginListener;
-import com.accountbook.viewAPI.ILoginView;
+import com.accountbook.biz.impl.UserBiz;
+import com.accountbook.biz.api.IUserBiz;
+import com.accountbook.biz.api.OnLoginListener;
+import com.accountbook.view.api.ILoginView;
 
 /**
  * Created by Grady on 2016.2.21.
  */
 public class LoginPresenter {
     private ILoginView view;
-    private IUserModel userModel;
+    private IUserBiz userModel;
     private String username;
     private String password;
 
     public LoginPresenter(ILoginView view) {
         this.view = view;
-        userModel = new UserModel();
+        userModel = new UserBiz();
     }
 
     /**

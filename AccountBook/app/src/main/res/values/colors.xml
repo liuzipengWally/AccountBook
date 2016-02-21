@@ -6,4 +6,6 @@
     <color name="black87">#57000000</color>
     <color name="black54">#36000000</color>
     <color name="black26">#1a000000</color>
+    <color name="transparent">#00000000</color>
+    <color name="loginGrey">#e3e3e3</color>
 </resources>

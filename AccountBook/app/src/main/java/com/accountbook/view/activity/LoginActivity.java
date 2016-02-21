@@ -3,6 +3,7 @@ package com.accountbook.view.activity;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -10,9 +11,9 @@ import android.widget.Toast;
 
 import com.accountbook.R;
 import com.accountbook.presenter.LoginPresenter;
-import com.accountbook.viewAPI.ILoginView;
+import com.accountbook.view.api.ILoginView;
 
-public class LoginActivity extends AppCompatActivity implements ILoginView{
+public class LoginActivity extends AppCompatActivity implements ILoginView {
 
     TextInputLayout usernameWrapper;
     TextInputLayout passwordWrapper;
@@ -24,6 +25,8 @@ public class LoginActivity extends AppCompatActivity implements ILoginView{
 
     LoginPresenter loginPresenter;
 
+    private Toolbar mToolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,9 +37,12 @@ public class LoginActivity extends AppCompatActivity implements ILoginView{
         initView();
     }
 
-    public void initView(){
-        usernameWrapper = (TextInputLayout)findViewById(R.id.username_wrapper);
-        passwordWrapper = (TextInputLayout)findViewById(R.id.password_wrapper);
+    public void initView() {
+        usernameWrapper = (TextInputLayout) findViewById(R.id.username_wrapper);
+        passwordWrapper = (TextInputLayout) findViewById(R.id.password_wrapper);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        setSupportActionBar(mToolbar);
 
         usernameInput = usernameWrapper.getEditText();
         passwordInput = passwordWrapper.getEditText();
@@ -44,7 +50,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginView{
         usernameWrapper.setErrorEnabled(true);
         passwordWrapper.setErrorEnabled(true);
 
-        loginBtn = (Button)findViewById(R.id.login_btn);
+        loginBtn = (Button) findViewById(R.id.login_btn);
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,7 +60,6 @@ public class LoginActivity extends AppCompatActivity implements ILoginView{
             }
         });
     }
-
 
 
     @Override

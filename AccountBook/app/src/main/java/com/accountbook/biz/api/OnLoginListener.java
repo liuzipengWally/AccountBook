@@ -1,4 +1,4 @@
-package com.accountbook.modelAPI;
+package com.accountbook.biz.api;
 
 /**
  * Created by Grady on 2016.2.21.
