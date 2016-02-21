@@ -7,10 +7,6 @@ import com.accountbook.biz.api.IUserBiz;
 import com.accountbook.biz.api.OnLoginListener;
 import com.accountbook.view.api.ILoginView;
 
-<<<<<<< HEAD
-=======
-
->>>>>>> master
 public class LoginPresenter {
     private ILoginView view;
     private IUserBiz userBiz;
