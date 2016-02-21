@@ -1,5 +1,7 @@
 package com.accountbook.biz.impl;
 
+import android.content.Context;
+
 import com.accountbook.biz.api.IUserBiz;
 import com.accountbook.biz.api.OnLoginListener;
 import com.accountbook.entity.UserForLeanCloud;
@@ -19,15 +21,22 @@ public class UserBiz implements IUserBiz {
         return instance;
     }
 
+    /**
+     * 处理登录
+     * @param context 上下文对象
+     * @param username 用户名
+     * @param password 密码
+     * @param listener 登录结果回调
+     */
     @Override
-    public void login(final String username, final String password, final OnLoginListener listener) {
+    public void login(Context context,final String username, final String password, final OnLoginListener listener) {
 
-        if(Util.getInstance().isNetworkAvailable()){
+        if(Util.isNetworkAvailable(context)){
 
             AVUser.logInInBackground(username, password, new LogInCallback<UserForLeanCloud>() {
                 @Override
                 public void done(UserForLeanCloud avUser, AVException e) {
-                    if(avUser==null){
+                    if(avUser == null){
                         listener.loginFailed("用户名密码错误");
                     }else{
                         listener.loginSuccess();

@@ -24,8 +24,5 @@ public class MyApplication extends Application{
         //初始化LeanCloud
         AVUser.alwaysUseSubUserClass(UserForLeanCloud.class);       //使查询 AVUser 所得到的对象自动转化为用户子类化的对象User
         AVOSCloud.initialize(MyApplication.this, APP_ID, APP_KEY);
-
-        //设置工具类的上下文
-        Util.getInstance().setContext(MyApplication.this);
     }
 }

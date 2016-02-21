@@ -14,10 +14,7 @@ import android.widget.ImageView;
 
 import com.accountbook.R;
 
-<<<<<<< HEAD
-=======
 
->>>>>>> master
 public class CircleIcon extends View {
     private int mImageId = R.mipmap.head;
 

@@ -1,5 +1,6 @@
 package com.accountbook.presenter;
 
+import android.content.Context;
 import android.os.Handler;
 
 import com.accountbook.biz.impl.UserBiz;
@@ -46,7 +47,7 @@ public class LoginPresenter {
         }else if(validatePassword()){
             view.showPasswordError("密码不能为空!");
         }else{
-            userBiz.login(username, password, new OnLoginListener() {
+            userBiz.login((Context)view,username, password, new OnLoginListener() {
 
                 @Override
                 public void loginSuccess() {
