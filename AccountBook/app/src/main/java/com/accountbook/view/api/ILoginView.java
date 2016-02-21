@@ -1,8 +1,6 @@
 package com.accountbook.view.api;
 
-/**
- * Created by Grady on 2016.2.21.
- */
+
 public interface ILoginView {
     /**
      * 提供给presenter获取username的方法

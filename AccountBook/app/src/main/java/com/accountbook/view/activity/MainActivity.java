@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.accountbook.R;
+import com.accountbook.biz.impl.LeanCloud;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private Toolbar mToolbar;
@@ -25,6 +26,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         initView();
         bindEvents();
+
+        //初始化云,必须在主线程做
+        LeanCloud.getInstance().init(MainActivity.this);
     }
 
     @Override
