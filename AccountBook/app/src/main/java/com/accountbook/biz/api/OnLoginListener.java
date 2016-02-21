@@ -1,6 +1,9 @@
 package com.accountbook.biz.api;
 
+<<<<<<< HEAD
+=======
 
+>>>>>>> master
 public interface OnLoginListener {
     /**
      * 登录成功回调

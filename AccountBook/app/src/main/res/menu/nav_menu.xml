@@ -3,6 +3,7 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/home_page"
+            android:checked="true"
             android:icon="@mipmap/ic_home_grey600_48dp"
             android:title="@string/home_page" />
 
@@ -28,9 +29,7 @@
     </group>
 
 
-    <item
-        android:title="更多"
-        >
+    <item android:title="更多">
         <menu>
             <item
                 android:id="@+id/logout"

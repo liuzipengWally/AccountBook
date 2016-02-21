@@ -1,6 +1,9 @@
 package com.accountbook.view.api;
 
+<<<<<<< HEAD
+=======
 
+>>>>>>> master
 public interface ILoginView {
     /**
      * 提供给presenter获取username的方法
