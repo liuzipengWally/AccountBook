@@ -7,9 +7,6 @@ import com.accountbook.biz.api.IUserBiz;
 import com.accountbook.biz.api.OnLoginListener;
 import com.accountbook.view.api.ILoginView;
 
-/**
- * Created by Grady on 2016.2.21.
- */
 public class LoginPresenter {
     private ILoginView view;
     private IUserBiz userModel;

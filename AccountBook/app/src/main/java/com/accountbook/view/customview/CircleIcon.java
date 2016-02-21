@@ -14,9 +14,6 @@ import android.widget.ImageView;
 
 import com.accountbook.R;
 
-/**
- * Created by liuzipeng on 16/2/19.
- */
 public class CircleIcon extends View {
     private int mImageId = R.mipmap.head;
 
