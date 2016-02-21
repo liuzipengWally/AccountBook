@@ -1,6 +1,9 @@
 package com.accountbook.biz.impl;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.util.Log;
 
 import com.accountbook.biz.api.IUserBiz;
 import com.accountbook.biz.api.OnLoginListener;
@@ -34,11 +37,28 @@ public class UserBiz implements IUserBiz {
         if(Util.isNetworkAvailable(context)){
 
             AVUser.logInInBackground(username, password, new LogInCallback<UserForLeanCloud>() {
+
                 @Override
                 public void done(UserForLeanCloud avUser, AVException e) {
                     if(avUser == null){
                         listener.loginFailed("用户名密码错误");
                     }else{
+                        //检查本地数据库中有没有记录
+                        Cursor cursor = SQLite.db.query("_user",new String[]{"id"},"id = ?",new String[]{avUser.getObjectId()},null,null,null);
+                        if(cursor != null){
+                            if(cursor.getCount() != 0){
+                                //更新数据
+                                ContentValues values = new ContentValues();
+                                values.put(UserForLeanCloud.FID,avUser.getFid());
+                                values.put(UserForLeanCloud.ACTOR,avUser.getActor());
+                                values.put(UserForLeanCloud.MONEY, avUser.getMoney());
+                                SQLite.db.update("_user", values, "id = ?", new String[]{avUser.getObjectId()});
+                            }else{
+                                //插入新数据
+                                addToLocal(avUser);
+                            }
+                            cursor.close();
+                        }
                         listener.loginSuccess();
                     }
                 }
@@ -49,4 +69,18 @@ public class UserBiz implements IUserBiz {
         }
     }
 
+    /**
+     * 往本地用户表添加项
+     * @param user 从云端获取到的user对象
+     */
+    public void addToLocal(UserForLeanCloud user){
+        ContentValues values = new ContentValues();
+        values.put("id",user.getObjectId());
+        values.put("username",user.getUsername());
+        values.put("email",user.getEmail());
+        values.put(UserForLeanCloud.FID,user.getFid());
+        values.put(UserForLeanCloud.ACTOR,user.getActor());
+        values.put(UserForLeanCloud.MONEY, user.getMoney());
+        SQLite.db.insert("_user",null,values);
+    }
 }
