@@ -13,7 +13,8 @@
     <com.accountbook.view.customview.CircleIcon
         android:id="@+id/header_icon"
         android:layout_width="70dp"
-        android:layout_height="70dp" />
+        android:layout_height="70dp"
+        android:onClick="goLogin"/>
 
     <TextView
         android:id="@+id/userName"
