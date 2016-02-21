@@ -1,9 +1,9 @@
-package com.accountbook.entity.leancloud;
+package com.accountbook.entity;
 
 
 import com.avos.avoscloud.AVUser;
 
-public class User extends AVUser {
+public class UserForLeanCloud extends AVUser {
 
     //主键、用户名、邮箱字段ACUser已经有了
     public static final String FID = "fid";

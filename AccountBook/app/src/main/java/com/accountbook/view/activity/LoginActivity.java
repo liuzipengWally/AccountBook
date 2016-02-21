@@ -10,7 +10,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.accountbook.R;
-import com.accountbook.biz.impl.LeanCloud;
 import com.accountbook.presenter.LoginPresenter;
 import com.accountbook.view.api.ILoginView;
 
@@ -36,9 +35,6 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
         loginPresenter = new LoginPresenter(this);
 
         initView();
-
-
-
     }
 
     public void initView() {
