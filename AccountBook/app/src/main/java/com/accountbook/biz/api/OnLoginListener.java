@@ -1,6 +1,5 @@
 package com.accountbook.biz.api;
 
-
 public interface OnLoginListener {
     /**
      * 登录成功回调

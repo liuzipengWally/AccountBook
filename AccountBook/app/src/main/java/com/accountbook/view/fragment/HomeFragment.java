@@ -7,13 +7,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.accountbook.R;
 import com.accountbook.view.api.ToolbarMenuOnClickListener;
 
+import java.util.Calendar;
+
 public class HomeFragment extends Fragment {
     private View mLayoutView;
     private Toolbar mToolbar;
+    private Calendar mCalendar;
 
     private ToolbarMenuOnClickListener mToolbarMenuOnClickListener;
 
@@ -47,5 +51,11 @@ public class HomeFragment extends Fragment {
         mToolbar = (Toolbar) mLayoutView.findViewById(R.id.toolbar);
         mToolbar.inflateMenu(R.menu.main_activity_menu);
         mToolbar.setTitle(R.string.home_page);
+
+        mCalendar = Calendar.getInstance();
+        TextView monthTextView = (TextView) mLayoutView.findViewById(R.id.monthText);
+        monthTextView.setText((mCalendar.get(Calendar.MONTH) + 1) + "");
+        TextView yearTextView = (TextView) mLayoutView.findViewById(R.id.yearText);
+        yearTextView.setText(" / " + mCalendar.get(Calendar.YEAR) + "");
     }
 }

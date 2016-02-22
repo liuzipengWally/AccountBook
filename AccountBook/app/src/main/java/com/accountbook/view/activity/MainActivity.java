@@ -85,11 +85,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         FragmentManager fm = getSupportFragmentManager();
         /*获取一个Fragment事物，通过FragmentManager对象调用beginTransaction方法，开启一个事物*/
         FragmentTransaction transaction = fm.beginTransaction();
-        /*先隐藏所有的Fragment*/
-        hideAllFragment(transaction);
 
         switch (id) {
             case R.id.home_page:
+                /*先隐藏所有的Fragment*/
+                hideAllFragment(transaction);
+
                 /*如果该对象为空，就实例化这个Fragment，并且将它添加进事物中。
                 * transaction.add(R.id.contents,mOrderFragment);
                 * 该方法第一个参数为要存放这些fragment的viewGroup，第二个参数就是该Fragment
@@ -104,6 +105,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 transaction.show(mHomeFragment);
                 break;
             case R.id.account:
+                /*先隐藏所有的Fragment*/
+                hideAllFragment(transaction);
+
                 if (mAccountFragment == null) {
                     mAccountFragment = new AccountFragment();
                     mAccountFragment.setToolbarMenuOnClickListener(this);
@@ -113,6 +117,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 transaction.show(mAccountFragment);
                 break;
             case R.id.account_water:
+                /*先隐藏所有的Fragment*/
+                hideAllFragment(transaction);
+
                 if (mWaterFragment == null) {
                     mWaterFragment = new WaterFragment();
                     mWaterFragment.setToolbarMenuOnClickListener(this);
@@ -122,6 +129,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 transaction.show(mWaterFragment);
                 break;
             case R.id.chart:
+                /*先隐藏所有的Fragment*/
+                hideAllFragment(transaction);
+
                 if (mChartFragment == null) {
                     mChartFragment = new ChartFragment();
                     mChartFragment.setToolbarMenuOnClickListener(this);
@@ -156,7 +166,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void goLogin(View view) {
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(intent);
-        finish();
     }
 
     @Override

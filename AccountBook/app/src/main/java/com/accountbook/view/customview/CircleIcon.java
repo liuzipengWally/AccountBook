@@ -10,11 +10,13 @@ import android.graphics.Paint;
 import android.graphics.Shader;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.accountbook.R;
 
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 public class CircleIcon extends View {
     private int mImageId = R.mipmap.head;
 
