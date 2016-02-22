@@ -8,4 +8,7 @@
     <color name="black26">#1a000000</color>
     <color name="transparent">#00000000</color>
     <color name="loginGrey">#e3e3e3</color>
+    <color name="black100">#000000</color>
+    <color name="income">#b10909</color>
+    <color name="expend">#217c4a</color>
 </resources>

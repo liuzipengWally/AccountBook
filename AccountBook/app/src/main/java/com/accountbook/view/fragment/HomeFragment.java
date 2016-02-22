@@ -51,7 +51,10 @@ public class HomeFragment extends Fragment {
         mToolbar = (Toolbar) mLayoutView.findViewById(R.id.toolbar);
         mToolbar.inflateMenu(R.menu.main_activity_menu);
         mToolbar.setTitle(R.string.home_page);
+//        settingsCardDate();
+    }
 
+    private void settingsCardDate() {
         mCalendar = Calendar.getInstance();
         TextView monthTextView = (TextView) mLayoutView.findViewById(R.id.monthText);
         monthTextView.setText((mCalendar.get(Calendar.MONTH) + 1) + "");

@@ -32,5 +32,4 @@ public class Util {
     public static float sp2px(int sp, DisplayMetrics metrics) {
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, metrics);
     }
-
 }

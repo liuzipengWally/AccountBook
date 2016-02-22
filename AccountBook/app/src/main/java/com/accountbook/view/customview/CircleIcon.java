@@ -13,10 +13,6 @@ import android.view.View;
 
 import com.accountbook.R;
 
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
 public class CircleIcon extends View {
     private int mImageId = R.mipmap.head;
 
