@@ -23,11 +23,13 @@
         <activity
             android:name=".view.activity.LoginActivity"
             android:label="@string/title_activity_login"
-            android:theme="@style/LoginTheme">
+            android:theme="@style/LoginTheme" >
         </activity>
         <activity
             android:name=".view.activity.BaseActivity"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="adjustResize" >
+        </activity>
+        <activity android:name=".view.activity.RegistryActivity" >
         </activity>
     </application>
 
