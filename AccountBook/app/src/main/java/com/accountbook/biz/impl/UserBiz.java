@@ -44,7 +44,7 @@ public class UserBiz implements IUserBiz {
                         listener.loginFailed("用户名密码错误");
                     }else{
                         //检查本地数据库中有没有记录
-                        Cursor cursor = SQLite.db.query("_user",new String[]{"id"},"id = ?",new String[]{avUser.getObjectId()},null,null,null);
+                        Cursor cursor = SQLite.db.query(SQLite.USERTABLE,new String[]{"id"},"id = ?",new String[]{avUser.getObjectId()},null,null,null);
                         if(cursor != null){
                             if(cursor.getCount() != 0){
                                 //更新数据
@@ -52,7 +52,7 @@ public class UserBiz implements IUserBiz {
                                 values.put(UserForLeanCloud.FID,avUser.getFid());
                                 values.put(UserForLeanCloud.ACTOR,avUser.getActor());
                                 values.put(UserForLeanCloud.MONEY, avUser.getMoney());
-                                SQLite.db.update("_user", values, "id = ?", new String[]{avUser.getObjectId()});
+                                SQLite.db.update(SQLite.USERTABLE, values, "id = ?", new String[]{avUser.getObjectId()});
                             }else{
                                 //插入新数据
                                 addToLocal(avUser);
@@ -81,6 +81,6 @@ public class UserBiz implements IUserBiz {
         values.put(UserForLeanCloud.FID,user.getFid());
         values.put(UserForLeanCloud.ACTOR,user.getActor());
         values.put(UserForLeanCloud.MONEY, user.getMoney());
-        SQLite.db.insert("_user",null,values);
+        SQLite.db.insert(SQLite.USERTABLE,null,values);
     }
 }
