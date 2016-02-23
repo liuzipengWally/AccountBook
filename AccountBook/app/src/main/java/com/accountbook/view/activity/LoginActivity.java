@@ -23,6 +23,7 @@ public class LoginActivity extends BaseActivity implements ILoginView,View.OnFoc
     private EditText passwordInput;
 
     private Button loginBtn;
+    private Button registry;
 
     private LoginPresenter loginPresenter;
 
@@ -72,6 +73,15 @@ public class LoginActivity extends BaseActivity implements ILoginView,View.OnFoc
                 loginPresenter.dologin();
             }
         });
+
+        registry = (Button)findViewById(R.id.goto_register_view);
+        registry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this,RegistryActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
 
@@ -88,6 +98,8 @@ public class LoginActivity extends BaseActivity implements ILoginView,View.OnFoc
     @Override
     public void loginSuccess() {
         Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
+        setResult(2);
+        finish();
     }
 
     @Override

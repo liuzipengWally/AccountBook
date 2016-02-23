@@ -11,14 +11,24 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.accountbook.R;
+import com.accountbook.entity.User;
+import com.accountbook.entity.UserForLeanCloud;
+import com.accountbook.presenter.MyApplication;
 import com.accountbook.view.api.ToolbarMenuOnClickListener;
 import com.accountbook.view.fragment.AccountFragment;
 import com.accountbook.view.fragment.ChartFragment;
 import com.accountbook.view.fragment.HomeFragment;
 import com.accountbook.view.fragment.WaterFragment;
 import com.accountbook.tools.Util;
+import com.avos.avoscloud.AVOSCloud;
+import com.avos.avoscloud.AVUser;
+
+import org.w3c.dom.Text;
+
+import java.sql.SQLOutput;
 
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, ToolbarMenuOnClickListener {
@@ -30,12 +40,15 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private AccountFragment mAccountFragment;
     private WaterFragment mWaterFragment;
 
+    private TextView userName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
         bindEvents();
+
     }
 
     /**
@@ -47,9 +60,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mDrawerLayout.setDrawerListener(toggle);
+
         toggle.syncState();
 
         mNavigationView = (NavigationView) findViewById(R.id.nav_view);
+
 
         switchFragment(R.id.home_page);
     }
@@ -59,6 +74,30 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
      */
     private void bindEvents() {
         mNavigationView.setNavigationItemSelectedListener(this);
+        //监听抽屉的事件
+        mDrawerLayout.setDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+
+            }
+
+            //当抽屉打开时，读取用户数据。（其实是因为没打开的时候TextView是null的，其他地方设置不了）
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                userName = (TextView) findViewById(R.id.userName);
+                loadUserInfo();
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+
+            }
+        });
     }
 
     /**
@@ -155,12 +194,41 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
      */
     public void goLogin(View view) {
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-        startActivity(intent);
-//        finish();
+        startActivityForResult(intent, 1);
     }
 
     @Override
     public void toolbarMenuOnClick() {
         mDrawerLayout.openDrawer(GravityCompat.START);
     }
+
+
+    /**
+     * 从登录界面跳转回来后把用户名显示
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == 2) {
+            loadUserInfo();
+        }
+    }
+
+
+    /**
+     * 读取用户数据
+     */
+    private void loadUserInfo() {
+        UserForLeanCloud user = UserForLeanCloud.getCurrentUser(UserForLeanCloud.class);
+//            User user = ((MyApplication)getApplicationContext()).getUser();
+        if (user != null) {
+            userName.setText(user.getUsername());
+        }
+    }
+
+
 }
