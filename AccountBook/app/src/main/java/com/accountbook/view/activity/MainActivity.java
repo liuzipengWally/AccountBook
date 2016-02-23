@@ -204,11 +204,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
      */
     public void goLogin(View view) {
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-<<<<<<< HEAD
-        startActivity(intent);
-=======
         startActivityForResult(intent, 1);
->>>>>>> 登录模块
     }
 
     @Override
