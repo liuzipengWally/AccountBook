@@ -1,30 +1,30 @@
 package com.accountbook.view.activity;
 
+import android.content.Intent;
 import android.support.design.widget.TextInputLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.accountbook.R;
-import com.accountbook.biz.impl.LeanCloud;
 import com.accountbook.presenter.LoginPresenter;
 import com.accountbook.view.api.ILoginView;
 
-public class LoginActivity extends AppCompatActivity implements ILoginView {
+public class LoginActivity extends BaseActivity implements ILoginView,View.OnFocusChangeListener {
 
-    TextInputLayout usernameWrapper;
-    TextInputLayout passwordWrapper;
+    private TextInputLayout usernameWrapper;
+    private TextInputLayout passwordWrapper;
 
-    EditText usernameInput;
-    EditText passwordInput;
+    private EditText usernameInput;
+    private EditText passwordInput;
 
-    Button loginBtn;
+    private Button loginBtn;
 
-    LoginPresenter loginPresenter;
+    private LoginPresenter loginPresenter;
 
     private Toolbar mToolbar;
 
@@ -36,21 +36,30 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
         loginPresenter = new LoginPresenter(this);
 
         initView();
-
-
-
     }
 
     public void initView() {
+        //绑定控件
         usernameWrapper = (TextInputLayout) findViewById(R.id.username_wrapper);
         passwordWrapper = (TextInputLayout) findViewById(R.id.password_wrapper);
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
 
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         usernameInput = usernameWrapper.getEditText();
         passwordInput = passwordWrapper.getEditText();
 
+        //设置获得焦点失去焦点的点击事件更好的控制错误提示
+        usernameInput.setOnFocusChangeListener(this);
+        passwordInput.setOnFocusChangeListener(this);
+
+        //设置TextInputLayout显示错误
         usernameWrapper.setErrorEnabled(true);
         passwordWrapper.setErrorEnabled(true);
 
@@ -58,8 +67,8 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                usernameWrapper.setErrorEnabled(false);
-                passwordWrapper.setErrorEnabled(false);
+                usernameInput.clearFocus();
+                passwordInput.clearFocus();
                 loginPresenter.dologin();
             }
         });
@@ -94,5 +103,20 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
     @Override
     public void showPasswordError(String message) {
         passwordWrapper.setError(message);
+    }
+
+    /**
+     * 当输入框失去焦点时判断内容是否为空，不是则清空错误消息
+     * @param view 输入框
+     * @param hasFocus 当前有没有获得焦点
+     */
+    @Override
+    public void onFocusChange(View view, boolean hasFocus) {
+        if(!hasFocus){
+            if(!((EditText)view).getText().toString().equals("")){
+                //parent指两个输入框的各自外层的TextInputLayout，错误信息显示它们上面
+                ((TextInputLayout)view.getParent()).setError("");
+            }
+        }
     }
 }

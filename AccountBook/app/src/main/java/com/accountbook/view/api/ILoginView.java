@@ -1,18 +1,16 @@
 package com.accountbook.view.api;
 
-<<<<<<< HEAD
-=======
-
->>>>>>> master
 public interface ILoginView {
     /**
      * 提供给presenter获取username的方法
+     *
      * @return 用户名
      */
     String getUsername();
 
     /**
      * 提供给presenter获取password的方法
+     *
      * @return 密码
      */
     String getPassword();
@@ -29,12 +27,14 @@ public interface ILoginView {
 
     /**
      * 显示用户名错误
+     *
      * @param message 错误信息
      */
     void showUsernameError(String message);
 
     /**
      * 显示密码错误
+     *
      * @param message 错误信息
      */
     void showPasswordError(String message);

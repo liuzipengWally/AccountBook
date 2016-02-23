@@ -20,6 +20,13 @@
     <string name="logout">注销用户</string>
 
 
+    <string name="income_lbl">本月收入</string>
+    <string name="expend_lbl">本月支出</string>
+    <string name="balance_lbl">预算余额</string>
+
+    <string name="recent_lbl">近期记录</string>
+
+
     <!--LoginActivity-->
     <string name="title_activity_login">登录用户</string>
     <string name="login_username_hint">用户名</string>

@@ -1,4 +1,4 @@
-package com.accountbook.entity.sqlite;
+package com.accountbook.entity;
 
 
 /**
