@@ -166,10 +166,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public void goLogin(View view) {
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(intent);
-<<<<<<< HEAD
-=======
-//        finish();
->>>>>>> 登录模块
     }
 
     @Override
