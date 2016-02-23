@@ -21,7 +21,7 @@ import com.accountbook.view.fragment.WaterFragment;
 import com.accountbook.tools.Util;
 
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, ToolbarMenuOnClickListener {
+public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, ToolbarMenuOnClickListener {
     private DrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
 
@@ -166,6 +166,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void goLogin(View view) {
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(intent);
+<<<<<<< HEAD
+=======
+//        finish();
+>>>>>>> 登录模块
     }
 
     @Override

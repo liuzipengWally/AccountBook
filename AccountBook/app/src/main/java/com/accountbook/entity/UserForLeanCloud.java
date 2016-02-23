@@ -9,6 +9,7 @@ public class UserForLeanCloud extends AVUser {
     public static final String FID = "fid";
     public static final String ACTOR = "actor";
     public static final String MONEY = "money";
+//    public static final String MODIFIED = "modified";       //修改标记
 
     public String getFid(){
         return getString(FID);
@@ -34,4 +35,11 @@ public class UserForLeanCloud extends AVUser {
         put(MONEY,money);
     }
 
+//    public boolean getModified(){
+//        return getBoolean(MODIFIED);
+//    }
+//
+//    public void setModified(boolean modified){
+//        put(MODIFIED,modified);
+//    }
 }
