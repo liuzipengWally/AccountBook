@@ -58,9 +58,11 @@ public class HomeFragment extends Fragment implements IHomeView {
         mToolbar.inflateMenu(R.menu.main_activity_menu);
         mToolbar.setTitle(R.string.home_page);
 
-        mSwipeRefreshLayout = (SwipeRefreshLayout) mLayoutView.findViewById(R.id.refresh);
+        mLoadDataPresenter = new HomeLoadDataPresenter(this);
 
-        mRecyclerView = (RecyclerView) mLayoutView.findViewById(R.id.home_list);
+//        mSwipeRefreshLayout = (SwipeRefreshLayout) mLayoutView.findViewById(R.id.refresh);
+//
+//        mRecyclerView = (RecyclerView) mLayoutView.findViewById(R.id.home_list);
 
         mLoadDataPresenter.query();
     }
