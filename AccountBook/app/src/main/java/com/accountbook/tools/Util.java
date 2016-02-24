@@ -22,11 +22,7 @@ public class Util {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(context.CONNECTIVITY_SERVICE);
 
         NetworkInfo info = connectivityManager.getActiveNetworkInfo();
-        if (info != null && info.isAvailable()) {
-            return true;
-        } else {
-            return false;
-        }
+        return info != null && info.isAvailable();
     }
 
     public static float sp2px(int sp, DisplayMetrics metrics) {
