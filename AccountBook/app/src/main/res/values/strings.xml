@@ -24,7 +24,7 @@
     <string name="expend_lbl">本月支出</string>
     <string name="balance_lbl">预算余额</string>
 
-    <string name="recent_lbl">近期记录</string>
+    <string name="recent_lbl">本周记录</string>
 
 
     <!--LoginActivity-->

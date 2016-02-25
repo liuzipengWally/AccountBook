@@ -13,6 +13,9 @@ import android.view.View;
 
 import com.accountbook.R;
 
+/**
+ * 显示圆形图片的自定义View
+ */
 public class CircleIcon extends View {
     private int mImageId = R.mipmap.head;
 

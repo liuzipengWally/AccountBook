@@ -4,17 +4,17 @@ package com.accountbook.entity;
  * 主页所使用的数据实体类
  */
 public class HomeItem {
-    private String time;
+    private int time;
     private String category;
     private String money;
     private int moneyType;
-    private String description;
+    private String accountType;
 
-    public String getTime() {
+    public int getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(int time) {
         this.time = time;
     }
 
@@ -42,12 +42,12 @@ public class HomeItem {
         this.moneyType = moneyType;
     }
 
-    public String getDescription() {
-        return description;
+    public String getAccountType() {
+        return accountType;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setAccountType(String accountType) {
+        this.accountType = accountType;
     }
 
     @Override
@@ -57,7 +57,7 @@ public class HomeItem {
         sb.append(", category='").append(category).append('\'');
         sb.append(", money='").append(money).append('\'');
         sb.append(", moneyType=").append(moneyType);
-        sb.append(", description='").append(description).append('\'');
+        sb.append(", accountType='").append(accountType).append('\'');
         sb.append('}');
         return sb.toString();
     }

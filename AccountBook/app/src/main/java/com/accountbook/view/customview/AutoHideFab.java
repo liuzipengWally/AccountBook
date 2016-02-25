@@ -8,7 +8,7 @@ import android.util.AttributeSet;
 import android.view.animation.OvershootInterpolator;
 
 /**
- * Created by liuzipeng on 16/2/22.
+ * 自定义的FloatingActionButton，封装了两个显示和隐藏的动画。
  */
 public class AutoHideFab extends FloatingActionButton {
     public AutoHideFab(Context context) {

@@ -10,7 +10,7 @@ import com.accountbook.R;
 import java.util.Calendar;
 
 /**
- * Created by liuzipeng on 16/2/23.
+ * 用于显示日期的自定义View，可显示年，或月
  */
 public class DateTextView extends TextView {
     private int mDateType;

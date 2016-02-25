@@ -36,41 +36,41 @@ public class HomeLoadDataBiz implements IHomeLoadDataBiz {
 
         HomeItem item1 = new HomeItem();
         item1.setCategory("衣服鞋子");
-        item1.setDescription("银行卡");
+        item1.setAccountType("银行卡");
         item1.setMoney("300");
-        item1.setTime("周一");
+        item1.setTime(0);
         item1.setMoneyType(ConstantContainer.EXPEND);
         homeItems.add(item1);
 
         HomeItem item2 = new HomeItem();
         item2.setCategory("早餐晚餐");
-        item2.setDescription("现金");
+        item2.setAccountType("现金");
         item2.setMoney("20");
-        item2.setTime("周一");
+        item2.setTime(0);
         item2.setMoneyType(ConstantContainer.EXPEND);
         homeItems.add(item2);
 
         HomeItem item3 = new HomeItem();
         item3.setCategory("工资");
-        item3.setDescription("银行卡");
+        item3.setAccountType("银行卡");
         item3.setMoney("5000");
-        item3.setTime("周二");
+        item3.setTime(1);
         item3.setMoneyType(ConstantContainer.INCOME);
         homeItems.add(item3);
 
         HomeItem item4 = new HomeItem();
         item4.setCategory("借出");
-        item4.setDescription("银行卡");
+        item4.setAccountType("银行卡");
         item4.setMoney("2000");
-        item4.setTime("周二");
+        item4.setTime(2);
         item4.setMoneyType(ConstantContainer.LEND);
         homeItems.add(item4);
 
         HomeItem item5 = new HomeItem();
         item5.setCategory("借入");
-        item5.setDescription("银行卡");
+        item5.setAccountType("银行卡");
         item5.setMoney("2000");
-        item5.setTime("周三");
+        item5.setTime(3);
         item5.setMoneyType(ConstantContainer.BORROW);
         homeItems.add(item5);
 
