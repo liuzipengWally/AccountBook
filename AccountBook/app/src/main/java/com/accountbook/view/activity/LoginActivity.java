@@ -5,7 +5,6 @@ import android.support.design.widget.TextInputLayout;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -39,7 +38,7 @@ public class LoginActivity extends BaseActivity implements ILoginView,View.OnFoc
         initView();
     }
 
-    public void initView() {
+    private void initView() {
         //绑定控件
         usernameWrapper = (TextInputLayout) findViewById(R.id.username_wrapper);
         passwordWrapper = (TextInputLayout) findViewById(R.id.password_wrapper);
@@ -70,7 +69,7 @@ public class LoginActivity extends BaseActivity implements ILoginView,View.OnFoc
             public void onClick(View v) {
                 usernameInput.clearFocus();
                 passwordInput.clearFocus();
-                loginPresenter.dologin();
+                loginPresenter.doLogin();
             }
         });
 

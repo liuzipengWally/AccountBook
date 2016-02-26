@@ -19,7 +19,7 @@ public class SQLite {
         db.execSQL("create table if not exists " + USERTABLE + "(" +
                 "id varchar(30) primary key, " +
                 "username varchar(20) not null," +
-                "email varchar(20) unique not null," +
+                "email varchar(20) unique," +
                 "fid varchar(30) null," +
                 "actor varchar(20) null," +
                 "money real not null)");

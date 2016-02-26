@@ -3,10 +3,10 @@ package com.accountbook.biz.impl;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.util.Log;
 
 import com.accountbook.biz.api.IUserBiz;
 import com.accountbook.biz.api.OnLoginListener;
+import com.accountbook.biz.api.OnRegistryListener;
 import com.accountbook.entity.User;
 import com.accountbook.entity.UserForLeanCloud;
 import com.accountbook.presenter.MyApplication;
@@ -14,6 +14,7 @@ import com.accountbook.tools.Util;
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.LogInCallback;
+import com.avos.avoscloud.SignUpCallback;
 
 
 public class UserBiz implements IUserBiz {
@@ -43,6 +44,7 @@ public class UserBiz implements IUserBiz {
                 @Override
                 public void done(UserForLeanCloud avUser, AVException e) {
                     if(avUser == null){
+                        System.out.println(e.getMessage());
                         listener.loginFailed("用户名密码错误");
                     }else{
                         //检查本地数据库中有没有记录
@@ -57,7 +59,7 @@ public class UserBiz implements IUserBiz {
                                 SQLite.db.update(SQLite.USERTABLE, values, "id = ?", new String[]{avUser.getObjectId()});
                             }else{
                                 //插入新数据
-                                addToLocal(avUser);
+                                insertIntoLocal(avUser);
                             }
                             cursor.close();
                         }
@@ -74,19 +76,51 @@ public class UserBiz implements IUserBiz {
         }
     }
 
+
+    /**
+     * 处理注册
+     *
+     * @param context  上下文
+     * @param username 用户名
+     * @param password 密码
+     * @param listener 注册结果回调
+     */
+    @Override
+    public void registry(Context context, String username, String password, final OnRegistryListener listener) {
+        if(Util.isNetworkAvailable(context)){
+            final UserForLeanCloud user = new UserForLeanCloud();
+            user.setUsername(username);
+            user.setPassword(password);
+            user.signUpInBackground(new SignUpCallback() {
+                @Override
+                public void done(AVException e) {
+                    if (e == null) {
+                        //没错误表示注册成功
+                        listener.registrySuccess();
+                        insertIntoLocal(user);
+//                        System.out.println(AVUser.getCurrentUser().getUsername());
+                    } else {
+                        listener.registryFailed(e.getMessage());
+                    }
+                }
+            });
+        }
+        else listener.registryFailed("请连接网络后重试");
+    }
+
     /**
      * 往本地用户表添加项
      * @param user 从云端获取到的user对象
      */
-    public void addToLocal(UserForLeanCloud user){
+    public void insertIntoLocal(UserForLeanCloud user){
         ContentValues values = new ContentValues();
         values.put("id",user.getObjectId());
-        values.put("username",user.getUsername());
-        values.put("email",user.getEmail());
-        values.put(UserForLeanCloud.FID,user.getFid());
-        values.put(UserForLeanCloud.ACTOR,user.getActor());
+        values.put("username", user.getUsername());
+        values.put("email", user.getEmail());
+        values.put(UserForLeanCloud.FID, user.getFid());
+        values.put(UserForLeanCloud.ACTOR, user.getActor());
         values.put(UserForLeanCloud.MONEY, user.getMoney());
-        SQLite.db.insert(SQLite.USERTABLE,null,values);
+        SQLite.db.insert(SQLite.USERTABLE, null, values);
     }
 
 
@@ -105,4 +139,6 @@ public class UserBiz implements IUserBiz {
         localUser.setMoney(user.getMoney());
         return localUser;
     }
+
+
 }
