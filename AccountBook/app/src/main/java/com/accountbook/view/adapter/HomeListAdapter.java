@@ -137,30 +137,34 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
      */
     private void bindEvents(final ViewHolder holder) {
         if (mItemClickListener != null) {
-            holder.homeCardLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = holder.getLayoutPosition();
-                    mItemClickListener.onItemClick(v, position);
-                }
-            });
+            if (holder.homeCardLayout != null) {
+                holder.homeCardLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int position = holder.getLayoutPosition();
+                        mItemClickListener.onItemClick(v, position);
+                    }
+                });
+            }
 
-            holder.homeItemLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = holder.getLayoutPosition();
-                    mItemClickListener.onItemClick(v, position);
-                }
-            });
+            if (holder.homeItemLayout != null) {
+                holder.homeItemLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int position = holder.getLayoutPosition();
+                        mItemClickListener.onItemClick(v, position);
+                    }
+                });
 
-            holder.homeItemLayout.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    int position = holder.getLayoutPosition();
-                    mItemClickListener.onItemClick(v, position);
-                    return true;
-                }
-            });
+                holder.homeItemLayout.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        int position = holder.getLayoutPosition();
+                        mItemClickListener.onItemClick(v, position);
+                        return true;
+                    }
+                });
+            }
         }
     }
 

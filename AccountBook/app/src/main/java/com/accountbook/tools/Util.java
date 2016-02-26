@@ -29,6 +29,10 @@ public class Util {
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, metrics);
     }
 
+    public static float dp2px(int dp, DisplayMetrics metrics) {
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, metrics);
+    }
+
     public static final String numWeek2strWeek(int week) {
         switch (week) {
             case 0:
