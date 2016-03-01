@@ -3,22 +3,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/loginGrey"
+    android:orientation="vertical"
     tools:context="com.accountbook.view.activity.LoginActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
-            app:navigationIcon="@mipmap/ic_clear_grey600_24dp"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/loginGrey"
             android:minHeight="?attr/actionBarSize"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            app:navigationIcon="@mipmap/ic_clear_grey600_24dp" />
     </LinearLayout>
 
 
@@ -32,18 +32,19 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="70"
             android:layout_centerInParent="true"
+            android:layout_weight="70"
             android:gravity="center"
             android:text="Welcome"
-            android:textSize="30sp"
-            android:textColor="@color/colorPrimaryDark"/>
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="30sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="30"
             android:orientation="vertical">
+
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/username_wrapper"
                 android:layout_width="match_parent"
@@ -54,9 +55,9 @@
                     android:id="@+id/username_input"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
-                    android:textSize="16sp"
                     android:imeOptions="actionNext"
-                    android:inputType="text" />
+                    android:inputType="text"
+                    android:textSize="16sp" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -69,9 +70,9 @@
                     android:id="@+id/password_input"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
-                    android:textSize="16sp"
                     android:imeOptions="actionDone"
-                    android:inputType="textPassword" />
+                    android:inputType="textPassword"
+                    android:textSize="16sp" />
             </android.support.design.widget.TextInputLayout>
 
             <Button
@@ -79,20 +80,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:textSize="16sp"
-                android:text="@string/login_btn_text" />
+                android:text="@string/login_btn_text"
+                android:textSize="16sp" />
 
             <Button
                 android:id="@+id/goto_register_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/transparent"
                 android:layout_gravity="center"
-                android:textColor="@color/colorAccent"
-                android:text="@string/login_btn_registry"/>
+                android:background="@color/transparent"
+                android:text="@string/login_btn_registry"
+                android:textColor="@color/colorAccent" />
 
         </LinearLayout>
-
 
 
     </LinearLayout>
