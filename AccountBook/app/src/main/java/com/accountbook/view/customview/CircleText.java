@@ -81,7 +81,7 @@ public class CircleText extends ImageView {
         paint.setTextSize(mTextSize);
         paint.setColor(Color.WHITE);
         paint.setTextAlign(Paint.Align.CENTER);
-        
+
         canvas.drawText(mText, radius, radius + (mTextSize / 4), paint);
     }
 }
