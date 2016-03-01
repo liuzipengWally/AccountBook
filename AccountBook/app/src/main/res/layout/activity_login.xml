@@ -3,50 +3,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-<<<<<<< HEAD
-    android:background="@color/loginGrey"
-=======
     android:paddingTop="32dp"
     android:paddingLeft="32dp"
     android:paddingRight="32dp"
     android:background="@color/transparent"
->>>>>>> 登录模块
     android:orientation="vertical"
-    tools:context="com.accountbook.view.activity.LoginActivity">
+    tools:context="com.accountbook.view.activity.LoginAndRegistryActivity">
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/login_usernameWrapper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-<<<<<<< HEAD
-        android:orientation="vertical">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/loginGrey"
-            android:minHeight="?attr/actionBarSize"
-            app:navigationIcon="@mipmap/ic_clear_grey600_24dp" />
-    </LinearLayout>
-
-=======
         android:layout_marginBottom="8dp"
         app:theme="@style/LoginAndRegistryTheme">
->>>>>>> 登录模块
 
         <EditText
             android:id="@+id/login_usernameInput"
             android:layout_width="match_parent"
-<<<<<<< HEAD
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_weight="70"
-            android:gravity="center"
-            android:text="Welcome"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="30sp" />
-=======
             android:layout_height="48dp"
             android:hint="@string/login_username_hint"
             android:inputType="text"
@@ -58,69 +31,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp">
->>>>>>> 登录模块
 
         <EditText
             android:id="@+id/login_passwordInput"
             android:layout_width="match_parent"
-<<<<<<< HEAD
-            android:layout_height="wrap_content"
-            android:layout_weight="30"
-            android:orientation="vertical">
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/username_wrapper"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/login_username_hint">
-
-                <EditText
-                    android:id="@+id/username_input"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:imeOptions="actionNext"
-                    android:inputType="text"
-                    android:textSize="16sp" />
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/password_wrapper"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/login_password_hint">
-
-                <EditText
-                    android:id="@+id/password_input"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:imeOptions="actionDone"
-                    android:inputType="textPassword"
-                    android:textSize="16sp" />
-            </android.support.design.widget.TextInputLayout>
-
-            <Button
-                android:id="@+id/login_btn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="@string/login_btn_text"
-                android:textSize="16sp" />
-
-            <Button
-                android:id="@+id/goto_register_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@color/transparent"
-                android:text="@string/login_btn_registry"
-                android:textColor="@color/colorAccent" />
-
-        </LinearLayout>
-
-
-    </LinearLayout>
-
-=======
             android:layout_height="48dp"
             android:hint="@string/login_password_hint"
             android:inputType="textPassword"
@@ -132,6 +46,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/login_btn_text" />
->>>>>>> 登录模块
 
 </LinearLayout>

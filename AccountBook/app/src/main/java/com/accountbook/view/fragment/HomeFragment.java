@@ -182,7 +182,7 @@ public class HomeFragment extends Fragment implements IHomeView {
             case MotionEvent.ACTION_MOVE:
                 offsetY = y - downY;
                 int height = mAppBarLayout.getHeight();
-                int toolbarHeight = (int) Util.dp2px(ConstantContainer.TOOLBAR_HEIGHT, getResources().getDisplayMetrics());
+                int toolbarHeight = mAppBarLayout.minHeight;
 
                 if (height > toolbarHeight && height <= mAppBarLayout.maxHeight) {
                     ViewGroup.LayoutParams params = mAppBarLayout.getLayoutParams();
@@ -197,18 +197,19 @@ public class HomeFragment extends Fragment implements IHomeView {
                     if (offsetY < 0) {
                         mAppBarLayout.isFold = false;
                     } else {
-                        if (offsetY > 10) {
-                            mEditBtn.show();
-                        }
                         mAppBarLayout.isFold = true;
                     }
+                }
 
+                if (offsetY > 10) {
+                    mEditBtn.show();
+                } else if (offsetY < -10) {
                     mEditBtn.hide();
                 }
 
                 break;
             case MotionEvent.ACTION_UP:
-                int limit = mAppBarLayout.maxHeight / 2;
+                int limit = mAppBarLayout.maxHeight - (mAppBarLayout.maxHeight - mAppBarLayout.minHeight) / 2;
                 if (mAppBarLayout.getHeight() > limit) {
                     mAppBarLayout.unfold();
                 } else {
