@@ -8,6 +8,9 @@ import android.net.NetworkInfo;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 
+import java.util.Calendar;
+import java.util.Locale;
+
 /**
  * 工具类
  */
@@ -33,22 +36,29 @@ public class Util {
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, metrics);
     }
 
-    public static final String numWeek2strWeek(int week) {
+    public static String numWeek2strWeek(int week) {
+        Calendar calendar = Calendar.getInstance();
+        int currWeek = calendar.get(Calendar.DAY_OF_WEEK);
+
+        if (currWeek == week) {
+            return "今";
+        }
+
         switch (week) {
-            case 0:
-                return "周日";
             case 1:
-                return "周一";
+                return "日";
             case 2:
-                return "周二";
+                return "一";
             case 3:
-                return "周三";
+                return "二";
             case 4:
-                return "周四";
+                return "三";
             case 5:
-                return "周五";
+                return "四";
             case 6:
-                return "周六";
+                return "五";
+            case 7:
+                return "六";
             default:
                 return "";
         }

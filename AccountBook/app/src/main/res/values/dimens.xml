@@ -5,10 +5,14 @@
     <dimen name="nav_header_vertical_spacing">16dp</dimen>
     <dimen name="nav_header_height">160dp</dimen>
     <dimen name="dp16">16dp</dimen>
-    <dimen name="sp14">14sp</dimen>
+    <dimen name="subhead">16sp</dimen>
+    <dimen name="body">14sp</dimen>
     <dimen name="sp50">50sp</dimen>
     <dimen name="sp25">25sp</dimen>
-    <dimen name="sp24">24sp</dimen>
+    <dimen name="title_big">24sp</dimen>
     <dimen name="dp8">8dp</dimen>
-    <dimen name="sp20">20sp</dimen>
+    <dimen name="title">20sp</dimen>
+    <dimen name="description">12sp</dimen>
+
+    <dimen name="circleTextSize">42dp</dimen>
 </resources>

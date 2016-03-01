@@ -38,7 +38,7 @@ public class HomeLoadDataBiz implements IHomeLoadDataBiz {
         item1.setCategory("衣服鞋子");
         item1.setAccountType("银行卡");
         item1.setMoney("-300");
-        item1.setTime(0);
+        item1.setTime(1);
         item1.setMoneyType(ConstantContainer.EXPEND);
         homeItems.add(item1);
 
@@ -46,7 +46,7 @@ public class HomeLoadDataBiz implements IHomeLoadDataBiz {
         item2.setCategory("早餐晚餐");
         item2.setAccountType("现金");
         item2.setMoney("-20");
-        item2.setTime(0);
+        item2.setTime(1);
         item2.setMoneyType(ConstantContainer.EXPEND);
         homeItems.add(item2);
 
@@ -54,7 +54,7 @@ public class HomeLoadDataBiz implements IHomeLoadDataBiz {
         item3.setCategory("工资");
         item3.setAccountType("银行卡");
         item3.setMoney("+5000");
-        item3.setTime(1);
+        item3.setTime(2);
         item3.setMoneyType(ConstantContainer.INCOME);
         homeItems.add(item3);
 
@@ -62,7 +62,7 @@ public class HomeLoadDataBiz implements IHomeLoadDataBiz {
         item4.setCategory("借出");
         item4.setAccountType("银行卡");
         item4.setMoney("2000");
-        item4.setTime(2);
+        item4.setTime(3);
         item4.setMoneyType(ConstantContainer.LEND);
         homeItems.add(item4);
 
@@ -70,9 +70,33 @@ public class HomeLoadDataBiz implements IHomeLoadDataBiz {
         item5.setCategory("借入");
         item5.setAccountType("银行卡");
         item5.setMoney("2000");
-        item5.setTime(3);
+        item5.setTime(4);
         item5.setMoneyType(ConstantContainer.BORROW);
         homeItems.add(item5);
+
+        HomeItem item6 = new HomeItem();
+        item6.setCategory("借入");
+        item6.setAccountType("银行卡");
+        item6.setMoney("2000");
+        item6.setTime(5);
+        item6.setMoneyType(ConstantContainer.BORROW);
+        homeItems.add(item6);
+
+        HomeItem item7 = new HomeItem();
+        item7.setCategory("借入");
+        item7.setAccountType("银行卡");
+        item7.setMoney("2000");
+        item7.setTime(3);
+        item7.setMoneyType(ConstantContainer.BORROW);
+        homeItems.add(item7);
+
+        HomeItem item8 = new HomeItem();
+        item8.setCategory("借入");
+        item8.setAccountType("银行卡");
+        item8.setMoney("2000");
+        item8.setTime(3);
+        item8.setMoneyType(ConstantContainer.BORROW);
+        homeItems.add(item8);
 
         return homeItems;
     }

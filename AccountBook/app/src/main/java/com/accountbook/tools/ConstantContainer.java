@@ -23,13 +23,10 @@ public class ConstantContainer {
      */
     public static final int LEND = 3;
 
-    //// TODO: 16/2/25 下面两个常量分别代表，主页卡片，主页近期记录的item。是在adapter适配数据的时候，区分View用的
+
     /**
-     * 主页卡片
+     * toolbar的默认高度，单位为dp，所以在java代码中还需要转px
      */
-    public static final int HOME_CARD = 0;
-    /**
-     * 主页近期记录Item
-     */
-    public static final int HOME_ITEM = 1;
+    public static final int TOOLBAR_HEIGHT = 56;
+
 }

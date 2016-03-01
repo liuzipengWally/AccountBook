@@ -6,4 +6,10 @@
             <enum name="month" value="1"></enum>
         </attr>
     </declare-styleable>
+
+    <declare-styleable name="CircleText">
+        <attr name="circleText" format="string" />
+        <attr name="circleColor" format="color" />
+        <attr name="circleTextSize" format="dimension" />
+    </declare-styleable>
 </resources>
