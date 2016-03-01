@@ -27,10 +27,10 @@
     <string name="recent_lbl">本周记录</string>
 
 
-    <!--LoginActivity-->
-    <string name="title_activity_login">登录用户</string>
+    <!--LoginAndRegistryActivity-->
     <string name="login_username_hint">用户名</string>
     <string name="login_password_hint">密码</string>
     <string name="login_btn_text">登录</string>
     <string name="login_btn_registry">没有账号？去注册呗</string>
+    <string name="topic">welcome</string>
 </resources>

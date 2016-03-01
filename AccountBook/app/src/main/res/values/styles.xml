@@ -13,10 +13,16 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="LoginTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary">@color/loginGrey</item>
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+    <style name="LoginAndRegistryTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+        <item name="colorPrimary">@color/transparent</item>
+        <item name="colorPrimaryDark">#135c90</item>
+        <item name="colorAccent">#3f88bc</item>
+        <item name="android:windowBackground">@drawable/login_reg_background</item>
+    </style>
+
+    <style name="LoginAndRegTabLayout" parent="Base.TextAppearance.AppCompat.Title">
+        <item name="android:textSize">16sp</item>
     </style>
 
 </resources>

@@ -20,17 +20,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".view.activity.LoginActivity"
-            android:label="@string/title_activity_login"
-            android:theme="@style/LoginTheme" >
-        </activity>
+
+
         <activity
             android:name=".view.activity.BaseActivity"
             android:windowSoftInputMode="adjustResize" >
         </activity>
-        <activity android:name=".view.activity.RegistryActivity" >
+
+        <activity android:name=".view.activity.LoginAndRegistryActivity"
+            android:label=""
+            android:theme="@style/LoginAndRegistryTheme">
         </activity>
+
     </application>
 
 </manifest>
