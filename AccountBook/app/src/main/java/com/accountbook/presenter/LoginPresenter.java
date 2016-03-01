@@ -9,6 +9,7 @@ import com.accountbook.biz.api.OnLoginListener;
 import com.accountbook.view.api.ILoginView;
 
 public class LoginPresenter {
+
     private ILoginView view;
     private IUserBiz userBiz;
     private String username;
@@ -21,33 +22,35 @@ public class LoginPresenter {
 
     /**
      * 检查输入的用户名
-     * @return true表示有问题
+     * @return true表示没问题
      */
-    private boolean validateUsername(){
-        return username.equals("");
+    private boolean validateUsername() {
+        if(username.equals("")){
+            view.showUsernameError("用户名不能为空");
+            return false;
+        }else return true;
     }
 
     /**
      * 检查输入的密码
-     * @return true表示有问题
+     * @return true表示没问题
      */
-    private boolean validatePassword(){
-        return password.equals("");
+    private boolean validatePassword() {
+        if(password.equals("")){
+            view.showPasswordError("密码不能为空");
+            return false;
+        }else return true;
     }
 
     /**
      * 登录逻辑
      */
-    public void dologin(){
+    public void doLogin() {
         username = view.getUsername();
         password = view.getPassword();
 
-        if(validateUsername()){
-            view.showUsernameError("用户名不能为空!");
-        }else if(validatePassword()){
-            view.showPasswordError("密码不能为空!");
-        }else{
-            userBiz.login((Context)view,username, password, new OnLoginListener() {
+        if (validateUsername() && validatePassword()) {
+            userBiz.login((Context) view, username, password, new OnLoginListener() {
 
                 @Override
                 public void loginSuccess() {

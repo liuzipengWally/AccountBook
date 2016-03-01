@@ -2,8 +2,8 @@
 <resources>
     <declare-styleable name="DateTextView">
         <attr name="date_type">
-            <enum name="year" value="0"></enum>
-            <enum name="month" value="1"></enum>
+            <enum name="year" value="0"/>
+            <enum name="month" value="1"/>
         </attr>
     </declare-styleable>
 
