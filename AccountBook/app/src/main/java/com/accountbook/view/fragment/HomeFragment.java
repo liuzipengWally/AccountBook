@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.accountbook.R;
 import com.accountbook.entity.HomeItem;
@@ -18,6 +19,7 @@ import com.accountbook.presenter.HomeLoadDataPresenter;
 import com.accountbook.view.adapter.HomeListAdapter;
 import com.accountbook.view.api.IHomeView;
 import com.accountbook.view.api.ToolbarMenuOnClickListener;
+import com.accountbook.view.customview.HomeListDivider;
 
 import java.util.List;
 
@@ -56,6 +58,24 @@ public class HomeFragment extends Fragment implements IHomeView {
                 }
             }
         });
+
+        mAdapter.setItemClickListener(new HomeListAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        });
+
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mLoadDataPresenter.query();
+            }
+        });
     }
 
     private void initView() {
@@ -66,11 +86,14 @@ public class HomeFragment extends Fragment implements IHomeView {
         mLoadDataPresenter = new HomeLoadDataPresenter(this);
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) mLayoutView.findViewById(R.id.refresh);
+        mSwipeRefreshLayout.setRefreshing(true);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
 
         mRecyclerView = (RecyclerView) mLayoutView.findViewById(R.id.home_list);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.addItemDecoration(new HomeListDivider(getActivity()));
 
         mLoadDataPresenter.query();
     }
@@ -89,6 +112,8 @@ public class HomeFragment extends Fragment implements IHomeView {
     public void LoadData(List<HomeItem> homeItems, String income, String expend, String balance) {
         mAdapter = new HomeListAdapter(homeItems, income, expend, balance, getActivity());
         mRecyclerView.setAdapter(mAdapter);
+
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     @Override

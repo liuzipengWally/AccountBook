@@ -37,7 +37,7 @@ public class HomeLoadDataBiz implements IHomeLoadDataBiz {
         HomeItem item1 = new HomeItem();
         item1.setCategory("衣服鞋子");
         item1.setAccountType("银行卡");
-        item1.setMoney("300");
+        item1.setMoney("-300");
         item1.setTime(0);
         item1.setMoneyType(ConstantContainer.EXPEND);
         homeItems.add(item1);
@@ -45,7 +45,7 @@ public class HomeLoadDataBiz implements IHomeLoadDataBiz {
         HomeItem item2 = new HomeItem();
         item2.setCategory("早餐晚餐");
         item2.setAccountType("现金");
-        item2.setMoney("20");
+        item2.setMoney("-20");
         item2.setTime(0);
         item2.setMoneyType(ConstantContainer.EXPEND);
         homeItems.add(item2);
@@ -53,7 +53,7 @@ public class HomeLoadDataBiz implements IHomeLoadDataBiz {
         HomeItem item3 = new HomeItem();
         item3.setCategory("工资");
         item3.setAccountType("银行卡");
-        item3.setMoney("5000");
+        item3.setMoney("+5000");
         item3.setTime(1);
         item3.setMoneyType(ConstantContainer.INCOME);
         homeItems.add(item3);

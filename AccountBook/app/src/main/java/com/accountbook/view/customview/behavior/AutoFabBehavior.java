@@ -32,10 +32,10 @@ public class AutoFabBehavior extends CoordinatorLayout.Behavior<View> {
             mAutoHideFab = (AutoHideFab) child;
         }
 
-        if (dy > 20) {
-            mAutoHideFab.show();
-        } else if (dy < -20) {
+        if (dy > 10) {
             mAutoHideFab.hide();
+        } else if (dy < -10) {
+            mAutoHideFab.show();
         }
     }
 }
