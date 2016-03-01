@@ -1,27 +1,26 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/home_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?android:attr/selectableItemBackground"
+    android:background="@drawable/flat_ripple"
     android:clickable="true">
 
-    <TextView
+    <com.accountbook.view.customview.CircleText
         android:id="@+id/week_lbl"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/circleTextSize"
+        android:layout_height="@dimen/circleTextSize"
         android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/dp16"
-        android:text="周一"
-        android:textSize="@dimen/sp20"
-        android:textStyle="bold"
-        android:visibility="invisible" />
+        app:circleText="一"
+        app:circleTextSize="@dimen/title" />
 
     <TextView
-        android:layout_marginTop="@dimen/dp16"
         android:id="@+id/title_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dp16"
+        android:layout_marginTop="@dimen/dp16"
         android:layout_toRightOf="@id/week_lbl"
         android:text="早晚午餐"
         android:textColor="@color/black100" />
@@ -31,11 +30,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/title_text"
+        android:layout_marginBottom="@dimen/dp16"
         android:layout_marginLeft="@dimen/dp16"
         android:layout_marginTop="@dimen/dp8"
-        android:layout_marginBottom="@dimen/dp16"
         android:layout_toRightOf="@id/week_lbl"
-        android:text="现金" />
+        android:text="现金"
+        android:textSize="@dimen/description" />
 
     <TextView
         android:id="@+id/money_text"
@@ -45,5 +45,5 @@
         android:layout_centerVertical="true"
         android:layout_marginRight="@dimen/dp16"
         android:text="-20"
-        android:textSize="@dimen/sp20" />
+        android:textSize="@dimen/body" />
 </RelativeLayout>

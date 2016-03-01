@@ -3,6 +3,8 @@ package com.accountbook.view.customview;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
@@ -31,7 +33,7 @@ public class HomeListDivider extends RecyclerView.ItemDecoration {
 
     @Override
     public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
-        TextView weekText = (TextView) parent.findViewById(R.id.week_lbl);
+        CircleText weekText = (CircleText) parent.findViewById(R.id.week_lbl);
         DisplayMetrics metrics = parent.getContext().getResources().getDisplayMetrics();
 
         int left = (int) (weekText.getWidth() + Util.dp2px(32, metrics));
@@ -39,7 +41,7 @@ public class HomeListDivider extends RecyclerView.ItemDecoration {
 
         int childCount = parent.getChildCount();
 
-        for (int i = 1; i < childCount; i++) {
+        for (int i = 0; i < childCount; i++) {
             View child = parent.getChildAt(i);
             RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
 

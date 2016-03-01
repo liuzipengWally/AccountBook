@@ -14,27 +14,21 @@ import com.accountbook.R;
 import com.accountbook.entity.HomeItem;
 import com.accountbook.tools.ConstantContainer;
 import com.accountbook.tools.Util;
+import com.accountbook.view.customview.CircleText;
 
 import java.util.List;
 
 /**
- * Created by liuzipeng on 16/2/25.
+ * 主页近期记录的适配器
  */
 public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHolder> {
     private List<HomeItem> mHomeItems;
-    private String mIncome;
-    private String mExpend;
-    private String mBalance;
-
     private LayoutInflater mInflater;
 
     private OnItemClickListener mItemClickListener;
 
-    public HomeListAdapter(List<HomeItem> mHomeItems, String mIncome, String mExpend, String mBalance, Context mContext) {
+    public HomeListAdapter(List<HomeItem> mHomeItems, Context mContext) {
         this.mHomeItems = mHomeItems;
-        this.mIncome = mIncome;
-        this.mExpend = mExpend;
-        this.mBalance = mBalance;
         this.mInflater = LayoutInflater.from(mContext);
     }
 
@@ -61,35 +55,15 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
     }
 
     @Override
-
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view;
-
-        if (viewType != ConstantContainer.HOME_CARD) {
-            view = mInflater.inflate(R.layout.home_fragment_recent_item, parent, false);
-        } else {
-            view = mInflater.inflate(R.layout.home_fragment_card, parent, false);
-        }
+        View view = mInflater.inflate(R.layout.home_fragment_recent_item, parent, false);
 
         return new ViewHolder(view, viewType);
     }
 
     @Override
-    public int getItemViewType(int position) {
-        if (position != ConstantContainer.HOME_CARD) {
-            return ConstantContainer.HOME_ITEM;
-        } else {
-            return ConstantContainer.HOME_CARD;
-        }
-    }
-
-    @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        if (position != ConstantContainer.HOME_CARD) {
-            settingsItemViews(holder, position - 1);
-        } else {
-            settingsCardViews(holder);
-        }
+        settingsItemViews(holder, position);
 
         bindEvents(holder);
     }
@@ -117,17 +91,10 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
         }
 
         if (item.getMoneyType() == ConstantContainer.INCOME) {
-            holder.moneyText.setTextColor(Color.parseColor("#b10909"));
-        } else if (item.getMoneyType() == ConstantContainer.EXPEND) {
             holder.moneyText.setTextColor(Color.parseColor("#217c4a"));
+        } else if (item.getMoneyType() == ConstantContainer.EXPEND) {
+            holder.moneyText.setTextColor(Color.parseColor("#b10909"));
         }
-    }
-
-    private void settingsCardViews(ViewHolder holder) {
-        holder.incomeText.setText(mIncome);
-        holder.expendText.setText(mExpend);
-        holder.balanceText.setText(mBalance);
-        holder.statusHintText.setText(getStatus(new Integer(mBalance)));
     }
 
     /**
@@ -137,16 +104,6 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
      */
     private void bindEvents(final ViewHolder holder) {
         if (mItemClickListener != null) {
-            if (holder.homeCardLayout != null) {
-                holder.homeCardLayout.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        int position = holder.getLayoutPosition();
-                        mItemClickListener.onItemClick(v, position);
-                    }
-                });
-            }
-
             if (holder.homeItemLayout != null) {
                 holder.homeItemLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -168,62 +125,26 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
         }
     }
 
-    private String getStatus(Integer balance) {
-        if (balance < 500 && balance > 0) {
-            return "这个月预算接近枯竭，请合理开销";
-        } else if (balance < 0) {
-            return "这个月预算已经超支，我希望你还有救(U •́ .̫ •̀ U)";
-        }
-
-        return "这个月预算充足，请放心使用＾＾";
-    }
-
     @Override
     public int getItemCount() {
-        return mHomeItems.size() + 1;
+        return mHomeItems.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        //主页卡片中的控件
-        LinearLayout homeCardLayout;
-        TextView incomeText;
-        TextView expendText;
-        TextView balanceText;
-        TextView statusHintText;
-
         //主页近期记录item中的控件
         RelativeLayout homeItemLayout;
-        TextView weekText;
+        CircleText weekText;
         TextView titleText;
         TextView accountTypeText;
         TextView moneyText;
 
         public ViewHolder(View itemView, int viewType) {
             super(itemView);
-            switch (viewType) {
-                case ConstantContainer.HOME_CARD:
-                    initHomeCardViews(itemView);
-                    break;
-                case ConstantContainer.HOME_ITEM:
-                    initHomeItemViews(itemView);
-                    break;
-            }
-        }
-
-        private void initHomeItemViews(View itemView) {
             homeItemLayout = (RelativeLayout) itemView.findViewById(R.id.home_item);
-            weekText = (TextView) itemView.findViewById(R.id.week_lbl);
+            weekText = (CircleText) itemView.findViewById(R.id.week_lbl);
             titleText = (TextView) itemView.findViewById(R.id.title_text);
             accountTypeText = (TextView) itemView.findViewById(R.id.account_type_text);
             moneyText = (TextView) itemView.findViewById(R.id.money_text);
-        }
-
-        private void initHomeCardViews(View itemView) {
-            homeCardLayout = (LinearLayout) itemView.findViewById(R.id.home_card);
-            incomeText = (TextView) itemView.findViewById(R.id.income_text);
-            expendText = (TextView) itemView.findViewById(R.id.expend_text);
-            balanceText = (TextView) itemView.findViewById(R.id.balance_text);
-            statusHintText = (TextView) itemView.findViewById(R.id.status_hint_text);
         }
     }
 }

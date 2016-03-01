@@ -49,6 +49,7 @@ public class CircleIcon extends View {
         BitmapShader bitmapShader = new BitmapShader(newBitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
         shaderPaint.setShader(bitmapShader);
 
-        canvas.drawCircle(getMeasuredWidth() / 2, getMeasuredHeight() / 2, getMeasuredWidth() / 2, shaderPaint);
+        float radius = getMeasuredWidth() / 2;
+        canvas.drawCircle(radius, radius, radius, shaderPaint);
     }
 }

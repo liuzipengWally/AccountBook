@@ -6,6 +6,7 @@ import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.accountbook.view.api.IAutoHide;
 import com.accountbook.view.customview.AutoHideFab;
 
 /**
@@ -13,7 +14,7 @@ import com.accountbook.view.customview.AutoHideFab;
  * 与RecyclerView协同工作的类
  */
 public class AutoFabBehavior extends CoordinatorLayout.Behavior<View> {
-    private AutoHideFab mAutoHideFab;
+    private IAutoHide mAutoHideFab;
 
     public AutoFabBehavior(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -29,7 +30,7 @@ public class AutoFabBehavior extends CoordinatorLayout.Behavior<View> {
     @Override
     public void onNestedPreScroll(CoordinatorLayout coordinatorLayout, View child, View target, int dx, int dy, int[] consumed) {
         if (mAutoHideFab == null) {
-            mAutoHideFab = (AutoHideFab) child;
+            mAutoHideFab = (IAutoHide) child;
         }
 
         if (dy > 10) {

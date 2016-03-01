@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#ffffff</color>
-    <color name="colorPrimaryDark">#9e9e9e</color>
-    <color name="colorAccent">#009688</color>
-    <color name="black87">#57000000</color>
-    <color name="black54">#36000000</color>
-    <color name="black26">#1a000000</color>
+    <color name="colorPrimary">#03a9f4</color>
+    <color name="colorPrimaryDark">#0288d1</color>
+    <color name="colorAccent">#03a9f4</color>
+    <color name="black87">#87000000</color>
+    <color name="black54">#54000000</color>
+    <color name="black26">#26000000</color>
     <color name="transparent">#00000000</color>
     <color name="loginGrey">#e3e3e3</color>
     <color name="black100">#000000</color>
-    <color name="income">#b10909</color>
-    <color name="expend">#217c4a</color>
+    <color name="income">#217c4a</color>
+    <color name="expend">#DB4537</color>
+    <color name="white">#ffffff</color>
 </resources>

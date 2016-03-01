@@ -45,7 +45,7 @@ public class ChartFragment extends Fragment {
 
     private void initView() {
         mToolbar = (Toolbar) mLayoutView.findViewById(R.id.toolbar);
-        mToolbar.inflateMenu(R.menu.main_activity_menu);
+        mToolbar.inflateMenu(R.menu.home_fragment_menu);
         mToolbar.setTitle(R.string.chart);
     }
 }

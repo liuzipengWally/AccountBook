@@ -7,10 +7,12 @@ import android.support.design.widget.FloatingActionButton;
 import android.util.AttributeSet;
 import android.view.animation.OvershootInterpolator;
 
+import com.accountbook.view.api.IAutoHide;
+
 /**
  * 自定义的FloatingActionButton，封装了两个显示和隐藏的动画。
  */
-public class AutoHideFab extends FloatingActionButton {
+public class AutoHideFab extends FloatingActionButton implements IAutoHide {
     private boolean mStatus = true;
 
     public AutoHideFab(Context context) {
@@ -25,6 +27,7 @@ public class AutoHideFab extends FloatingActionButton {
         super(context, attrs, defStyleAttr);
     }
 
+    @Override
     public void show() {
         if (!mStatus) {
             ObjectAnimator scaleX = ObjectAnimator.ofFloat(this, "scaleX", 0f, 1f);
@@ -42,6 +45,7 @@ public class AutoHideFab extends FloatingActionButton {
         }
     }
 
+    @Override
     public void hide() {
         if (mStatus) {
             ObjectAnimator scaleX = ObjectAnimator.ofFloat(this, "scaleX", 1f, 0f);
