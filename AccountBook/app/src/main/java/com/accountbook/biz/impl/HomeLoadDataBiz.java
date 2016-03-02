@@ -1,5 +1,7 @@
 package com.accountbook.biz.impl;
 
+import android.graphics.Color;
+
 import com.accountbook.biz.api.IHomeLoadDataBiz;
 import com.accountbook.biz.api.OnHomeQueryDataListener;
 import com.accountbook.entity.HomeItem;
@@ -40,6 +42,7 @@ public class HomeLoadDataBiz implements IHomeLoadDataBiz {
         item1.setMoney("-300");
         item1.setTime(1);
         item1.setMoneyType(ConstantContainer.EXPEND);
+        item1.setColor(Color.parseColor("#e91e63"));
         homeItems.add(item1);
 
         HomeItem item2 = new HomeItem();
@@ -48,6 +51,7 @@ public class HomeLoadDataBiz implements IHomeLoadDataBiz {
         item2.setMoney("-20");
         item2.setTime(1);
         item2.setMoneyType(ConstantContainer.EXPEND);
+        item2.setColor(Color.parseColor("#00bcd4"));
         homeItems.add(item2);
 
         HomeItem item3 = new HomeItem();
@@ -56,6 +60,7 @@ public class HomeLoadDataBiz implements IHomeLoadDataBiz {
         item3.setMoney("+5000");
         item3.setTime(2);
         item3.setMoneyType(ConstantContainer.INCOME);
+        item3.setColor(Color.parseColor("#8bc34a"));
         homeItems.add(item3);
 
         HomeItem item4 = new HomeItem();
@@ -64,6 +69,7 @@ public class HomeLoadDataBiz implements IHomeLoadDataBiz {
         item4.setMoney("2000");
         item4.setTime(3);
         item4.setMoneyType(ConstantContainer.LEND);
+        item4.setColor(Color.parseColor("#FF9800"));
         homeItems.add(item4);
 
         HomeItem item5 = new HomeItem();
@@ -72,6 +78,7 @@ public class HomeLoadDataBiz implements IHomeLoadDataBiz {
         item5.setMoney("2000");
         item5.setTime(4);
         item5.setMoneyType(ConstantContainer.BORROW);
+        item5.setColor(Color.parseColor("#ff5722"));
         homeItems.add(item5);
 
         HomeItem item6 = new HomeItem();
@@ -79,6 +86,7 @@ public class HomeLoadDataBiz implements IHomeLoadDataBiz {
         item6.setAccountType("银行卡");
         item6.setMoney("2000");
         item6.setTime(5);
+        item6.setColor(Color.parseColor("#ff5722"));
         item6.setMoneyType(ConstantContainer.BORROW);
         homeItems.add(item6);
 
@@ -87,6 +95,7 @@ public class HomeLoadDataBiz implements IHomeLoadDataBiz {
         item7.setAccountType("银行卡");
         item7.setMoney("2000");
         item7.setTime(3);
+        item7.setColor(Color.parseColor("#ff5722"));
         item7.setMoneyType(ConstantContainer.BORROW);
         homeItems.add(item7);
 
@@ -95,6 +104,7 @@ public class HomeLoadDataBiz implements IHomeLoadDataBiz {
         item8.setAccountType("银行卡");
         item8.setMoney("2000");
         item8.setTime(3);
+        item8.setColor(Color.parseColor("#ff5722"));
         item8.setMoneyType(ConstantContainer.BORROW);
         homeItems.add(item8);
 

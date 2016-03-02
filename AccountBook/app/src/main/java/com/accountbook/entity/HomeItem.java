@@ -9,6 +9,7 @@ public class HomeItem {
     private String money;
     private int moneyType;
     private String accountType;
+    private int color;
 
     public int getTime() {
         return time;
@@ -50,14 +51,23 @@ public class HomeItem {
         this.accountType = accountType;
     }
 
+    public int getColor() {
+        return color;
+    }
+
+    public void setColor(int color) {
+        this.color = color;
+    }
+
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer("HomeItem{");
-        sb.append("time='").append(time).append('\'');
+        sb.append("time=").append(time);
         sb.append(", category='").append(category).append('\'');
         sb.append(", money='").append(money).append('\'');
         sb.append(", moneyType=").append(moneyType);
         sb.append(", accountType='").append(accountType).append('\'');
+        sb.append(", color=").append(color);
         sb.append('}');
         return sb.toString();
     }

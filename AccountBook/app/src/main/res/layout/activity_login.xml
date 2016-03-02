@@ -3,11 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="32dp"
-    android:paddingLeft="32dp"
-    android:paddingRight="32dp"
     android:background="@color/transparent"
     android:orientation="vertical"
+    android:paddingLeft="32dp"
+    android:paddingRight="32dp"
+    android:paddingTop="32dp"
     tools:context="com.accountbook.view.activity.LoginAndRegistryActivity">
 
     <android.support.design.widget.TextInputLayout
@@ -41,10 +41,10 @@
             android:textSize="16sp" />
     </android.support.design.widget.TextInputLayout>
 
-    <Button
+    <com.accountbook.view.customview.ProgressButton
         android:id="@+id/login_btn"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/login_btn_text" />
+        android:layout_height="42dp"
+        app:btn_text="@string/login_btn_text" />
 
 </LinearLayout>

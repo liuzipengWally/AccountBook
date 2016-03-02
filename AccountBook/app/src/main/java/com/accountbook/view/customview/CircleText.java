@@ -57,12 +57,12 @@ public class CircleText extends ImageView {
         invalidate();
     }
 
-    public void setmColor(int mColor) {
+    public void setColor(int mColor) {
         this.mColor = mColor;
         invalidate();
     }
 
-    public void setmTextSize(int mTextSize) {
+    public void setTextSize(int mTextSize) {
         this.mTextSize = mTextSize;
         invalidate();
     }
