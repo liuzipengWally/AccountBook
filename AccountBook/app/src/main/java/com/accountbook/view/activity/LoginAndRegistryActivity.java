@@ -22,6 +22,7 @@ import com.accountbook.presenter.LoginPresenter;
 import com.accountbook.presenter.RegistryPresenter;
 import com.accountbook.view.api.ILoginView;
 import com.accountbook.view.api.IRegistryView;
+import com.accountbook.view.customview.ProgressButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +44,7 @@ public class LoginAndRegistryActivity extends BaseActivity implements ILoginView
     private TextInputLayout login_passwordWrapper;
     private EditText login_usernameInput;
     private EditText login_passwordInput;
-    private Button login_btn;
+    private ProgressButton login_btn;
 
     private TextInputLayout reg_usernameWrapper;
     private TextInputLayout reg_passwordWrapper;
@@ -135,7 +136,7 @@ public class LoginAndRegistryActivity extends BaseActivity implements ILoginView
         login_passwordWrapper = (TextInputLayout)views[0].findViewById(R.id.login_passwordWrapper);
         login_usernameInput= (EditText)views[0].findViewById(R.id.login_usernameInput);
         login_passwordInput= (EditText)views[0].findViewById(R.id.login_passwordInput);
-        login_btn = (Button)views[0].findViewById(R.id.login_btn);
+        login_btn = (ProgressButton)views[0].findViewById(R.id.login_btn);
         login_usernameWrapper.setErrorEnabled(true);
         login_passwordWrapper.setErrorEnabled(true);
         login_btn.setOnClickListener(new View.OnClickListener() {

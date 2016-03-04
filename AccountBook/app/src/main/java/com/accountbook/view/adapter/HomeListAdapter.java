@@ -74,6 +74,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
         holder.titleText.setText(item.getCategory());
         holder.accountTypeText.setText(item.getAccountType());
         holder.moneyText.setText(item.getMoney());
+        holder.weekText.setColor(item.getColor());
 
         /*
         * 如果position为0，代表是第一个item，那么是一定要显示出 日期的，如果不是就要判断

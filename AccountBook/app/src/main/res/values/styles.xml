@@ -1,5 +1,6 @@
 <resources>
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -25,6 +26,10 @@
         <item name="tabSelectedTextColor">@color/white</item>
         <item name="tabTextColor">#66FFFFFF</item>
         <item name="tabIndicatorColor">#F8F900</item>
+    </style>
+
+    <style name="DrawerTheme" parent="AppTheme">
+
     </style>
 
 </resources>
