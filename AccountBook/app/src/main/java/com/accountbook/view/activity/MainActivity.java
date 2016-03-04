@@ -239,6 +239,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 //            User user = ((MyApplication)getApplicationContext()).getUser();
         if (user != null) {
             userName.setText(user.getUsername());
+
+            // TODO: 2016.3.4 刷新各种数据
         }
     }
 

@@ -28,9 +28,9 @@ public class RegistryPresenter {
      * 执行注册
      */
     public void doRegistry() {
-        username = view.getUsername();
-        password = view.getPassword();
-        passwordConfirm = view.getPasswordConfirm();
+        username = view.getRegUsername();
+        password = view.getRegPassword();
+        passwordConfirm = view.getRegPasswordConfirm();
 
         if (validateUsername() && validatePassword()) {
             userBiz.registry((Context) view, username, password, new OnRegistryListener() {
@@ -67,9 +67,9 @@ public class RegistryPresenter {
      *
      * @return true表示没问题
      */
-    public boolean validateUsername() {
+    private boolean validateUsername() {
         if (username.equals("")) {
-            view.showUsernameError("用户名不能为空");
+            view.showRegUsernameError("用户名不能为空");
             return false;
         } else return true;
     }
@@ -79,16 +79,16 @@ public class RegistryPresenter {
      *
      * @return true表示没问题
      */
-    public boolean validatePassword() {
+    private boolean validatePassword() {
         if (password.equals("")) {
-            view.showPasswordError("密码不能为空");
+            view.showRegPasswordError("密码不能为空");
             return false;
         } else if (passwordConfirm.equals("")) {
-            view.showPasswordConfirmError("重复密码不能为空");
+            view.showRegPasswordConfirmError("重复密码不能为空");
             return false;
         } else if (!password.equals(passwordConfirm)) {
-            view.showPasswordError("两次密码不一样");
-            view.showPasswordConfirmError("两次密码不一样");
+            view.showRegPasswordError("两次密码不一样");
+            view.showRegPasswordConfirmError("两次密码不一样");
             return false;
         } else return true;
     }

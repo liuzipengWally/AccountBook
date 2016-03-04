@@ -44,7 +44,7 @@ public class UserBiz implements IUserBiz {
                 @Override
                 public void done(UserForLeanCloud avUser, AVException e) {
                     if(avUser == null){
-                        System.out.println(e.getMessage());
+//                        System.out.println(e.getMessage());
                         listener.loginFailed("用户名密码错误");
                     }else{
                         //检查本地数据库中有没有记录
@@ -64,6 +64,7 @@ public class UserBiz implements IUserBiz {
                             cursor.close();
                         }
                         //设置到Application中
+                        //好像没什么用，先留着
                         MyApplication application = (MyApplication)context.getApplicationContext();
                         application.setUser(generateLocalUser(avUser));
                         listener.loginSuccess();
@@ -98,7 +99,7 @@ public class UserBiz implements IUserBiz {
                         //没错误表示注册成功
                         listener.registrySuccess();
                         insertIntoLocal(user);
-//                        System.out.println(AVUser.getCurrentUser().getUsername());
+//                        System.out.println(AVUser.getCurrentUser().getLoginUsername());
                     } else {
                         listener.registryFailed(e.getMessage());
                     }

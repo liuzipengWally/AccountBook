@@ -26,7 +26,7 @@ public class LoginPresenter {
      */
     private boolean validateUsername() {
         if(username.equals("")){
-            view.showUsernameError("用户名不能为空");
+            view.showLoginUsernameError("用户名不能为空");
             return false;
         }else return true;
     }
@@ -37,7 +37,7 @@ public class LoginPresenter {
      */
     private boolean validatePassword() {
         if(password.equals("")){
-            view.showPasswordError("密码不能为空");
+            view.showLoginPasswordError("密码不能为空");
             return false;
         }else return true;
     }
@@ -46,8 +46,8 @@ public class LoginPresenter {
      * 登录逻辑
      */
     public void doLogin() {
-        username = view.getUsername();
-        password = view.getPassword();
+        username = view.getLoginUsername();
+        password = view.getLoginPassword();
 
         if (validateUsername() && validatePassword()) {
             userBiz.login((Context) view, username, password, new OnLoginListener() {

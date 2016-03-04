@@ -13,10 +13,10 @@ import com.avos.avoscloud.AVUser;
 public class MyApplication extends Application{
 
     //LeanCloud的访问ID和KEY
-    private String APP_ID = "uYUp3gVHVqHKWjxayqYEwJY9-gzGzoHsz";
-    private String APP_KEY = "HICgky71weK7ucIgeBhO2Fri";
+    private final String APP_ID = "uYUp3gVHVqHKWjxayqYEwJY9-gzGzoHsz";
+    private final String APP_KEY = "HICgky71weK7ucIgeBhO2Fri";
 
-    //全局User对象
+    //全局User对象，好像没什么用，暂留
     private User user;
 
 

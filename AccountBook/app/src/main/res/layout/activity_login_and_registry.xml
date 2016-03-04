@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -17,7 +18,7 @@
             android:id="@+id/upWrapper"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="60">
+            android:layout_weight="3">
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/login_reg_toolbar"
@@ -34,17 +35,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_alignParentBottom="true"
-                app:tabIndicatorColor="#FFFFFF"
-                app:tabSelectedTextColor="#FFFFFF"
-                app:tabTextAppearance="@style/LoginAndRegTabLayout"
-                app:tabTextColor="#abffffff" />
+                style="@style/LoginAndRegTabLayout"/>
         </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="40"
-            android:background="#FFFFFF"
+            android:layout_weight="2"
+            android:background="@color/white"
             android:orientation="vertical">
 
             <android.support.v4.view.ViewPager
@@ -52,8 +50,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center" />
-
-
         </LinearLayout>
 
     </LinearLayout>
@@ -64,7 +60,8 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/topic"
-        android:textColor="#FFFFFF"
-        android:textSize="30sp" />
+        android:textColor="@color/white"
+        android:textAllCaps="true"
+        android:textSize="34sp" />
 
 </FrameLayout>
