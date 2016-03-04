@@ -1,11 +1,62 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingTop="32dp"
+    android:paddingLeft="32dp"
+    android:paddingRight="32dp"
+    android:background="@color/transparent"
     android:orientation="vertical"
-    tools:context="com.accountbook.view.activity.RegistryActivity">
+    tools:context="com.accountbook.view.activity.LoginActivity">
 
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/reg_usernameWrapper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
+        <EditText
+            android:id="@+id/reg_usernameInput"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="@string/reg_username_hint"
+            android:inputType="text"
+            android:textSize="14sp" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/reg_passwordWrapper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/reg_passwordInput"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="@string/reg_password_hint"
+            android:inputType="textPassword"
+            android:textSize="14sp" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/reg_passwordConfirmWrapper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp">
+
+        <EditText
+            android:id="@+id/reg_passwordConfirmInput"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="@string/reg_passwordConfirm_hint"
+            android:inputType="textPassword"
+            android:textSize="14sp" />
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:id="@+id/reg_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/reg_btn_text" />
 
 </LinearLayout>

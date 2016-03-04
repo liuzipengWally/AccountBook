@@ -33,4 +33,9 @@
     <string name="login_btn_text">登录</string>
     <string name="login_btn_registry">没有账号？去注册呗</string>
     <string name="topic">welcome</string>
+    <string name="reg_username_hint">请输入用户名</string>
+    <string name="reg_password_hint">请输入密码</string>
+    <string name="reg_passwordConfirm_hint">重复密码</string>
+    <string name="reg_btn_text">注册</string>
+
 </resources>

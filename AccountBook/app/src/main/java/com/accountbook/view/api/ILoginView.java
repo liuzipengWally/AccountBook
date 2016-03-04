@@ -6,14 +6,14 @@ public interface ILoginView {
      *
      * @return 用户名
      */
-    String getUsername();
+    String getLoginUsername();
 
     /**
      * 提供给presenter获取password的方法
      *
      * @return 密码
      */
-    String getPassword();
+    String getLoginPassword();
 
     /**
      * 登录成做的事情
@@ -30,12 +30,12 @@ public interface ILoginView {
      *
      * @param message 错误信息
      */
-    void showUsernameError(String message);
+    void showLoginUsernameError(String message);
 
     /**
      * 显示密码错误
      *
      * @param message 错误信息
      */
-    void showPasswordError(String message);
+    void showLoginPasswordError(String message);
 }

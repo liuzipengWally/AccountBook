@@ -14,8 +14,7 @@
         android:id="@+id/login_usernameWrapper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        app:theme="@style/LoginAndRegistryTheme">
+        android:layout_marginBottom="8dp">
 
         <EditText
             android:id="@+id/login_usernameInput"
@@ -23,7 +22,7 @@
             android:layout_height="48dp"
             android:hint="@string/login_username_hint"
             android:inputType="text"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -38,7 +37,7 @@
             android:layout_height="48dp"
             android:hint="@string/login_password_hint"
             android:inputType="textPassword"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
     </android.support.design.widget.TextInputLayout>
 
     <com.accountbook.view.customview.ProgressButton
