@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import com.accountbook.R;
 import com.accountbook.view.api.ToolbarMenuOnClickListener;
 
-public class AccountFragment extends Fragment {
+public class BudgetFragment extends Fragment {
     private View mLayoutView;
     private Toolbar mToolbar;
 

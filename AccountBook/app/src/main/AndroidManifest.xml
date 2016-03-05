@@ -15,7 +15,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".view.activity.MainActivity"
-            android:theme="@style/DrawerTheme">
+            android:theme="@style/TransparentTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,13 +25,12 @@
 
         <activity
             android:name=".view.activity.BaseActivity"
-            android:windowSoftInputMode="adjustResize">
-        </activity>
+            android:windowSoftInputMode="adjustResize"></activity>
 
-        <activity android:name=".view.activity.LoginAndRegistryActivity"
+        <activity
+            android:name=".view.activity.LoginAndRegistryActivity"
             android:label=""
-            android:theme="@style/LoginAndRegistryTheme">
-        </activity>
+            ></activity>
     </application>
 
 </manifest>

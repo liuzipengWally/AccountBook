@@ -7,6 +7,7 @@ import com.accountbook.biz.api.IUserBiz;
 import com.accountbook.biz.api.OnRegistryListener;
 import com.accountbook.biz.impl.UserBiz;
 import com.accountbook.view.api.IRegistryView;
+import com.accountbook.view.customview.ProgressButton;
 
 /**
  * Created by Grady on 2016.2.24.
@@ -27,12 +28,14 @@ public class RegistryPresenter {
     /**
      * 执行注册
      */
-    public void doRegistry() {
+    public void doRegistry(ProgressButton progress) {
         username = view.getRegUsername();
         password = view.getRegPassword();
         passwordConfirm = view.getRegPasswordConfirm();
 
         if (validateUsername() && validatePassword()) {
+            progress.showProgress();
+
             userBiz.registry((Context) view, username, password, new OnRegistryListener() {
                 @Override
                 public void registrySuccess() {

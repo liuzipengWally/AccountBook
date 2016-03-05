@@ -1,17 +1,17 @@
 package com.accountbook.view.activity;
 
-import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -24,12 +24,8 @@ import com.accountbook.view.api.ILoginView;
 import com.accountbook.view.api.IRegistryView;
 import com.accountbook.view.customview.ProgressButton;
 
-import java.util.ArrayList;
-import java.util.List;
 
-
-public class LoginAndRegistryActivity extends BaseActivity implements ILoginView,IRegistryView {
-
+public class LoginAndRegistryActivity extends AppCompatActivity implements ILoginView, IRegistryView {
 
 
     private Toolbar toolbar;
@@ -52,7 +48,7 @@ public class LoginAndRegistryActivity extends BaseActivity implements ILoginView
     private EditText reg_usernameInput;
     private EditText reg_passwordInput;
     private EditText reg_passwordConfirmInput;
-    private Button reg_btn;
+    private ProgressButton reg_btn;
 
     private LoginPresenter loginPresenter;
     private RegistryPresenter registryPresenter;
@@ -64,41 +60,30 @@ public class LoginAndRegistryActivity extends BaseActivity implements ILoginView
         setContentView(R.layout.activity_login_and_registry);
 
         initView();
+        bindEvents();
         loginPresenter = new LoginPresenter(this);
         registryPresenter = new RegistryPresenter(this);
     }
 
-    public void initView(){
-        toolbar = (Toolbar)findViewById(R.id.login_reg_toolbar);
+    /**
+     * 初始化View
+     */
+    public void initView() {
+        toolbar = (Toolbar) findViewById(R.id.login_reg_toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
 
-        welcome = (TextView)findViewById(R.id.welcome_text);
-        upWrapper = (RelativeLayout)findViewById(R.id.upWrapper);
-        upWrapper.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                welcome.setHeight(upWrapper.getHeight());
-            }
-        });
-
+        welcome = (TextView) findViewById(R.id.welcome_text);
+        upWrapper = (RelativeLayout) findViewById(R.id.upWrapper);
 
         LayoutInflater inflater = getLayoutInflater();
         views = new View[2];
         titles = new String[2];
         views[0] = inflater.inflate(R.layout.activity_login, null);
-        views[1] = inflater.inflate(R.layout.activity_registry,null);
+        views[1] = inflater.inflate(R.layout.activity_registry, null);
         titles[0] = "登录";
         titles[1] = "注册";
 
-
-
-        viewPager = (ViewPager)findViewById(R.id.login_reg_viewpager);
+        viewPager = (ViewPager) findViewById(R.id.login_reg_viewpager);
         viewPager.setAdapter(new PagerAdapter() {
             @Override
             public Object instantiateItem(ViewGroup container, int position) {
@@ -128,45 +113,97 @@ public class LoginAndRegistryActivity extends BaseActivity implements ILoginView
             }
         });
 
-        tabLayout = (TabLayout)findViewById(R.id.tabLayout);
+        tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setTabMode(TabLayout.MODE_FIXED);
 
-        login_usernameWrapper = (TextInputLayout)views[0].findViewById(R.id.login_usernameWrapper);
-        login_passwordWrapper = (TextInputLayout)views[0].findViewById(R.id.login_passwordWrapper);
-        login_usernameInput= (EditText)views[0].findViewById(R.id.login_usernameInput);
-        login_passwordInput= (EditText)views[0].findViewById(R.id.login_passwordInput);
-        login_btn = (ProgressButton)views[0].findViewById(R.id.login_btn);
+        login_usernameWrapper = (TextInputLayout) views[0].findViewById(R.id.login_usernameWrapper);
+        login_passwordWrapper = (TextInputLayout) views[0].findViewById(R.id.login_passwordWrapper);
+        login_usernameInput = (EditText) views[0].findViewById(R.id.login_usernameInput);
+        login_passwordInput = (EditText) views[0].findViewById(R.id.login_passwordInput);
+        login_btn = (ProgressButton) views[0].findViewById(R.id.login_btn);
         login_usernameWrapper.setErrorEnabled(true);
         login_passwordWrapper.setErrorEnabled(true);
-        login_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                login_usernameWrapper.setError("");
-                login_passwordWrapper.setError("");
-                loginPresenter.doLogin();
-            }
-        });
 
-        reg_usernameWrapper = (TextInputLayout)views[1].findViewById(R.id.reg_usernameWrapper);
-        reg_passwordWrapper = (TextInputLayout)views[1].findViewById(R.id.reg_passwordWrapper);
-        reg_passwordConfirmWrapper = (TextInputLayout)views[1].findViewById(R.id.reg_passwordConfirmWrapper);
-        reg_usernameInput= (EditText)views[1].findViewById(R.id.reg_usernameInput);
-        reg_passwordInput= (EditText)views[1].findViewById(R.id.reg_passwordInput);
-        reg_passwordConfirmInput = (EditText)views[1].findViewById(R.id.reg_passwordConfirmInput);
-        reg_btn = (Button)views[1].findViewById(R.id.reg_btn);
+
+        reg_usernameWrapper = (TextInputLayout) views[1].findViewById(R.id.reg_usernameWrapper);
+        reg_passwordWrapper = (TextInputLayout) views[1].findViewById(R.id.reg_passwordWrapper);
+        reg_passwordConfirmWrapper = (TextInputLayout) views[1].findViewById(R.id.reg_passwordConfirmWrapper);
+        reg_usernameInput = (EditText) views[1].findViewById(R.id.reg_usernameInput);
+        reg_passwordInput = (EditText) views[1].findViewById(R.id.reg_passwordInput);
+        reg_passwordConfirmInput = (EditText) views[1].findViewById(R.id.reg_passwordConfirmInput);
+        reg_btn = (ProgressButton) views[1].findViewById(R.id.reg_btn);
         reg_usernameWrapper.setErrorEnabled(true);
         reg_passwordWrapper.setErrorEnabled(true);
         reg_passwordConfirmWrapper.setErrorEnabled(true);
-        reg_btn.setOnClickListener(new View.OnClickListener() {
+    }
+
+    /**
+     * 绑定事件
+     */
+    private void bindEvents() {
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                reg_usernameWrapper.setError("");
-                reg_passwordWrapper.setError("");
-                reg_passwordConfirmWrapper.setError("");
-                registryPresenter.doRegistry();
+                finish();
             }
         });
+
+        upWrapper.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                welcome.setHeight(upWrapper.getHeight());
+            }
+        });
+
+        login_btn.setOnClickListener(new ProgressButton.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                login();
+            }
+        });
+
+        reg_btn.setOnClickListener(new ProgressButton.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                register();
+            }
+        });
+
+        login_passwordInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                login();
+                return false;
+            }
+        });
+
+        reg_passwordConfirmInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                register();
+                return false;
+            }
+        });
+    }
+
+    /**
+     * 登录的具体操作
+     */
+    private void login() {
+        login_usernameWrapper.setError("");
+        login_passwordWrapper.setError("");
+        loginPresenter.doLogin(login_btn);
+    }
+
+    /**
+     * 注册的具体操作
+     */
+    private void register() {
+        reg_usernameWrapper.setError("");
+        reg_passwordWrapper.setError("");
+        reg_passwordConfirmWrapper.setError("");
+        registryPresenter.doRegistry(reg_btn);
     }
 
     /**
@@ -194,9 +231,14 @@ public class LoginAndRegistryActivity extends BaseActivity implements ILoginView
      */
     @Override
     public void loginSuccess() {
-        Toast.makeText(LoginAndRegistryActivity.this, "loginSuccess", Toast.LENGTH_SHORT).show();
-        this.setResult(2);
-        finish();
+        login_btn.done();
+        login_btn.setDoneListener(new ProgressButton.OnProgressDoneListener() {
+            @Override
+            public void done() {
+                LoginAndRegistryActivity.this.setResult(2);
+                finish();
+            }
+        });
     }
 
     /**
@@ -206,7 +248,7 @@ public class LoginAndRegistryActivity extends BaseActivity implements ILoginView
      */
     @Override
     public void loginFailed(String message) {
-        Toast.makeText(LoginAndRegistryActivity.this, message, Toast.LENGTH_SHORT).show();
+        login_btn.error(message);
     }
 
     /**
@@ -295,8 +337,14 @@ public class LoginAndRegistryActivity extends BaseActivity implements ILoginView
     @Override
     public void registerSuccess() {
         Toast.makeText(LoginAndRegistryActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
-        this.setResult(2);
-        finish();
+        reg_btn.done();
+        reg_btn.setDoneListener(new ProgressButton.OnProgressDoneListener() {
+            @Override
+            public void done() {
+                LoginAndRegistryActivity.this.setResult(2);
+                finish();
+            }
+        });
     }
 
     /**
@@ -307,5 +355,6 @@ public class LoginAndRegistryActivity extends BaseActivity implements ILoginView
     @Override
     public void registerFailed(String message) {
         Toast.makeText(LoginAndRegistryActivity.this, message, Toast.LENGTH_SHORT).show();
+        reg_btn.error(message);
     }
 }

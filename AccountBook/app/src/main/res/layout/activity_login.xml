@@ -3,47 +3,46 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/transparent"
     android:orientation="vertical"
-    android:paddingLeft="32dp"
-    android:paddingRight="32dp"
-    android:paddingTop="32dp"
+    android:padding="32dp"
     tools:context="com.accountbook.view.activity.LoginAndRegistryActivity">
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/login_usernameWrapper"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp">
+        android:layout_height="wrap_content">
 
         <EditText
             android:id="@+id/login_usernameInput"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
             android:hint="@string/login_username_hint"
+            android:imeOptions="actionNext"
             android:inputType="text"
-            android:textSize="14sp" />
+            android:textSize="@dimen/edit_size" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/login_passwordWrapper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp">
+        android:layout_marginTop="@dimen/edit_margin">
 
         <EditText
             android:id="@+id/login_passwordInput"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
             android:hint="@string/login_password_hint"
+            android:imeOptions="actionGo"
             android:inputType="textPassword"
-            android:textSize="14sp" />
+            android:textSize="@dimen/edit_size" />
     </android.support.design.widget.TextInputLayout>
 
     <com.accountbook.view.customview.ProgressButton
         android:id="@+id/login_btn"
         android:layout_width="match_parent"
         android:layout_height="42dp"
+        android:clickable="true"
         app:btn_text="@string/login_btn_text" />
 
 </LinearLayout>

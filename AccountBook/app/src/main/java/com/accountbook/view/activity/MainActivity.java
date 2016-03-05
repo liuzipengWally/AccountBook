@@ -8,27 +8,16 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
 import com.accountbook.R;
-import com.accountbook.entity.User;
 import com.accountbook.entity.UserForLeanCloud;
-import com.accountbook.presenter.MyApplication;
 import com.accountbook.view.api.ToolbarMenuOnClickListener;
-import com.accountbook.view.fragment.AccountFragment;
+import com.accountbook.view.fragment.BudgetFragment;
 import com.accountbook.view.fragment.ChartFragment;
 import com.accountbook.view.fragment.HomeFragment;
-import com.accountbook.view.fragment.WaterFragment;
-import com.accountbook.tools.Util;
-import com.avos.avoscloud.AVOSCloud;
-import com.avos.avoscloud.AVUser;
-
-import org.w3c.dom.Text;
-
-import java.sql.SQLOutput;
 
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, ToolbarMenuOnClickListener {
@@ -37,8 +26,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     private HomeFragment mHomeFragment;
     private ChartFragment mChartFragment;
-    private AccountFragment mAccountFragment;
-    private WaterFragment mWaterFragment;
+    private BudgetFragment mBudgetFragment;
 
     private TextView userName;
 
@@ -143,29 +131,17 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 //如果不为空则显示出来
                 transaction.show(mHomeFragment);
                 break;
-            case R.id.account:
+            case R.id.budget:
                 /*先隐藏所有的Fragment*/
                 hideAllFragment(transaction);
 
-                if (mAccountFragment == null) {
-                    mAccountFragment = new AccountFragment();
-                    mAccountFragment.setToolbarMenuOnClickListener(this);
-                    transaction.add(R.id.frag_container, mAccountFragment);
+                if (mBudgetFragment == null) {
+                    mBudgetFragment = new BudgetFragment();
+                    mBudgetFragment.setToolbarMenuOnClickListener(this);
+                    transaction.add(R.id.frag_container, mBudgetFragment);
                 }
 
-                transaction.show(mAccountFragment);
-                break;
-            case R.id.account_water:
-                /*先隐藏所有的Fragment*/
-                hideAllFragment(transaction);
-
-                if (mWaterFragment == null) {
-                    mWaterFragment = new WaterFragment();
-                    mWaterFragment.setToolbarMenuOnClickListener(this);
-                    transaction.add(R.id.frag_container, mWaterFragment);
-                }
-
-                transaction.show(mWaterFragment);
+                transaction.show(mBudgetFragment);
                 break;
             case R.id.chart:
                 /*先隐藏所有的Fragment*/
@@ -191,11 +167,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         if (mChartFragment != null) {
             transaction.hide(mChartFragment);
         }
-        if (mWaterFragment != null) {
-            transaction.hide(mWaterFragment);
-        }
-        if (mAccountFragment != null) {
-            transaction.hide(mAccountFragment);
+        if (mBudgetFragment != null) {
+            transaction.hide(mBudgetFragment);
         }
     }
 

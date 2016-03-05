@@ -14,8 +14,10 @@
         android:orientation="vertical">
 
         <RelativeLayout
+            android:background="@drawable/login_reg_background"
             android:id="@+id/upWrapper"
             android:layout_width="match_parent"
+            android:fitsSystemWindows="true"
             android:layout_height="match_parent"
             android:layout_weight="3">
 
@@ -25,6 +27,7 @@
                 android:layout_height="?attr/actionBarSize"
                 android:layout_alignParentTop="true"
                 android:background="@color/transparent"
+                android:fitsSystemWindows="true"
                 android:minHeight="?attr/actionBarSize"
                 app:navigationIcon="@mipmap/ic_clear_white600_24dp"
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
@@ -32,7 +35,7 @@
             <android.support.design.widget.TabLayout
                 android:id="@+id/tabLayout"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 style="@style/LoginAndRegTabLayout"/>
         </RelativeLayout>

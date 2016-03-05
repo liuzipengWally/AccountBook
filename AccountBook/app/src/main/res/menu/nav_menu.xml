@@ -13,19 +13,9 @@
             android:title="@string/chart" />
 
         <item
-            android:id="@+id/account_water"
+            android:id="@+id/budget"
             android:icon="@mipmap/ic_assignment_grey600_48dp"
-            android:title="@string/account_water" />
-
-        <item
-            android:id="@+id/account"
-            android:icon="@mipmap/ic_credit_card_grey600_48dp"
-            android:title="@string/account" />
-
-        <item
-            android:id="@+id/add_user"
-            android:icon="@mipmap/ic_people_grey600_48dp"
-            android:title="@string/add_user" />
+            android:title="@string/budget" />
     </group>
 
 
@@ -34,6 +24,9 @@
             <item
                 android:id="@+id/logout"
                 android:title="@string/logout" />
+            <item
+                android:id="@+id/settings"
+                android:title="@string/action_settings" />
         </menu>
     </item>
 </menu>

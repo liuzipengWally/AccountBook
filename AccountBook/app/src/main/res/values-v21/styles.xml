@@ -8,7 +8,7 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="DrawerTheme" parent="AppTheme">
+    <style name="TransparentTheme" parent="AppTheme">
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 </resources>

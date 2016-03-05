@@ -12,14 +12,6 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="LoginAndRegistryTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:windowNoTitle">true</item>
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowBackground">@drawable/login_reg_background</item>
-    </style>
-
     <style name="LoginAndRegTabLayout" parent="Base.TextAppearance.AppCompat.Title">
         <item name="android:antialias">true</item>
         <item name="android:textSize">14sp</item>
@@ -28,7 +20,7 @@
         <item name="tabIndicatorColor">#F8F900</item>
     </style>
 
-    <style name="DrawerTheme" parent="AppTheme">
+    <style name="TransparentTheme" parent="AppTheme">
 
     </style>
 
