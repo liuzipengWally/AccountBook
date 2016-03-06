@@ -22,15 +22,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".view.activity.BaseActivity"
-            android:windowSoftInputMode="adjustResize"></activity>
-
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".view.activity.LoginAndRegistryActivity"
-            android:label=""
-            ></activity>
+            android:label="" />
+        <activity android:name=".view.activity.AddActivity"></activity>
     </application>
 
 </manifest>

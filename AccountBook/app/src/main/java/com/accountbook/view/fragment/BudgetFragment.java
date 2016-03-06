@@ -24,7 +24,7 @@ public class BudgetFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mLayoutView = inflater.inflate(R.layout.account_fragment, container, false);
+        mLayoutView = inflater.inflate(R.layout.budget_fragment, container, false);
 
         initView();
         bindEvents();

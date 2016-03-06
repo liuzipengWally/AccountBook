@@ -1,6 +1,6 @@
 package com.accountbook.view.api;
 
-import com.accountbook.entity.HomeItem;
+import com.accountbook.entity.AccountBill;
 
 import java.util.List;
 
@@ -21,12 +21,12 @@ public interface IHomeView {
     /**
      * 在页面中载入数据
      *
-     * @param homeItems 包含多个homeItem实体的集合
+     * @param accountBills 包含多个homeItem实体的集合
      * @param income    当月总收入
      * @param expend    当月总支出
      * @param balance   单月预算余额
      */
-    void LoadData(List<HomeItem> homeItems, String income, String expend, String balance);
+    void LoadData(List<AccountBill> accountBills, String income, String expend, String balance);
 
     /**
      * 跳转到详情页

@@ -53,7 +53,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         mNavigationView = (NavigationView) findViewById(R.id.nav_view);
 
-
         switchFragment(R.id.home_page);
     }
 

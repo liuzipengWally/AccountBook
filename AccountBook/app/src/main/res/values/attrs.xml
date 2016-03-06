@@ -7,7 +7,7 @@
         </attr>
     </declare-styleable>
 
-    <declare-styleable name="CircleText">
+    <declare-styleable name="CircleIcon">
         <attr name="circleText" format="string" />
         <attr name="circleColor" format="color" />
         <attr name="circleTextSize" format="dimension" />
@@ -17,5 +17,6 @@
         <attr name="btn_background" format="color" />
         <attr name="btn_text" format="string" />
         <attr name="btn_textSize" format="dimension" />
+        <attr name="btn_radius" format="dimension" />
     </declare-styleable>
 </resources>

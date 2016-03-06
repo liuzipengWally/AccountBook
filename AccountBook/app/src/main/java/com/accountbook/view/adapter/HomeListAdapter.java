@@ -6,15 +6,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.accountbook.R;
-import com.accountbook.entity.HomeItem;
+import com.accountbook.entity.AccountBill;
 import com.accountbook.tools.ConstantContainer;
-import com.accountbook.tools.Util;
-import com.accountbook.view.customview.CircleText;
+import com.accountbook.view.customview.CircleIcon;
 
 import java.util.List;
 
@@ -22,13 +20,13 @@ import java.util.List;
  * 主页近期记录的适配器
  */
 public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHolder> {
-    private List<HomeItem> mHomeItems;
+    private List<AccountBill> mAccountBills;
     private LayoutInflater mInflater;
 
     private OnItemClickListener mItemClickListener;
 
-    public HomeListAdapter(List<HomeItem> mHomeItems, Context mContext) {
-        this.mHomeItems = mHomeItems;
+    public HomeListAdapter(List<AccountBill> mAccountBills, Context mContext) {
+        this.mAccountBills = mAccountBills;
         this.mInflater = LayoutInflater.from(mContext);
     }
 
@@ -69,31 +67,18 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
     }
 
     private void settingsItemViews(ViewHolder holder, int position) {
-        HomeItem item = mHomeItems.get(position);
+        AccountBill accountBill = mAccountBills.get(position);
 
-        holder.titleText.setText(item.getCategory());
-        holder.accountTypeText.setText(item.getAccountType());
-        holder.moneyText.setText(item.getMoney());
-        holder.weekText.setColor(item.getColor());
+        holder.titleText.setText(accountBill.getCategory());
+        holder.accountTypeText.setText(accountBill.getAccountType());
+        holder.moneyText.setText(accountBill.getMoney());
+        holder.circleIcon.setColor(accountBill.getColor());
+        holder.circleIcon.setIconResId(accountBill.getIconResId());
 
-        /*
-        * 如果position为0，代表是第一个item，那么是一定要显示出 日期的，如果不是就要判断
-        * 如果日期和前一个item不同，那么表示这个item是新的一天中的第一条数据，那么就要将这个item的
-        * 日期显示出来
-        * */
-        if (position == 0) {
-            holder.weekText.setText(Util.numWeek2strWeek(item.getTime()));
-            holder.weekText.setVisibility(View.VISIBLE);
-        } else {
-            if (item.getTime() != mHomeItems.get(position - 1).getTime()) {
-                holder.weekText.setText(Util.numWeek2strWeek(item.getTime()));
-                holder.weekText.setVisibility(View.VISIBLE);
-            }
-        }
 
-        if (item.getMoneyType() == ConstantContainer.INCOME) {
+        if (accountBill.getMoneyType() == ConstantContainer.INCOME) {
             holder.moneyText.setTextColor(Color.parseColor("#217c4a"));
-        } else if (item.getMoneyType() == ConstantContainer.EXPEND) {
+        } else if (accountBill.getMoneyType() == ConstantContainer.EXPEND) {
             holder.moneyText.setTextColor(Color.parseColor("#b10909"));
         }
     }
@@ -128,13 +113,13 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return mHomeItems.size();
+        return mAccountBills.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
         //主页近期记录item中的控件
         RelativeLayout homeItemLayout;
-        CircleText weekText;
+        CircleIcon circleIcon;
         TextView titleText;
         TextView accountTypeText;
         TextView moneyText;
@@ -142,7 +127,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
         public ViewHolder(View itemView, int viewType) {
             super(itemView);
             homeItemLayout = (RelativeLayout) itemView.findViewById(R.id.home_item);
-            weekText = (CircleText) itemView.findViewById(R.id.week_lbl);
+            circleIcon = (CircleIcon) itemView.findViewById(R.id.circle_icon);
             titleText = (TextView) itemView.findViewById(R.id.title_text);
             accountTypeText = (TextView) itemView.findViewById(R.id.account_type_text);
             moneyText = (TextView) itemView.findViewById(R.id.money_text);

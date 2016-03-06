@@ -6,6 +6,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
@@ -25,8 +26,6 @@ public class FoldAppBar extends AppBarLayout {
     public int minHeight;
     public int maxHeight;
 
-    private int downY;
-    private int offsetY;
 
     private boolean flag = true;
 
@@ -35,7 +34,7 @@ public class FoldAppBar extends AppBarLayout {
     private OnAppbarStateChangeListener mStateChangeListener;
 
     public interface OnAppbarStateChangeListener {
-        void onStateChange(boolean state);
+        void onStateChange(boolean isFold);
     }
 
     public void setStateChangeListener(OnAppbarStateChangeListener listener) {
@@ -56,28 +55,6 @@ public class FoldAppBar extends AppBarLayout {
         super.onFinishInflate();
         mToolbar = (Toolbar) getChildAt(0);
         mSecondChild = getChildAt(1);
-    }
-
-    @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
-        int y = (int) ev.getY();
-        switch (ev.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                downY = y;
-                break;
-            case MotionEvent.ACTION_MOVE:
-                offsetY = y - downY;
-                break;
-            case MotionEvent.ACTION_UP:
-                if (offsetY < 0) {
-                    fold();
-                } else if (offsetY > 0) {
-                    unfold();
-                }
-                break;
-        }
-
-        return false;
     }
 
     @Override

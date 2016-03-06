@@ -336,12 +336,12 @@ public class LoginAndRegistryActivity extends AppCompatActivity implements ILogi
      */
     @Override
     public void registerSuccess() {
-        Toast.makeText(LoginAndRegistryActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
         reg_btn.done();
         reg_btn.setDoneListener(new ProgressButton.OnProgressDoneListener() {
             @Override
             public void done() {
                 LoginAndRegistryActivity.this.setResult(2);
+                Toast.makeText(LoginAndRegistryActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
                 finish();
             }
         });

@@ -2,9 +2,10 @@ package com.accountbook.biz.impl;
 
 import android.graphics.Color;
 
+import com.accountbook.R;
 import com.accountbook.biz.api.IHomeLoadDataBiz;
 import com.accountbook.biz.api.OnHomeQueryDataListener;
-import com.accountbook.entity.HomeItem;
+import com.accountbook.entity.AccountBill;
 import com.accountbook.tools.ConstantContainer;
 
 import java.util.ArrayList;
@@ -19,10 +20,10 @@ public class HomeLoadDataBiz implements IHomeLoadDataBiz {
         String income = getIncomeTotal();
         String expend = getExpendTotal();
         String balance = getBalanceTotal();
-        List<HomeItem> homeItems = getHomeItemData();
+        List<AccountBill> accountBills = getHomeItemData();
 
-        if (income != null && expend != null && balance != null && homeItems != null) {
-            queryListener.querySuccess(homeItems, income, expend, balance);
+        if (income != null && expend != null && balance != null && accountBills != null) {
+            queryListener.querySuccess(accountBills, income, expend, balance);
         } else {
             queryListener.queryFailed();
         }
@@ -33,82 +34,82 @@ public class HomeLoadDataBiz implements IHomeLoadDataBiz {
      *
      * @return
      */
-    private List<HomeItem> getHomeItemData() {
-        List<HomeItem> homeItems = new ArrayList<>();
+    private List<AccountBill> getHomeItemData() {
+        List<AccountBill> accountBills = new ArrayList<>();
 
-        HomeItem item1 = new HomeItem();
+        AccountBill item1 = new AccountBill();
         item1.setCategory("衣服鞋子");
         item1.setAccountType("银行卡");
         item1.setMoney("-300");
-        item1.setTime(1);
+        item1.setIconResId(R.mipmap.ic_invert_colors_white_24dp);
         item1.setMoneyType(ConstantContainer.EXPEND);
         item1.setColor(Color.parseColor("#e91e63"));
-        homeItems.add(item1);
+        accountBills.add(item1);
 
-        HomeItem item2 = new HomeItem();
+        AccountBill item2 = new AccountBill();
         item2.setCategory("早餐晚餐");
         item2.setAccountType("现金");
         item2.setMoney("-20");
-        item2.setTime(1);
+        item2.setIconResId(R.mipmap.ic_local_restaurant_white_24dp);
         item2.setMoneyType(ConstantContainer.EXPEND);
         item2.setColor(Color.parseColor("#00bcd4"));
-        homeItems.add(item2);
+        accountBills.add(item2);
 
-        HomeItem item3 = new HomeItem();
+        AccountBill item3 = new AccountBill();
         item3.setCategory("工资");
         item3.setAccountType("银行卡");
         item3.setMoney("+5000");
-        item3.setTime(2);
+        item3.setIconResId(R.mipmap.ic_attach_money_white_24dp);
         item3.setMoneyType(ConstantContainer.INCOME);
         item3.setColor(Color.parseColor("#8bc34a"));
-        homeItems.add(item3);
+        accountBills.add(item3);
 
-        HomeItem item4 = new HomeItem();
+        AccountBill item4 = new AccountBill();
         item4.setCategory("借出");
         item4.setAccountType("银行卡");
         item4.setMoney("2000");
-        item4.setTime(3);
+        item4.setIconResId(R.mipmap.ic_thumbs_up_down_white_24dp);
         item4.setMoneyType(ConstantContainer.LEND);
         item4.setColor(Color.parseColor("#FF9800"));
-        homeItems.add(item4);
+        accountBills.add(item4);
 
-        HomeItem item5 = new HomeItem();
+        AccountBill item5 = new AccountBill();
         item5.setCategory("借入");
         item5.setAccountType("银行卡");
         item5.setMoney("2000");
-        item5.setTime(4);
+        item5.setIconResId(R.mipmap.ic_thumbs_up_down_white_24dp);
         item5.setMoneyType(ConstantContainer.BORROW);
         item5.setColor(Color.parseColor("#ff5722"));
-        homeItems.add(item5);
+        accountBills.add(item5);
 
-        HomeItem item6 = new HomeItem();
+        AccountBill item6 = new AccountBill();
         item6.setCategory("借入");
         item6.setAccountType("银行卡");
         item6.setMoney("2000");
-        item6.setTime(5);
+        item6.setIconResId(R.mipmap.ic_thumbs_up_down_white_24dp);
         item6.setColor(Color.parseColor("#ff5722"));
         item6.setMoneyType(ConstantContainer.BORROW);
-        homeItems.add(item6);
+        accountBills.add(item6);
 
-        HomeItem item7 = new HomeItem();
+        AccountBill item7 = new AccountBill();
         item7.setCategory("借入");
         item7.setAccountType("银行卡");
         item7.setMoney("2000");
-        item7.setTime(3);
+        item7.setIconResId(R.mipmap.ic_thumbs_up_down_white_24dp);
         item7.setColor(Color.parseColor("#ff5722"));
         item7.setMoneyType(ConstantContainer.BORROW);
-        homeItems.add(item7);
+        accountBills.add(item7);
 
-        HomeItem item8 = new HomeItem();
+        AccountBill item8 = new AccountBill();
         item8.setCategory("借入");
         item8.setAccountType("银行卡");
         item8.setMoney("2000");
-        item8.setTime(3);
+        item8.setIconResId(R.mipmap.ic_thumbs_up_down_white_24dp);
         item8.setColor(Color.parseColor("#ff5722"));
         item8.setMoneyType(ConstantContainer.BORROW);
-        homeItems.add(item8);
+        accountBills.add(item8);
 
-        return homeItems;
+        return accountBills;
     }
 
     /**

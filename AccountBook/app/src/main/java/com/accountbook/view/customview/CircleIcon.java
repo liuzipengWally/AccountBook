@@ -1,23 +1,28 @@
 package com.accountbook.view.customview;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.BitmapShader;
 import android.graphics.Canvas;
-import android.graphics.Matrix;
+import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Shader;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.accountbook.R;
+import com.accountbook.tools.Util;
 
 /**
- * 显示圆形图片的自定义View
+ * 显示圆形文字的自定义View
  */
 public class CircleIcon extends View {
-    private int mImageId = R.mipmap.head;
+    private String mText;
+    private int mColor;
+    private int mTextSize;
+    private int mIconResId;
 
     public CircleIcon(Context context) {
         this(context, null);
@@ -29,27 +34,67 @@ public class CircleIcon extends View {
 
     public CircleIcon(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+
+        getAttributes(context, attrs);
     }
 
-    private void drawCircleIcon(int id) {
-        mImageId = id;
+
+    private void getAttributes(Context context, AttributeSet attrs) {
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.CircleIcon);
+
+        mText = typedArray.getString(R.styleable.CircleIcon_circleText);
+        mTextSize = (int) typedArray.getDimension(R.styleable.CircleIcon_circleTextSize, Util.sp2px(20, getResources().getDisplayMetrics()));
+        mColor = typedArray.getColor(R.styleable.CircleIcon_circleColor, getResources().getColor(R.color.colorAccent));
+
+        typedArray.recycle();
+    }
+
+    public void setText(String text) {
+        this.mText = text;
+        invalidate();
+    }
+
+    public void setColor(int mColor) {
+        this.mColor = mColor;
+        invalidate();
+    }
+
+    public int getColor() {
+        return mColor;
+    }
+
+    public void setTextSize(int mTextSize) {
+        this.mTextSize = mTextSize;
+        invalidate();
+    }
+
+    public void setIconResId(int resId) {
+        this.mIconResId = resId;
         invalidate();
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), mImageId);
-
-        Matrix matrix = new Matrix();
-        matrix.postScale((float) getMeasuredWidth() / bitmap.getWidth(), (float) getMeasuredHeight() / bitmap.getHeight());
-        Bitmap newBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-
-        Paint shaderPaint = new Paint();
-        shaderPaint.setAntiAlias(true);
-        BitmapShader bitmapShader = new BitmapShader(newBitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
-        shaderPaint.setShader(bitmapShader);
+        Paint circlePaint = new Paint();
+        circlePaint.setAntiAlias(true);
+        circlePaint.setColor(mColor);
 
         float radius = getMeasuredWidth() / 2;
-        canvas.drawCircle(radius, radius, radius, shaderPaint);
+        canvas.drawCircle(radius, radius, radius, circlePaint);
+
+        if (mText != null) {
+            Paint paint = new Paint();
+            paint.setAntiAlias(true);
+            paint.setTextSize(mTextSize);
+            paint.setColor(Color.WHITE);
+            paint.setTextAlign(Paint.Align.CENTER);
+
+            canvas.drawText(mText, radius, radius + (mTextSize / 4), paint);
+        }
+
+        if (mIconResId != 0) {
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), mIconResId);
+            canvas.drawBitmap(bitmap, getMeasuredWidth() / 2 - bitmap.getWidth() / 2, getMeasuredHeight() / 2 - bitmap.getHeight() / 2, null);
+        }
     }
 }

@@ -27,7 +27,7 @@ public class ProgressButton extends View {
 
     private RectF mRect, mInnerRect, mArcRect;
 
-    private int mRadius, mFinalRadius;
+    private int mRadius, mFinalRadius, mClickBeforeRadius;
     private int mSweepAngle = 0;
 
     public static final int SPEED = 15;
@@ -100,19 +100,19 @@ public class ProgressButton extends View {
         mPaintSecond.setAntiAlias(true);
 
         mDistance = (int) Util.dp2px(5, getResources().getDisplayMetrics());
-        mRadius = (int) Util.dp2px(80, getResources().getDisplayMetrics());
+        mRadius = mClickBeforeRadius;
     }
 
     private void getAttributes(Context context, AttributeSet attrs) {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ProgressButton);
 
         mText = typedArray.getString(R.styleable.ProgressButton_btn_text);
-        mColor = typedArray.getColor(R.styleable.ProgressButton_btn_background, getResources().getColor(R.color.colorAccent));
+        mColor = typedArray.getColor(R.styleable.ProgressButton_btn_background, getResources().getColor(R.color.colorPrimary));
         mTextSize = (int) typedArray.getDimension(R.styleable.ProgressButton_btn_textSize, Util.sp2px(14, getResources().getDisplayMetrics()));
+        mClickBeforeRadius = (int) typedArray.getDimension(R.styleable.ProgressButton_btn_radius, Util.sp2px(30, getResources().getDisplayMetrics()));
 
         typedArray.recycle();
     }
-
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -157,7 +157,7 @@ public class ProgressButton extends View {
         switch (mState) {
             case CLICK_BEFORE:
                 mPaint.setColor(mColor);
-                canvas.drawRoundRect(mRect, mRadius, mRadius, mPaint);
+                canvas.drawRoundRect(mRect, mClickBeforeRadius, mClickBeforeRadius, mPaint);
 
                 mPaintSecond.setColor(Color.WHITE);
                 mPaintSecond.setTextSize(mTextSize);
@@ -243,7 +243,7 @@ public class ProgressButton extends View {
 
                     mRect = new RectF(mCurrLeft, 0, mCurrWidth, mHeight);
 
-                    int oldRadius = (int) Util.dp2px(80, getResources().getDisplayMetrics());
+                    int oldRadius = mClickBeforeRadius;
                     mRadius = mRadius - 10 > oldRadius ? mRadius - 10 : oldRadius;
 
                     mPaint.setColor(mColor);
@@ -256,7 +256,7 @@ public class ProgressButton extends View {
 
                     mRect = new RectF(mCurrLeft, 0, mCurrWidth, mHeight);
 
-                    int oldRadius = (int) Util.dp2px(80, getResources().getDisplayMetrics());
+                    int oldRadius = mClickBeforeRadius;
                     mRadius = mRadius - 10 > oldRadius ? mRadius - 10 : oldRadius;
 
                     mPaint.setColor(mColor);

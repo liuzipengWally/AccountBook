@@ -3,7 +3,7 @@ package com.accountbook.presenter;
 import com.accountbook.biz.api.IHomeLoadDataBiz;
 import com.accountbook.biz.api.OnHomeQueryDataListener;
 import com.accountbook.biz.impl.HomeLoadDataBiz;
-import com.accountbook.entity.HomeItem;
+import com.accountbook.entity.AccountBill;
 import com.accountbook.view.api.IHomeView;
 
 import java.util.List;
@@ -26,8 +26,8 @@ public class HomeLoadDataPresenter {
     public void query() {
         mHomeLoadDataBiz.query(new OnHomeQueryDataListener() {
             @Override
-            public void querySuccess(List<HomeItem> homeItems, String income, String expend, String balance) {
-                mHomeView.LoadData(homeItems, income, expend, balance);
+            public void querySuccess(List<AccountBill> accountBills, String income, String expend, String balance) {
+                mHomeView.LoadData(accountBills, income, expend, balance);
             }
 
             @Override

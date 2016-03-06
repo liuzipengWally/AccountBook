@@ -4,15 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/flat_ripple"
-    android:clickable="true">
+    android:clickable="true"
+    android:padding="@dimen/dp16">
 
-    <com.accountbook.view.customview.CircleText
-        android:id="@+id/week_lbl"
+    <com.accountbook.view.customview.CircleIcon
+        android:id="@+id/circle_icon"
         android:layout_width="@dimen/circleTextSize"
         android:layout_height="@dimen/circleTextSize"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="@dimen/dp16"
-        app:circleText="一"
         app:circleTextSize="@dimen/title" />
 
     <TextView
@@ -20,8 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dp16"
-        android:layout_marginTop="@dimen/dp16"
-        android:layout_toRightOf="@id/week_lbl"
+        android:layout_toRightOf="@id/circle_icon"
         android:text="早晚午餐"
         android:textColor="@color/black100" />
 
@@ -30,10 +28,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/title_text"
-        android:layout_marginBottom="@dimen/dp16"
         android:layout_marginLeft="@dimen/dp16"
         android:layout_marginTop="@dimen/dp8"
-        android:layout_toRightOf="@id/week_lbl"
+        android:layout_toRightOf="@id/circle_icon"
         android:text="现金"
         android:textSize="@dimen/description" />
 
@@ -43,7 +40,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginRight="@dimen/dp16"
         android:text="-20"
         android:textSize="@dimen/body" />
 </RelativeLayout>

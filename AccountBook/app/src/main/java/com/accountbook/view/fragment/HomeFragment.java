@@ -1,5 +1,7 @@
 package com.accountbook.view.fragment;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,27 +15,30 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.accountbook.R;
-import com.accountbook.entity.HomeItem;
+import com.accountbook.entity.AccountBill;
 import com.accountbook.presenter.HomeLoadDataPresenter;
-import com.accountbook.tools.ConstantContainer;
-import com.accountbook.tools.Util;
+import com.accountbook.view.activity.AddActivity;
 import com.accountbook.view.adapter.HomeListAdapter;
+import com.accountbook.view.adapter.SpinnerAdapter;
 import com.accountbook.view.api.IHomeView;
 import com.accountbook.view.api.ToolbarMenuOnClickListener;
 import com.accountbook.view.customview.AutoHideFab;
+import com.accountbook.view.customview.DoubleClickDomain;
 import com.accountbook.view.customview.FoldAppBar;
 import com.accountbook.view.customview.HomeListDivider;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
 public class HomeFragment extends Fragment implements IHomeView {
     private View mLayoutView;
     private Toolbar mToolbar;
+    private Spinner mSpinner;
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private AutoHideFab mEditBtn;
@@ -42,6 +47,11 @@ public class HomeFragment extends Fragment implements IHomeView {
     private TextView mExpendText;
     private TextView mBalanceText;
     private TextView mStatusHintText;
+    private DoubleClickDomain mDoubleClickDomain;
+
+    private String[] mSpinnerTitle;
+
+    private Context mContext;
 
     private int downY;
     private int offsetY;
@@ -68,12 +78,21 @@ public class HomeFragment extends Fragment implements IHomeView {
         return mLayoutView;
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
+    }
+
     private void initView() {
         //初始化toolbar
         mToolbar = (Toolbar) mLayoutView.findViewById(R.id.toolbar);
         mToolbar.inflateMenu(R.menu.home_fragment_menu);
-        mToolbar.setTitle(R.string.home_page);
         mAppBarLayout = (FoldAppBar) mLayoutView.findViewById(R.id.appbar);
+
+        mSpinner = (Spinner) mLayoutView.findViewById(R.id.home_spinner);
+        mSpinnerTitle = getResources().getStringArray(R.array.home_page_spinner);
+        mSpinner.setAdapter(new SpinnerAdapter(mContext, mSpinnerTitle));
 
         mCardView = (CardView) mLayoutView.findViewById(R.id.home_card);
 
@@ -83,6 +102,8 @@ public class HomeFragment extends Fragment implements IHomeView {
         mExpendText = (TextView) mLayoutView.findViewById(R.id.expend_text);
         mBalanceText = (TextView) mLayoutView.findViewById(R.id.balance_text);
         mStatusHintText = (TextView) mLayoutView.findViewById(R.id.status_hint_text);
+
+        mDoubleClickDomain = (DoubleClickDomain) mLayoutView.findViewById(R.id.touch_domain);
 
         //初始化presenter
         mLoadDataPresenter = new HomeLoadDataPresenter(this);
@@ -95,12 +116,12 @@ public class HomeFragment extends Fragment implements IHomeView {
         //初始化主页列表的RecyclerView
         mRecyclerView = (RecyclerView) mLayoutView.findViewById(R.id.home_list);
         //列表布局设置为垂直的
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(layoutManager);
         //列表动画使用默认动画
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         //添加分割线
-        mRecyclerView.addItemDecoration(new HomeListDivider(getActivity()));
+        mRecyclerView.addItemDecoration(new HomeListDivider(mContext));
 
         //加载初始数据，该方法会去查询数据，并最终走到下面的LoadData去适配数据到列表中
         mLoadDataPresenter.query();
@@ -115,6 +136,29 @@ public class HomeFragment extends Fragment implements IHomeView {
                 if (mToolbarMenuOnClickListener != null) {
                     mToolbarMenuOnClickListener.toolbarMenuOnClick();
                 }
+            }
+        });
+
+        mDoubleClickDomain.setOnDoubleClickListener(new DoubleClickDomain.OnDoubleClickListener() {
+            @Override
+            public void doubleClick(View view) {
+                if (mAppBarLayout.isFold) {
+                    mAppBarLayout.unfold();
+                } else {
+                    mAppBarLayout.fold();
+                }
+            }
+        });
+
+        mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(mContext, mSpinnerTitle[position], Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
 
@@ -140,11 +184,8 @@ public class HomeFragment extends Fragment implements IHomeView {
         //appbar的状态事件，可监听折叠，展开的改变
         mAppBarLayout.setStateChangeListener(new FoldAppBar.OnAppbarStateChangeListener() {
             @Override
-            public void onStateChange(boolean state) {
-                if (state) {
-                    mToolbar.setTitle(R.string.recent_lbl);
-                } else {
-                    mToolbar.setTitle(R.string.home_page);
+            public void onStateChange(boolean isFold) {
+                if (!isFold) {
                     mEditBtn.show();
                 }
             }
@@ -168,6 +209,14 @@ public class HomeFragment extends Fragment implements IHomeView {
             @Override
             public void onRefresh() {
                 mLoadDataPresenter.query();
+            }
+        });
+
+        mEditBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, AddActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -241,13 +290,13 @@ public class HomeFragment extends Fragment implements IHomeView {
     }
 
     @Override
-    public void LoadData(List<HomeItem> homeItems, String income, String expend, String balance) {
+    public void LoadData(List<AccountBill> accountBills, String income, String expend, String balance) {
         mIncomeText.setText(income);
         mExpendText.setText(expend);
         mBalanceText.setText(balance);
         mStatusHintText.setText(getStatus(new Integer(balance)));
 
-        mAdapter = new HomeListAdapter(homeItems, getActivity()); //上面几个参数为查询数据库得到的数据，用来构造适配器
+        mAdapter = new HomeListAdapter(accountBills, mContext); //上面几个参数为查询数据库得到的数据，用来构造适配器
         mRecyclerView.setAdapter(mAdapter); //设置适配器，加载数据到列表
 
         mSwipeRefreshLayout.setRefreshing(false);  //数据加载完，进度条也要停止刷新动画
