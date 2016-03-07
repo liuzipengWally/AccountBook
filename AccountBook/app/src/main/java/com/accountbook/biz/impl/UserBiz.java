@@ -3,13 +3,14 @@ package com.accountbook.biz.impl;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 
 import com.accountbook.biz.api.IUserBiz;
 import com.accountbook.biz.api.OnLoginListener;
 import com.accountbook.biz.api.OnRegistryListener;
 import com.accountbook.entity.User;
 import com.accountbook.entity.UserForLeanCloud;
-import com.accountbook.presenter.MyApplication;
+import com.accountbook.application.MyApplication;
 import com.accountbook.tools.Util;
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVUser;
@@ -18,14 +19,10 @@ import com.avos.avoscloud.SignUpCallback;
 
 
 public class UserBiz implements IUserBiz {
+    private SQLiteDatabase mDatabase;
 
-    private static final UserBiz instance = new UserBiz();
-
-    private UserBiz() {
-    }
-
-    public static UserBiz getInstance() {
-        return instance;
+    public UserBiz() {
+        this.mDatabase = SQLite.getInstance().getDatabaseObject();
     }
 
     /**
@@ -50,15 +47,15 @@ public class UserBiz implements IUserBiz {
                         listener.loginFailed("用户名密码错误");
                     } else {
                         //检查本地数据库中有没有记录
-                        Cursor cursor = SQLite.db.query(SQLite.USERTABLE, new String[]{"id"}, "id = ?", new String[]{avUser.getObjectId()}, null, null, null);
+                        Cursor cursor = mDatabase.query(SQLite.USER_TABLE, new String[]{"id"}, "id = ?", new String[]{avUser.getObjectId()}, null, null, null);
                         if (cursor != null) {
                             if (cursor.getCount() != 0) {
                                 //更新数据
                                 ContentValues values = new ContentValues();
-                                values.put(UserForLeanCloud.FID, avUser.getFid());
-                                values.put(UserForLeanCloud.ACTOR, avUser.getActor());
-                                values.put(UserForLeanCloud.MONEY, avUser.getMoney());
-                                SQLite.db.update(SQLite.USERTABLE, values, "id = ?", new String[]{avUser.getObjectId()});
+//                                values.put(UserForLeanCloud.FID, avUser.getFid());
+//                                values.put(UserForLeanCloud.ACTOR, avUser.getActor());
+//                                values.put(UserForLeanCloud.MONEY, avUser.getMoney());
+                                mDatabase.update(SQLite.USER_TABLE, values, "id = ?", new String[]{avUser.getObjectId()});
                             } else {
                                 //插入新数据
                                 insertIntoLocal(avUser);
@@ -120,10 +117,10 @@ public class UserBiz implements IUserBiz {
         values.put("id", user.getObjectId());
         values.put("username", user.getUsername());
         values.put("email", user.getEmail());
-        values.put(UserForLeanCloud.FID, user.getFid());
-        values.put(UserForLeanCloud.ACTOR, user.getActor());
-        values.put(UserForLeanCloud.MONEY, user.getMoney());
-        SQLite.db.insert(SQLite.USERTABLE, null, values);
+//        values.put(UserForLeanCloud.FID, user.getFid());
+//        values.put(UserForLeanCloud.ACTOR, user.getActor());
+//        values.put(UserForLeanCloud.MONEY, user.getMoney());
+        mDatabase.insert(SQLite.USER_TABLE, null, values);
     }
 
 
@@ -137,9 +134,9 @@ public class UserBiz implements IUserBiz {
         User localUser = new User();
         localUser.setId(user.getObjectId());
         localUser.setUsername(user.getUsername());
-        localUser.setEmail(user.getEmail());
-        localUser.setActor(user.getActor());
-        localUser.setFid(user.getFid());
+//        localUser.setEmail(user.getEmail());
+//        localUser.setActor(user.getActor());
+//        localUser.setFid(user.getFid());
         localUser.setMoney(user.getMoney());
         return localUser;
     }

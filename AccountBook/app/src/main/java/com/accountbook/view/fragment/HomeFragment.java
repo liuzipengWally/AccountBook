@@ -16,6 +16,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,19 +36,36 @@ import com.accountbook.view.customview.HomeListDivider;
 
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 public class HomeFragment extends Fragment implements IHomeView {
+    @Bind(R.id.home_spinner)
+    Spinner mSpinner;
+    @Bind(R.id.touch_domain)
+    DoubleClickDomain mDoubleClickDomain;
+    @Bind(R.id.toolbar)
+    Toolbar mToolbar;
+    @Bind(R.id.income_text)
+    TextView mIncomeText;
+    @Bind(R.id.expend_text)
+    TextView mExpendText;
+    @Bind(R.id.balance_text)
+    TextView mBalanceText;
+    @Bind(R.id.status_hint_text)
+    TextView mStatusHintText;
+    @Bind(R.id.home_card)
+    CardView mCardView;
+    @Bind(R.id.appbar)
+    FoldAppBar mAppBarLayout;
+    @Bind(R.id.home_list)
+    RecyclerView mRecyclerView;
+    @Bind(R.id.refresh)
+    SwipeRefreshLayout mSwipeRefreshLayout;
+    @Bind(R.id.edit_btn)
+    AutoHideFab mEditBtn;
+
     private View mLayoutView;
-    private Toolbar mToolbar;
-    private Spinner mSpinner;
-    private RecyclerView mRecyclerView;
-    private SwipeRefreshLayout mSwipeRefreshLayout;
-    private AutoHideFab mEditBtn;
-    private CardView mCardView;
-    private TextView mIncomeText;
-    private TextView mExpendText;
-    private TextView mBalanceText;
-    private TextView mStatusHintText;
-    private DoubleClickDomain mDoubleClickDomain;
 
     private String[] mSpinnerTitle;
 
@@ -55,8 +73,6 @@ public class HomeFragment extends Fragment implements IHomeView {
 
     private int downY;
     private int offsetY;
-
-    private FoldAppBar mAppBarLayout;
 
     private HomeListAdapter mAdapter;
 
@@ -72,10 +88,18 @@ public class HomeFragment extends Fragment implements IHomeView {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mLayoutView = inflater.inflate(R.layout.home_fragment, container, false);
+        ButterKnife.bind(this, mLayoutView);
         initView();
-        bindEvents();
-
         return mLayoutView;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mSwipeRefreshLayout.setRefreshing(true);
+        //加载初始数据，该方法会去查询数据，并最终走到下面的LoadData去适配数据到列表中
+        mLoadDataPresenter.query();
+        bindEvents();
     }
 
     @Override
@@ -86,35 +110,17 @@ public class HomeFragment extends Fragment implements IHomeView {
 
     private void initView() {
         //初始化toolbar
-        mToolbar = (Toolbar) mLayoutView.findViewById(R.id.toolbar);
         mToolbar.inflateMenu(R.menu.home_fragment_menu);
-        mAppBarLayout = (FoldAppBar) mLayoutView.findViewById(R.id.appbar);
 
-        mSpinner = (Spinner) mLayoutView.findViewById(R.id.home_spinner);
         mSpinnerTitle = getResources().getStringArray(R.array.home_page_spinner);
         mSpinner.setAdapter(new SpinnerAdapter(mContext, mSpinnerTitle));
-
-        mCardView = (CardView) mLayoutView.findViewById(R.id.home_card);
-
-        mEditBtn = (AutoHideFab) mLayoutView.findViewById(R.id.edit_btn);
-
-        mIncomeText = (TextView) mLayoutView.findViewById(R.id.income_text);
-        mExpendText = (TextView) mLayoutView.findViewById(R.id.expend_text);
-        mBalanceText = (TextView) mLayoutView.findViewById(R.id.balance_text);
-        mStatusHintText = (TextView) mLayoutView.findViewById(R.id.status_hint_text);
-
-        mDoubleClickDomain = (DoubleClickDomain) mLayoutView.findViewById(R.id.touch_domain);
 
         //初始化presenter
         mLoadDataPresenter = new HomeLoadDataPresenter(this);
 
         //初始化下拉刷新控件
-        mSwipeRefreshLayout = (SwipeRefreshLayout) mLayoutView.findViewById(R.id.refresh);
-        mSwipeRefreshLayout.setRefreshing(true);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.colorAccent); //设置控件进度条颜色
 
-        //初始化主页列表的RecyclerView
-        mRecyclerView = (RecyclerView) mLayoutView.findViewById(R.id.home_list);
         //列表布局设置为垂直的
         LinearLayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(layoutManager);
@@ -122,9 +128,6 @@ public class HomeFragment extends Fragment implements IHomeView {
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         //添加分割线
         mRecyclerView.addItemDecoration(new HomeListDivider(mContext));
-
-        //加载初始数据，该方法会去查询数据，并最终走到下面的LoadData去适配数据到列表中
-        mLoadDataPresenter.query();
     }
 
     //// TODO: 16/2/29  事件绑定方法，所有事件均集中到这个方法中
@@ -320,5 +323,11 @@ public class HomeFragment extends Fragment implements IHomeView {
         }
 
         return "这个月预算充足，请放心使用＾＾";
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
     }
 }

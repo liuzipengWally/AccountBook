@@ -30,7 +30,7 @@ public class HomeListDivider extends RecyclerView.ItemDecoration {
 
     @Override
     public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
-        CircleIcon weekText = (CircleIcon) parent.findViewById(R.id.circle_icon);
+        View weekText = parent.findViewById(R.id.circle_icon);
         DisplayMetrics metrics = parent.getContext().getResources().getDisplayMetrics();
 
         int left = (int) (weekText.getWidth() + Util.dp2px(32, metrics));

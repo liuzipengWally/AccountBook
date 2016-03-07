@@ -15,7 +15,6 @@ public class BaseActivity extends AppCompatActivity {
         setContentView(R.layout.activity_base_input);
     }
 
-
     //当点击非输入处时隐藏键盘
     @Override
     public boolean onTouchEvent(MotionEvent event) {

@@ -18,7 +18,7 @@ public class LoginPresenter {
 
     public LoginPresenter(ILoginView view) {
         this.view = view;
-        userBiz = UserBiz.getInstance();
+        userBiz = new UserBiz();
     }
 
     /**

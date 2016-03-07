@@ -15,12 +15,11 @@
     <string name="chart">情况概要</string>
     <string name="budget">预算设置</string>
     <string name="account_water">流水清单</string>
-    <string name="account">账户结余</string>
+    <string name="account">账户源</string>
     <string name="add_user">多人记录</string>
     <string name="logout">注销用户</string>
 
     <string name="record">快速记账</string>
-    <string name="borrowing">借贷记录</string>
 
     <string name="income_lbl">本月收入</string>
     <string name="expend_lbl">本月支出</string>
@@ -39,11 +38,16 @@
     <string name="reg_passwordConfirm_hint">重复密码</string>
     <string name="reg_btn_text">注册</string>
 
+    <!--记录页面-->
     <string name="quick_add">快速记账</string>
     <string name="classify">分类</string>
     <string name="amount">金额</string>
     <string name="rmb">CNY</string>
     <string name="description">描述</string>
+    <string name="role">家庭成员</string>
+    <string name="add_date">记录日期</string>
+    <string name="add_creditor">添加债权人</string>
+    <string name="add_debtor">添加债务人</string>
 
     <string-array name="home_page_spinner">
         <item>最近一周</item>

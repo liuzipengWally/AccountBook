@@ -19,21 +19,29 @@ import com.accountbook.view.fragment.BudgetFragment;
 import com.accountbook.view.fragment.ChartFragment;
 import com.accountbook.view.fragment.HomeFragment;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, ToolbarMenuOnClickListener {
-    private DrawerLayout mDrawerLayout;
-    private NavigationView mNavigationView;
+    @Bind(R.id.drawer)
+    DrawerLayout mDrawerLayout;
+
+    @Bind(R.id.nav_view)
+    NavigationView mNavigationView;
+
+    private TextView userName;
+
 
     private HomeFragment mHomeFragment;
     private ChartFragment mChartFragment;
     private BudgetFragment mBudgetFragment;
 
-    private TextView userName;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
         initView();
         bindEvents();
 
@@ -44,14 +52,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
      */
     private void initView() {
         //绑定抽屉
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mDrawerLayout.addDrawerListener(toggle);
 
         toggle.syncState();
-
-        mNavigationView = (NavigationView) findViewById(R.id.nav_view);
 
         switchFragment(R.id.home_page);
     }

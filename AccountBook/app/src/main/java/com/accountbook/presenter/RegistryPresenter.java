@@ -22,7 +22,7 @@ public class RegistryPresenter {
 
     public RegistryPresenter(IRegistryView view) {
         this.view = view;
-        userBiz = UserBiz.getInstance();
+        userBiz = new UserBiz();
     }
 
     /**

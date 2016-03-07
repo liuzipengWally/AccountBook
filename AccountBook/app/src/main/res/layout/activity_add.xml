@@ -23,10 +23,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingLeft="@dimen/dp16"
-            android:paddingRight="@dimen/dp16"
             android:paddingBottom="36dp"
-            >
+            android:paddingLeft="@dimen/dp16"
+            android:paddingRight="@dimen/dp16">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -51,8 +50,8 @@
                         android:id="@+id/money_edit"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="number"
-                        android:hint="@string/amount" />
+                        android:hint="@string/amount"
+                        android:inputType="number" />
                 </android.support.design.widget.TextInputLayout>
 
                 <TextView
@@ -66,7 +65,8 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp16">
 
                 <ImageView
                     android:id="@+id/description_icon"
@@ -92,8 +92,193 @@
             </RelativeLayout>
         </LinearLayout>
 
-
     </android.support.design.widget.AppBarLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/borrowing_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dp16">
+
+                <ImageView
+                    android:id="@+id/borrowing_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/ic_thumbs_up_down_grey600_24dp" />
+
+                <EditText
+                    android:id="@+id/borrowing_edit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dp16"
+                    android:layout_marginTop="@dimen/dp8"
+                    android:layout_toRightOf="@id/borrowing_icon"
+                    android:background="@null"
+                    android:hint="@string/add_creditor"
+                    android:textSize="@dimen/subhead" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/classify_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/flat_ripple"
+                android:clickable="true"
+                android:padding="@dimen/dp16">
+
+                <ImageView
+                    android:id="@+id/classify_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/ic_local_offer_grey600_24dp" />
+
+                <TextView
+                    android:id="@+id/classify_lbl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp16"
+                    android:layout_toRightOf="@id/classify_icon"
+                    android:text="@string/classify"
+                    android:textColor="@color/black54"
+                    android:textSize="@dimen/description" />
+
+                <TextView
+                    android:id="@+id/classify_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/classify_lbl"
+                    android:layout_marginLeft="@dimen/dp16"
+                    android:layout_marginTop="@dimen/dp8"
+                    android:layout_toRightOf="@id/classify_icon"
+                    android:text="点击选择分类"
+                    android:textSize="@dimen/subhead" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/account_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dp16">
+
+                <ImageView
+                    android:id="@+id/account_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/ic_credit_card_grey600_24dp" />
+
+                <TextView
+                    android:id="@+id/account_lbl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp16"
+                    android:layout_toRightOf="@id/account_icon"
+                    android:text="@string/account"
+                    android:textColor="@color/black54"
+                    android:textSize="@dimen/description" />
+
+                <Spinner
+                    android:id="@+id/account_spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/account_lbl"
+                    android:layout_marginLeft="@dimen/dp16"
+                    android:layout_marginTop="@dimen/dp8"
+                    android:layout_toRightOf="@id/account_icon"
+                    android:textSize="@dimen/subhead" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/role_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dp16">
+
+                <ImageView
+                    android:id="@+id/role_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/ic_timer_auto_grey600_24dp" />
+
+                <TextView
+                    android:id="@+id/role_lbl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp16"
+                    android:layout_toRightOf="@id/role_icon"
+                    android:text="@string/role"
+                    android:textColor="@color/black54"
+                    android:textSize="@dimen/description" />
+
+                <Spinner
+                    android:id="@+id/role_spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/role_lbl"
+                    android:layout_marginLeft="@dimen/dp16"
+                    android:layout_marginTop="@dimen/dp8"
+                    android:layout_toRightOf="@id/role_icon"
+                    android:textSize="@dimen/subhead" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/date_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/flat_ripple"
+                android:clickable="true"
+                android:padding="@dimen/dp16">
+
+                <ImageView
+                    android:id="@+id/date_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/ic_access_time_grey600_24dp" />
+
+                <TextView
+                    android:id="@+id/date_lbl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp16"
+                    android:layout_toRightOf="@id/date_icon"
+                    android:text="@string/add_date"
+                    android:textColor="@color/black54"
+                    android:textSize="@dimen/description" />
+
+                <TextView
+                    android:id="@+id/date_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/date_lbl"
+                    android:layout_marginLeft="@dimen/dp16"
+                    android:layout_marginTop="@dimen/dp8"
+                    android:layout_toRightOf="@id/date_icon"
+                    android:text="2016年3月7日"
+                    android:textSize="@dimen/subhead" />
+            </RelativeLayout>
+
+        </LinearLayout>
+    </ScrollView>
 
     <com.accountbook.view.customview.AutoHideFab
         android:id="@+id/edit_btn"

@@ -27,8 +27,7 @@ dependencies {
     compile 'cn.leancloud.android:avoscloud-search:v3.7.2@aar'
     compile 'com.lzp.floatingactionbutton:floatingactionbuttonplus:0.3.2'
     compile 'com.android.support:recyclerview-v7:23.+'
+    compile 'com.jakewharton:butterknife:7.0.1'
 
-    //TextInputLayout
-    compile 'com.android.support:design:23.1.1'
     compile 'org.jetbrains:annotations-java5:15.0'
 }
