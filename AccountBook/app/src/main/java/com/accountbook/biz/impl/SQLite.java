@@ -9,6 +9,14 @@ import com.accountbook.R;
 
 public class SQLite {
     public static final String USER_TABLE = "user";
+    public static final String USER_COLUMN_ID = "_id";
+    public static final String USER_COLUMN_USERNAME = "username";
+    public static final String USER_COLUMN_EMAIL = "email";
+//    public static final String USER_COLUMN_FID = "fid";
+//    public static final String USER_COLUMN_ACTOR = "actor";
+//    public static final String USER_COLUMN_MONEY = "money";
+//    public static final String USER_COLUMN_MODIFIED = "modified";       //修改标记
+
     public static final String ROLE_TABLE = "role";
 
     private Context mContext;
