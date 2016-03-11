@@ -3,9 +3,13 @@ package com.accountbook.biz.impl;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.accountbook.R;
+import com.accountbook.tools.ConstantContainer;
+
+import java.util.UUID;
 
 public class SQLite {
     public static final String USER_TABLE = "user";
@@ -66,8 +70,12 @@ public class SQLite {
      */
     public void createRoleTable() {
         mDatabase.execSQL("create table if not exists role (" +
-                "_id integer primary key autoincrement," +
-                "role varchar(10) not null )");
+                "_id text primary key, " +
+                "object_id text," +
+                "role text," +
+                "isSave int," +
+                "available int," +
+                "timestamp number)");
     }
 
     /**
@@ -77,10 +85,32 @@ public class SQLite {
         String[] roles = mContext.getResources().getStringArray(R.array.role_default);
         for (int i = 0; i < roles.length; i++) {
             ContentValues values = new ContentValues();
+            values.put("_id", UUID.randomUUID().toString());
             values.put("role", roles[i]);
+            values.put("isSave", ConstantContainer.FALSE);
+            values.put("available", ConstantContainer.TRUE);
+            values.put("timestamp", System.currentTimeMillis());
             mDatabase.insert(ROLE_TABLE, null, values);
 
             values.clear();
         }
+    }
+
+    public void createClassify() {
+        mDatabase.execSQL("create table if not exists classify (" +
+                "_id text primary key, " +
+                "object_id text," +
+                "classify text," +
+                "iconResId number," +
+                "color text," +
+                "type int" +
+                "isSave int," +
+                "available int," +
+                "timestamp number)");
+    }
+
+    public void initDefaultClassify() {
+        TypedArray icons = mContext.getResources().obtainTypedArray(R.array.expend_classify_default_icon);
+
     }
 }

@@ -16,7 +16,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,7 +25,7 @@ import com.accountbook.entity.AccountBill;
 import com.accountbook.presenter.HomeLoadDataPresenter;
 import com.accountbook.view.activity.AddActivity;
 import com.accountbook.view.adapter.HomeListAdapter;
-import com.accountbook.view.adapter.SpinnerAdapter;
+import com.accountbook.view.adapter.ToolbarSpinnerAdapter;
 import com.accountbook.view.api.IHomeView;
 import com.accountbook.view.api.ToolbarMenuOnClickListener;
 import com.accountbook.view.customview.AutoHideFab;
@@ -113,7 +112,7 @@ public class HomeFragment extends Fragment implements IHomeView {
         mToolbar.inflateMenu(R.menu.home_fragment_menu);
 
         mSpinnerTitle = getResources().getStringArray(R.array.home_page_spinner);
-        mSpinner.setAdapter(new SpinnerAdapter(mContext, mSpinnerTitle));
+        mSpinner.setAdapter(new ToolbarSpinnerAdapter(mContext, mSpinnerTitle));
 
         //初始化presenter
         mLoadDataPresenter = new HomeLoadDataPresenter(this);

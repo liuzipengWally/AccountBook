@@ -47,7 +47,7 @@ public class UserBiz implements IUserBiz {
                         listener.loginFailed("用户名密码错误");
                     } else {
                         //检查本地数据库中有没有记录
-                        Cursor cursor = mDatabase.query(SQLite.USER_TABLE, new String[]{"id"}, "id = ?", new String[]{avUser.getObjectId()}, null, null, null);
+                        Cursor cursor = mDatabase.query(SQLite.USER_TABLE, new String[]{"_id"}, "_id = ?", new String[]{avUser.getObjectId()}, null, null, null);
                         if (cursor != null) {
                             if (cursor.getCount() != 0) {
                                 //更新数据
@@ -55,7 +55,7 @@ public class UserBiz implements IUserBiz {
 //                                values.put(UserForLeanCloud.FID, avUser.getFid());
 //                                values.put(UserForLeanCloud.ACTOR, avUser.getActor());
 //                                values.put(UserForLeanCloud.MONEY, avUser.getMoney());
-                                mDatabase.update(SQLite.USER_TABLE, values, "id = ?", new String[]{avUser.getObjectId()});
+                                mDatabase.update(SQLite.USER_TABLE, values, "_id = ?", new String[]{avUser.getObjectId()});
                             } else {
                                 //插入新数据
                                 insertIntoLocal(avUser);
@@ -114,7 +114,7 @@ public class UserBiz implements IUserBiz {
      */
     public void insertIntoLocal(UserForLeanCloud user) {
         ContentValues values = new ContentValues();
-        values.put("id", user.getObjectId());
+        values.put("_id", user.getObjectId());
         values.put("username", user.getUsername());
         values.put("email", user.getEmail());
 //        values.put(UserForLeanCloud.FID, user.getFid());

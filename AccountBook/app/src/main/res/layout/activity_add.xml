@@ -97,18 +97,21 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:scrollbars="none"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
             android:orientation="vertical">
 
             <RelativeLayout
                 android:id="@+id/borrowing_item"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/dp16">
+                android:padding="@dimen/dp16"
+                android:visibility="gone">
 
                 <ImageView
                     android:id="@+id/borrowing_icon"
@@ -166,6 +169,7 @@
                     android:layout_marginTop="@dimen/dp8"
                     android:layout_toRightOf="@id/classify_icon"
                     android:text="点击选择分类"
+                    android:textColor="@color/black100"
                     android:textSize="@dimen/subhead" />
             </RelativeLayout>
 
@@ -195,11 +199,10 @@
 
                 <Spinner
                     android:id="@+id/account_spinner"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/account_lbl"
-                    android:layout_marginLeft="@dimen/dp16"
-                    android:layout_marginTop="@dimen/dp8"
+                    android:layout_marginLeft="@dimen/dp8"
                     android:layout_toRightOf="@id/account_icon"
                     android:textSize="@dimen/subhead" />
             </RelativeLayout>
@@ -230,11 +233,10 @@
 
                 <Spinner
                     android:id="@+id/role_spinner"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/role_lbl"
-                    android:layout_marginLeft="@dimen/dp16"
-                    android:layout_marginTop="@dimen/dp8"
+                    android:layout_marginLeft="@dimen/dp8"
                     android:layout_toRightOf="@id/role_icon"
                     android:textSize="@dimen/subhead" />
             </RelativeLayout>
@@ -274,9 +276,9 @@
                     android:layout_marginTop="@dimen/dp8"
                     android:layout_toRightOf="@id/date_icon"
                     android:text="2016年3月7日"
+                    android:textColor="@color/black100"
                     android:textSize="@dimen/subhead" />
             </RelativeLayout>
-
         </LinearLayout>
     </ScrollView>
 

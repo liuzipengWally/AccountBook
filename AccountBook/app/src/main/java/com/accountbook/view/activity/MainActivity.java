@@ -32,7 +32,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     private TextView userName;
 
-
     private HomeFragment mHomeFragment;
     private ChartFragment mChartFragment;
     private BudgetFragment mBudgetFragment;
@@ -43,8 +42,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         initView();
-        bindEvents();
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        bindEvents();
     }
 
     /**

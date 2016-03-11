@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="home_page_spinner">
+        <item>最近一周</item>
+        <item>最近一月</item>
+        <item>最近三个月</item>
+        <item>自定义</item>
+    </string-array>
+
+    <string-array name="money_source">
+        <item>现金</item>
+        <item>银行卡</item>
+        <item>支付宝</item>
+    </string-array>
+
+    <string-array name="role_default">
+        <item>本人</item>
+        <item>父母</item>
+        <item>老公</item>
+        <item>老婆</item>
+        <item>子女</item>
+    </string-array>
+
+    <string-array name="expend_classify_default_icon">
+        <!--车-->
+        <item>@mipmap/ic_directions_car_white_24dp</item>
+        <!--交通-->
+        <item>@mipmap/ic_directions_bus_white_24dp</item>
+        <!--出行-->
+        <item>@mipmap/ic_local_airport_white_24dp</item>
+        <!--家庭-->
+        <item>@mipmap/ic_supervisor_account_white_24dp</item>
+        <!--学习-->
+        <item>@mipmap/ic_translate_white_24dp</item>
+        <!--礼物-->
+        <item>@mipmap/ic_wallet_giftcard_white_24dp</item>
+        <!--其他-->
+        <item>@mipmap/ic_loyalty_white_24dp</item>
+        <!--恋爱-->
+        <item>@mipmap/ic_favorite_white_24dp</item>
+        <!--某宝-->
+        <item>@mipmap/ic_add_shopping_cart_white_24dp</item>
+        <!--杂物-->
+        <item>@mipmap/ic_store_white_24dp</item>
+        <!--音乐-->
+        <item>@mipmap/ic_audiotrack_white_24dp</item>
+        <!--电影-->
+        <item>@mipmap/ic_movie_white_24dp</item>
+        <!--通讯-->
+        <item>@mipmap/ic_phone_white_24dp</item>
+        <!--食物-->
+        <item>@mipmap/ic_local_restaurant_white_24dp</item>
+        <!--设备-->
+        <item>@mipmap/ic_phonelink_white_24dp </item>
+        <!--阅读-->
+        <item>@mipmap/ic_local_library_white_24dp</item>
+        <!--起居-->
+        <item>@mipmap/ic_invert_colors_white_24dp</item>
+        <!--爱好-->
+        <item>@mipmap/ic_directions_bike_white_24dp</item>
+    </string-array>
+
+    <string-array name="expend_classify_default_label">
+        <!--车-->
+        <item>汽车相关</item>
+        <!--交通-->
+        <item>交通</item>
+        <!--出行-->
+        <item>旅游出行</item>
+        <!--家庭-->
+        <item>家庭开支</item>
+        <!--学习-->
+        <item>学习教育</item>
+        <!--礼物-->
+        <item>礼物</item>
+        <!--其他-->
+        <item>其他支出</item>
+        <!--恋爱-->
+        <item>恋爱</item>
+        <!--某宝-->
+        <item>某宝剁手</item>
+        <!--杂物-->
+        <item>杂物购置</item>
+        <!--音乐-->
+        <item>音乐</item>
+        <!--电影-->
+        <item>电影</item>
+        <!--通讯-->
+        <item>通讯费用</item>
+        <!--食物-->
+        <item>食物</item>
+        <!--设备-->
+        <item>设备</item>
+        <!--阅读-->
+        <item>阅读</item>
+        <!--起居-->
+        <item>生活起居</item>
+        <!--爱好-->
+        <item>爱好</item>
+    </string-array>
+
+    <string-array name="color">
+        <item>#03a9f4</item>
+        <item>#00bcd4</item>
+        <item>#009688</item>
+        <item>#1de9b6</item>
+        <item>#e84e40</item>
+        <item>#ec407a</item>
+        <item>#9c27b0</item>
+        <item>#5677fc</item>
+        <item>#3d5afe</item>
+        <item>#259b24</item>
+        <item>#42bd41</item>
+        <item>#8bc34a</item>
+        <item>#cddc39</item>
+        <item>#ff9800</item>
+        <item>#ff5722</item>
+        <item>#795548</item>
+        <item>#607d8b</item>
+        <item>#a1887f</item>
+        <item>#ff6e40</item>
+    </string-array>
+
+    <string-array name="income_classify_default_icon">
+        <!--薪水工资-->
+        <item>@mipmap/ic_attach_money_white_24dp</item>
+        <!--uber/滴滴打车-->
+        <item>@mipmap/ic_directions_car_white_24dp</item>
+        <!--收租-->
+        <item>@mipmap/ic_location_city_white_24dp</item>
+        <!--二手置卖-->
+        <item>@mipmap/ic_phonelink_white_24dp</item>
+        <!--其他收入-->
+        <item>@mipmap/ic_loyalty_white_24dp</item>
+    </string-array>
+
+    <string-array name="income_classify_default_label">
+        <!--薪水-->
+        <item>薪水工资</item>
+        <!--uber/滴滴打车-->
+        <item>uber/滴滴打车</item>
+        <!--收租-->
+        <item>收租</item>
+        <!--二手置卖-->
+        <item>二手置卖</item>
+        <!--其他收入-->
+        <item>其他收入</item>
+    </string-array>
+
+    <string-array name="all_icon">
+        <item>@mipmap/ic_directions_car_white_24dp</item>
+        <item>@mipmap/ic_directions_bus_white_24dp</item>
+        <item>@mipmap/ic_local_airport_white_24dp</item>
+        <item>@mipmap/ic_supervisor_account_white_24dp</item>
+        <item>@mipmap/ic_translate_white_24dp</item>
+        <item>@mipmap/ic_wallet_giftcard_white_24dp</item>
+        <item>@mipmap/ic_loyalty_white_24dp</item>
+        <item>@mipmap/ic_favorite_white_24dp</item>
+        <item>@mipmap/ic_add_shopping_cart_white_24dp</item>
+        <item>@mipmap/ic_store_white_24dp</item>
+        <item>@mipmap/ic_audiotrack_white_24dp</item>
+        <item>@mipmap/ic_movie_white_24dp</item>
+        <item>@mipmap/ic_phone_white_24dp</item>
+        <item>@mipmap/ic_phonelink_white_24dp</item>
+        <item>@mipmap/ic_filter_hdr_white_24dp</item>
+        <item>@mipmap/ic_timer_auto_white_24dp</item>
+        <item>@mipmap/ic_local_restaurant_white_24dp</item>
+        <item>@mipmap/ic_local_library_white_24dp</item>
+        <item>@mipmap/ic_local_hotel_white_24dp</item>
+        <item>@mipmap/ic_local_grocery_store_white_24dp</item>
+        <item>@mipmap/ic_local_cafe_white_24dp</item>
+        <item>@mipmap/ic_directions_bike_white_24dp</item>
+        <item>@mipmap/ic_traffic_white_24dp</item>
+        <item>@mipmap/ic_cake_white_24dp</item>
+        <item>@mipmap/ic_location_city_white_24dp</item>
+        <item>@mipmap/ic_invert_colors_white_24dp</item>
+        <item>@mipmap/ic_home_white_24dp</item>
+        <item>@mipmap/ic_bug_report_white_24dp</item>
+        <item>@mipmap/ic_account_child_white_24dp</item>
+        <item>@mipmap/ic_tag_faces_white_24dp</item>
+        <item>@mipmap/ic_thumbs_up_down_white_24dp</item>
+        <item>@mipmap/ic_attach_money_white_24dp</item>
+    </string-array>
+
+</resources>

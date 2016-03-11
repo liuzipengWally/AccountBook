@@ -42,7 +42,6 @@ public class DoubleClickDomain extends View {
         switch (event.getAction()) {
             case MotionEvent.ACTION_UP:
                 mClickCount++;
-                Log.i("count", mClickCount + "");
                 switch (mClickCount) {
                     case 1:
                         mFirstClick = System.currentTimeMillis();

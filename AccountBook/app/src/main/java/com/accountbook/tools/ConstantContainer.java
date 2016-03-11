@@ -23,10 +23,12 @@ public class ConstantContainer {
      */
     public static final int LEND = 3;
 
-
     /**
      * toolbar的默认高度，单位为dp，所以在java代码中还需要转px
      */
     public static final int TOOLBAR_HEIGHT = 56;
+
+    public static final int TRUE = 1;
+    public static final int FALSE = 0;
 
 }

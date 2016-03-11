@@ -11,11 +11,11 @@ import android.widget.TextView;
 /**
  * Created by liuzipeng on 16/3/5.
  */
-public class SpinnerAdapter extends ArrayAdapter<String> {
+public class ToolbarSpinnerAdapter extends ArrayAdapter<String> {
     private Context mContext;
     private String[] mStrings;
 
-    public SpinnerAdapter(Context context, String[] mStrings) {
+    public ToolbarSpinnerAdapter(Context context, String[] mStrings) {
         super(context, android.R.layout.simple_spinner_dropdown_item, mStrings);
         this.mContext = context;
         this.mStrings = mStrings;
@@ -32,6 +32,7 @@ public class SpinnerAdapter extends ArrayAdapter<String> {
         TextView tv = (TextView) convertView.findViewById(android.R.id.text1);
         tv.setText(mStrings[position]);
         tv.setTextColor(Color.WHITE);
+
         return convertView;
     }
 }
