@@ -43,31 +43,20 @@ public class UserBiz implements IUserBiz {
                 @Override
                 public void done(UserForLeanCloud avUser, AVException e) {
                     if (avUser == null) {
-//                        System.out.println(e.getMessage());
-                        listener.loginFailed("用户名密码错误");
+                        listener.loginFailed(Util.getLocalizeLeanCloudError(e));
                     } else {
-                        //检查本地数据库中有没有记录
-                        Cursor cursor = mDatabase.query(SQLite.USER_TABLE, new String[]{"_id"}, "_id = ?", new String[]{avUser.getObjectId()}, null, null, null);
-                        if (cursor != null) {
-                            if (cursor.getCount() != 0) {
-                                //更新数据
-                                ContentValues values = new ContentValues();
-//                                values.put(UserForLeanCloud.FID, avUser.getFid());
-//                                values.put(UserForLeanCloud.ACTOR, avUser.getActor());
-//                                values.put(UserForLeanCloud.MONEY, avUser.getMoney());
-                                mDatabase.update(SQLite.USER_TABLE, values, "_id = ?", new String[]{avUser.getObjectId()});
-                            } else {
-                                //插入新数据
-                                insertIntoLocal(avUser);
-                            }
-                            cursor.close();
+                        if (isExist(avUser.getObjectId()))
+                            updateLocal(avUser);
+                        else {
+                            insertIntoLocal(avUser);
+                            //设置到Application中
+                            //好像没什么用，先留着
+                            MyApplication application = (MyApplication) context.getApplicationContext();
+                            application.setUser(parseLocalUser(avUser));
+                            listener.loginSuccess();
                         }
-                        //设置到Application中
-                        //好像没什么用，先留着
-                        MyApplication application = (MyApplication) context.getApplicationContext();
-                        application.setUser(generateLocalUser(avUser));
-                        listener.loginSuccess();
                     }
+
                 }
             }, UserForLeanCloud.class);
 
@@ -98,9 +87,8 @@ public class UserBiz implements IUserBiz {
                         //没错误表示注册成功
                         listener.registrySuccess();
                         insertIntoLocal(user);
-//                        System.out.println(AVUser.getCurrentUser().getLoginUsername());
                     } else {
-                        listener.registryFailed(e.getMessage());
+                        listener.registryFailed(Util.getLocalizeLeanCloudError(e));
                     }
                 }
             });
@@ -114,13 +102,45 @@ public class UserBiz implements IUserBiz {
      */
     public void insertIntoLocal(UserForLeanCloud user) {
         ContentValues values = new ContentValues();
-        values.put("_id", user.getObjectId());
-        values.put("username", user.getUsername());
-        values.put("email", user.getEmail());
+        values.put(SQLite.USER_COLUMN_ID, user.getObjectId());
+        values.put(SQLite.USER_COLUMN_USERNAME, user.getUsername());
+        values.put(SQLite.USER_COLUMN_EMAIL, user.getEmail());
 //        values.put(UserForLeanCloud.FID, user.getFid());
 //        values.put(UserForLeanCloud.ACTOR, user.getActor());
 //        values.put(UserForLeanCloud.MONEY, user.getMoney());
         mDatabase.insert(SQLite.USER_TABLE, null, values);
+    }
+
+    /**
+     * 根据云端对象更新本地数据库
+     *
+     * @param user 云端对象
+     */
+    public void updateLocal(UserForLeanCloud user) {
+
+        ContentValues values = new ContentValues();
+        values.put(SQLite.USER_COLUMN_USERNAME, user.getUsername());
+        values.put(SQLite.USER_COLUMN_EMAIL, user.getEmail());
+//        values.put(UserForLeanCloud.FID, avUser.getFid());
+//        values.put(UserForLeanCloud.ACTOR, avUser.getActor());
+//        values.put(UserForLeanCloud.MONEY, avUser.getMoney());
+        mDatabase.update(SQLite.USER_TABLE, values, SQLite.USER_COLUMN_ID + " = ?", new String[]{user.getObjectId()});
+    }
+
+
+    /**
+     * 确定某个用户是否已经在本地数据库有记录
+     *
+     * @param userId 用户唯一标识，对应user表主键、leanCloud上的objectId
+     * @return 真表示有
+     */
+    public boolean isExist(String userId) {
+        Cursor cursor = mDatabase.query(SQLite.USER_TABLE, new String[]{SQLite.USER_COLUMN_ID}, SQLite.USER_COLUMN_ID + " = ?", new String[]{userId}, null, null, null);
+        if (cursor != null) {
+            int count = cursor.getCount();
+            cursor.close();
+            return count != 0;
+        } else return false;
     }
 
 
@@ -130,14 +150,14 @@ public class UserBiz implements IUserBiz {
      * @param user leanCloud的user
      * @return userBean
      */
-    public User generateLocalUser(UserForLeanCloud user) {
+    public User parseLocalUser(UserForLeanCloud user) {
         User localUser = new User();
         localUser.setId(user.getObjectId());
         localUser.setUsername(user.getUsername());
-//        localUser.setEmail(user.getEmail());
+        localUser.setEmail(user.getEmail());
 //        localUser.setActor(user.getActor());
 //        localUser.setFid(user.getFid());
-        localUser.setMoney(user.getMoney());
+//        localUser.setMoney(user.getMoney());
         return localUser;
     }
 

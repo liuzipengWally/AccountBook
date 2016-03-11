@@ -183,10 +183,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
      * 点击头像跳转到LoginView
      */
     public void goLogin(View view) {
-//        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         Intent intent = new Intent(MainActivity.this, LoginAndRegistryActivity.class);
         startActivityForResult(intent, 1);
-
     }
 
     @Override

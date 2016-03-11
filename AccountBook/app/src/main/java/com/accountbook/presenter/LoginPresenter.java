@@ -48,12 +48,12 @@ public class LoginPresenter {
     /**
      * 登录逻辑
      */
-    public void doLogin(ProgressButton progress) {
+    public void doLogin() {
         username = view.getLoginUsername();
         password = view.getLoginPassword();
 
         if (validateUsername() && validatePassword()) {
-            progress.showProgress();
+            view.uiBeginLogin();
             userBiz.login((Context) view, username, password, new OnLoginListener() {
 
                 @Override
@@ -81,6 +81,8 @@ public class LoginPresenter {
                 }
 
             });
+
+            view.uiEndLogin();
         }
 
     }

@@ -5,6 +5,7 @@ package com.accountbook.entity;
  * User实体类，本地不保存密码
  */
 public class User{
+
     private String id;          //主键
     private String username;    //用户名
     private String email;       //邮箱
