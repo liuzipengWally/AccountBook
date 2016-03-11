@@ -44,15 +44,12 @@ public class MyApplication extends Application {
     }
 
     private void initTable() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                mSqLite.createUserTable();
-                mSqLite.createRoleTable();
+        mSqLite.createUserTable();
+        mSqLite.createRoleTable();
+        mSqLite.createClassifyTable();
 
-                mSqLite.initDefaultRole();
-            }
-        }).start();
+        mSqLite.initDefaultRole();
+        mSqLite.initDefaultClassify();
     }
 
     public User getUser() {

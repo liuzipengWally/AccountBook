@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.accountbook.biz.api.IUserBiz;
 import com.accountbook.biz.api.OnLoginListener;
@@ -53,8 +54,9 @@ public class UserBiz implements IUserBiz {
                             //好像没什么用，先留着
                             MyApplication application = (MyApplication) context.getApplicationContext();
                             application.setUser(parseLocalUser(avUser));
-                            listener.loginSuccess();
                         }
+
+                        listener.loginSuccess();
                     }
 
                 }
