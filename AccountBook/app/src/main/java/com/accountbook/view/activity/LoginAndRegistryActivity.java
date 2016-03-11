@@ -24,31 +24,52 @@ import com.accountbook.view.api.ILoginView;
 import com.accountbook.view.api.IRegistryView;
 import com.accountbook.view.customview.ProgressButton;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
-public class LoginAndRegistryActivity extends AppCompatActivity implements ILoginView, IRegistryView {
+
+public class LoginAndRegistryActivity extends BaseActivity implements ILoginView, IRegistryView {
+
+    View[] views;
+    String[] titles;
 
 
-    private Toolbar toolbar;
-    private TextView welcome;
-    private RelativeLayout upWrapper;
-    private View[] views;
-    private String[] titles;
-    private ViewPager viewPager;
-    private TabLayout tabLayout;
+    @Bind(R.id.login_reg_toolbar)
+    Toolbar toolbar;
+    @Bind(R.id.welcome_text)
+    TextView welcome;
+    @Bind(R.id.upWrapper)
+    RelativeLayout upWrapper;
+    @Bind(R.id.login_reg_viewpager)
+    ViewPager viewPager;
+    @Bind(R.id.tabLayout)
+    TabLayout tabLayout;
 
-    private TextInputLayout login_usernameWrapper;
-    private TextInputLayout login_passwordWrapper;
-    private EditText login_usernameInput;
-    private EditText login_passwordInput;
-    private ProgressButton login_btn;
+    //    @Bind(R.id.login_usernameWrapper)
+    TextInputLayout login_usernameWrapper;
+    //    @Bind(R.id.login_passwordWrapper)
+    TextInputLayout login_passwordWrapper;
+    //    @Bind(R.id.login_usernameInput)
+    EditText login_usernameInput;
+    //    @Bind(R.id.login_passwordInput)
+    EditText login_passwordInput;
+    //    @Bind(R.id.login_btn)
+    ProgressButton login_btn;
 
-    private TextInputLayout reg_usernameWrapper;
-    private TextInputLayout reg_passwordWrapper;
-    private TextInputLayout reg_passwordConfirmWrapper;
-    private EditText reg_usernameInput;
-    private EditText reg_passwordInput;
-    private EditText reg_passwordConfirmInput;
-    private ProgressButton reg_btn;
+    //    @Bind(R.id.reg_usernameWrapper)
+    TextInputLayout reg_usernameWrapper;
+    //    @Bind(R.id.reg_passwordWrapper)
+    TextInputLayout reg_passwordWrapper;
+    //    @Bind(R.id.reg_passwordConfirmWrapper)
+    TextInputLayout reg_passwordConfirmWrapper;
+    //    @Bind(R.id.reg_usernameInput)
+    EditText reg_usernameInput;
+    //    @Bind(R.id.reg_passwordInput)
+    EditText reg_passwordInput;
+    //    @Bind(R.id.reg_passwordConfirmInput)
+    EditText reg_passwordConfirmInput;
+    //    @Bind(R.id.reg_btn)
+    ProgressButton reg_btn;
 
     private LoginPresenter loginPresenter;
     private RegistryPresenter registryPresenter;
@@ -69,21 +90,23 @@ public class LoginAndRegistryActivity extends AppCompatActivity implements ILogi
      * 初始化View
      */
     public void initView() {
-        toolbar = (Toolbar) findViewById(R.id.login_reg_toolbar);
+
+        /*绑定控件*/
+        ButterKnife.bind(this);
+
+        /*设置启用toolbar*/
         setSupportActionBar(toolbar);
 
-        welcome = (TextView) findViewById(R.id.welcome_text);
-        upWrapper = (RelativeLayout) findViewById(R.id.upWrapper);
-
-        LayoutInflater inflater = getLayoutInflater();
+        /*加载两个view的布局*/
         views = new View[2];
-        titles = new String[2];
+        LayoutInflater inflater = getLayoutInflater();
         views[0] = inflater.inflate(R.layout.activity_login, null);
         views[1] = inflater.inflate(R.layout.activity_registry, null);
-        titles[0] = "登录";
-        titles[1] = "注册";
 
-        viewPager = (ViewPager) findViewById(R.id.login_reg_viewpager);
+        /*初始化两个标题，用于下面的适配器的getPageTitle()*/
+        titles = new String[]{"登录", "注册"};
+
+        /*配置viewPager的适配器*/
         viewPager.setAdapter(new PagerAdapter() {
             @Override
             public Object instantiateItem(ViewGroup container, int position) {
@@ -112,19 +135,16 @@ public class LoginAndRegistryActivity extends AppCompatActivity implements ILogi
                 return titles[position];
             }
         });
-
-        tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+        /*跟tabLayout绑定*/
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setTabMode(TabLayout.MODE_FIXED);
 
+        /*绑定控件*/
         login_usernameWrapper = (TextInputLayout) views[0].findViewById(R.id.login_usernameWrapper);
         login_passwordWrapper = (TextInputLayout) views[0].findViewById(R.id.login_passwordWrapper);
         login_usernameInput = (EditText) views[0].findViewById(R.id.login_usernameInput);
         login_passwordInput = (EditText) views[0].findViewById(R.id.login_passwordInput);
         login_btn = (ProgressButton) views[0].findViewById(R.id.login_btn);
-        login_usernameWrapper.setErrorEnabled(true);
-        login_passwordWrapper.setErrorEnabled(true);
-
 
         reg_usernameWrapper = (TextInputLayout) views[1].findViewById(R.id.reg_usernameWrapper);
         reg_passwordWrapper = (TextInputLayout) views[1].findViewById(R.id.reg_passwordWrapper);
@@ -133,6 +153,10 @@ public class LoginAndRegistryActivity extends AppCompatActivity implements ILogi
         reg_passwordInput = (EditText) views[1].findViewById(R.id.reg_passwordInput);
         reg_passwordConfirmInput = (EditText) views[1].findViewById(R.id.reg_passwordConfirmInput);
         reg_btn = (ProgressButton) views[1].findViewById(R.id.reg_btn);
+
+        /*将TextInputLayout设置为显示错误*/
+        login_usernameWrapper.setErrorEnabled(true);
+        login_passwordWrapper.setErrorEnabled(true);
         reg_usernameWrapper.setErrorEnabled(true);
         reg_passwordWrapper.setErrorEnabled(true);
         reg_passwordConfirmWrapper.setErrorEnabled(true);
@@ -159,51 +183,70 @@ public class LoginAndRegistryActivity extends AppCompatActivity implements ILogi
         login_btn.setOnClickListener(new ProgressButton.OnClickListener() {
             @Override
             public void onClick(View view) {
-                login();
+                loginPresenter.doLogin();
             }
         });
 
         reg_btn.setOnClickListener(new ProgressButton.OnClickListener() {
             @Override
             public void onClick(View view) {
-                register();
+                registryPresenter.doRegistry();
             }
         });
 
-        login_passwordInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                login();
-                return false;
-            }
-        });
-
-        reg_passwordConfirmInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                register();
-                return false;
-            }
-        });
+//        login_passwordInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+//            @Override
+//            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+//                loginPresenter.doLogin();
+//                return false;
+//            }
+//        });
+//
+//        reg_passwordConfirmInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+//            @Override
+//            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+//                registryPresenter.doRegistry();
+//                return false;
+//            }
+//        });
     }
 
+
     /**
-     * 登录的具体操作
+     * 开始执行操作的UI变化
      */
-    private void login() {
+    @Override
+    public void uiBeginLogin() {
         login_usernameWrapper.setError("");
         login_passwordWrapper.setError("");
-        loginPresenter.doLogin(login_btn);
+        login_btn.showProgress();
     }
 
     /**
-     * 注册的具体操作
+     * 结束后的UI变化
      */
-    private void register() {
+    @Override
+    public void uiEndLogin() {
+
+    }
+
+    /**
+     * 开始执行操作的UI变化
+     */
+    @Override
+    public void uiBeginReg() {
         reg_usernameWrapper.setError("");
         reg_passwordWrapper.setError("");
         reg_passwordConfirmWrapper.setError("");
-        registryPresenter.doRegistry(reg_btn);
+        reg_btn.showProgress();
+    }
+
+    /**
+     * 结束后的UI变化
+     */
+    @Override
+    public void uiEndReg() {
+
     }
 
     /**
@@ -244,7 +287,7 @@ public class LoginAndRegistryActivity extends AppCompatActivity implements ILogi
     /**
      * 登录失败做的事情
      *
-     * @param message
+     * @param message 错误信息
      */
     @Override
     public void loginFailed(String message) {
@@ -341,7 +384,7 @@ public class LoginAndRegistryActivity extends AppCompatActivity implements ILogi
             @Override
             public void done() {
                 LoginAndRegistryActivity.this.setResult(2);
-                Toast.makeText(LoginAndRegistryActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(LoginAndRegistryActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
                 finish();
             }
         });
@@ -354,7 +397,9 @@ public class LoginAndRegistryActivity extends AppCompatActivity implements ILogi
      */
     @Override
     public void registerFailed(String message) {
-        Toast.makeText(LoginAndRegistryActivity.this, message, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(LoginAndRegistryActivity.this, message, Toast.LENGTH_SHORT).show();
         reg_btn.error(message);
     }
+
+
 }
