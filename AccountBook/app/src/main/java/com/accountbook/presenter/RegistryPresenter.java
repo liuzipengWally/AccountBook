@@ -28,13 +28,13 @@ public class RegistryPresenter {
     /**
      * 执行注册
      */
-    public void doRegistry(ProgressButton progress) {
+    public void doRegistry() {
         username = view.getRegUsername();
         password = view.getRegPassword();
         passwordConfirm = view.getRegPasswordConfirm();
 
         if (validateUsername() && validatePassword()) {
-            progress.showProgress();
+            view.uiBeginReg();
 
             userBiz.registry((Context) view, username, password, new OnRegistryListener() {
                 @Override
@@ -45,7 +45,7 @@ public class RegistryPresenter {
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
-                            ((IRegistryView) view).registerSuccess();
+                            view.registerSuccess();
                         }
                     });
                 }
@@ -57,11 +57,13 @@ public class RegistryPresenter {
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
-                            ((IRegistryView) view).registerFailed(message);
+                            view.registerFailed(message);
                         }
                     });
                 }
             });
+
+            view.uiEndReg();
         }//if
     }
 

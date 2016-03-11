@@ -8,6 +8,8 @@ import android.net.NetworkInfo;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 
+import com.avos.avoscloud.AVException;
+
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -15,6 +17,27 @@ import java.util.Locale;
  * 工具类
  */
 public class Util {
+
+
+    /**
+     * 翻译leanCloud异常
+     * @param e 异常对象
+     * @return 中文的错误信息
+     */
+    public static String getLocalizeLeanCloudError(AVException e) {
+        switch (e.getCode()) {
+            case AVException.USERNAME_PASSWORD_MISMATCH:
+                return "用户名密码不匹配";
+            case AVException.CONNECTION_FAILED:
+                return "连接失败";
+            case AVException.USER_DOESNOT_EXIST:
+                return "用户不存在";
+            case AVException.USERNAME_TAKEN:
+                return "用户名已被占用";
+            default:
+                return e.getMessage();
+        }
+    }
 
     /**
      * 判断网络可不可用

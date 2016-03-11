@@ -43,8 +43,7 @@ public class UserBiz implements IUserBiz {
                 @Override
                 public void done(UserForLeanCloud avUser, AVException e) {
                     if (avUser == null) {
-//                        System.out.println(e.getMessage());
-                        listener.loginFailed("用户名密码错误");
+                        listener.loginFailed(Util.getLocalizeLeanCloudError(e));
                     } else {
                         if (isExist(avUser.getObjectId()))
                             updateLocal(avUser);
@@ -89,7 +88,7 @@ public class UserBiz implements IUserBiz {
                         listener.registrySuccess();
                         insertIntoLocal(user);
                     } else {
-                        listener.registryFailed(e.getMessage());
+                        listener.registryFailed(Util.getLocalizeLeanCloudError(e));
                     }
                 }
             });
