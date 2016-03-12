@@ -22,12 +22,13 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.1.1'
+
+    compile 'com.android.support:appcompat-v7:23.2.0'
     compile 'cn.leancloud.android:avoscloud-sdk:v3.7.2'
     compile 'cn.leancloud.android:avoscloud-search:v3.7.2@aar'
     compile 'com.lzp.floatingactionbutton:floatingactionbuttonplus:0.3.2'
-    compile 'com.android.support:recyclerview-v7:23.+'
+    compile 'com.android.support:recyclerview-v7:23.2.0'
     compile 'com.jakewharton:butterknife:7.0.1'
-
     compile 'org.jetbrains:annotations-java5:15.0'
+    compile 'com.android.support:support-v4:23.2.0'
 }

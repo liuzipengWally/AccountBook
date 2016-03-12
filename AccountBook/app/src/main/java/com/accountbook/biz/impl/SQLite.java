@@ -183,6 +183,7 @@ public class SQLite {
                     values.clear();
                 }
 
+                //添加借入
                 ContentValues borrowValues = new ContentValues();
 
                 borrowValues.put("_id", UUID.randomUUID().toString());
@@ -197,6 +198,7 @@ public class SQLite {
                 mDatabase.insert(CLASSIFY_TABLE, null, borrowValues);
                 borrowValues.clear();
 
+                //添加借出
                 ContentValues lendValues = new ContentValues();
 
                 lendValues.put("_id", UUID.randomUUID().toString());
@@ -213,4 +215,5 @@ public class SQLite {
             }
         }).start();
     }
+
 }

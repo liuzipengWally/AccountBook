@@ -32,7 +32,7 @@ public class HomeLoadDataPresenter {
 
             @Override
             public void queryFailed() {
-                mHomeView.showLoadDataError();
+                mHomeView.showLoadDataFailed();
             }
         });
     }

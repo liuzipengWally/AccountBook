@@ -46,4 +46,14 @@
     <string name="add_date">记录日期</string>
     <string name="add_creditor">添加债权人</string>
     <string name="add_debtor">添加债务人</string>
+
+    <!--分类页面-->
+    <string name="income">收入</string>
+    <string name="expend">支出</string>
+    <string name="borrow">借入</string>
+    <string name="lend">借出</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

@@ -1,6 +1,7 @@
 package com.accountbook.application;
 
 import android.app.Application;
+import android.database.sqlite.SQLiteException;
 
 import com.accountbook.biz.impl.SQLite;
 import com.accountbook.entity.User;
@@ -44,12 +45,16 @@ public class MyApplication extends Application {
     }
 
     private void initTable() {
-        mSqLite.createUserTable();
-        mSqLite.createRoleTable();
-        mSqLite.createClassifyTable();
+        try {
+            mSqLite.createUserTable();
+            mSqLite.createRoleTable();
+            mSqLite.createClassifyTable();
 
-        mSqLite.initDefaultRole();
-        mSqLite.initDefaultClassify();
+            mSqLite.initDefaultRole();
+            mSqLite.initDefaultClassify();
+        } catch (SQLiteException e) {
+            e.printStackTrace();
+        }
     }
 
     public User getUser() {

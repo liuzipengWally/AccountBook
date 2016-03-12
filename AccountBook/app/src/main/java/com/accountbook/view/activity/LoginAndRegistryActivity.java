@@ -5,10 +5,8 @@ import android.support.design.widget.TabLayout;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +14,6 @@ import android.view.ViewTreeObserver;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.accountbook.R;
 import com.accountbook.presenter.LoginPresenter;
@@ -79,7 +76,7 @@ public class LoginAndRegistryActivity extends BaseActivity implements ILoginView
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login_and_registry);
+        setContentView(R.layout.login_and_registry_activity);
 
         initView();
         bindEvents();
@@ -101,8 +98,8 @@ public class LoginAndRegistryActivity extends BaseActivity implements ILoginView
         /*加载两个view的布局*/
         views = new View[2];
         LayoutInflater inflater = getLayoutInflater();
-        views[0] = inflater.inflate(R.layout.activity_login, null);
-        views[1] = inflater.inflate(R.layout.activity_registry, null);
+        views[0] = inflater.inflate(R.layout.login_activity, null);
+        views[1] = inflater.inflate(R.layout.registry_activity, null);
 
         /*初始化两个标题，用于下面的适配器的getPageTitle()*/
         titles = new String[]{"登录", "注册"};

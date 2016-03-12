@@ -18,6 +18,7 @@ import com.accountbook.view.api.ToolbarMenuOnClickListener;
 import com.accountbook.view.fragment.BudgetFragment;
 import com.accountbook.view.fragment.ChartFragment;
 import com.accountbook.view.fragment.HomeFragment;
+import com.avos.avoscloud.AVUser;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -39,7 +40,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.main_activity);
         ButterKnife.bind(this);
         initView();
     }
@@ -183,8 +184,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
      * 点击头像跳转到LoginView
      */
     public void goLogin(View view) {
-        Intent intent = new Intent(MainActivity.this, LoginAndRegistryActivity.class);
-        startActivityForResult(intent, 1);
+        if (AVUser.getCurrentUser() == null) {
+            Intent intent = new Intent(MainActivity.this, LoginAndRegistryActivity.class);
+            startActivityForResult(intent, 1);
+        }
     }
 
     @Override
