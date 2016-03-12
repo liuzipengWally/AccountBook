@@ -1,6 +1,7 @@
 package com.accountbook.application;
 
 import android.app.Application;
+import android.database.sqlite.SQLiteException;
 
 import com.accountbook.biz.impl.SQLite;
 import com.accountbook.entity.UserForLeanCloud;
@@ -40,15 +41,16 @@ public class MyApplication extends Application {
     }
 
     private void initTable() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                mSqLite.createUserTable();
-                mSqLite.createRoleTable();
+        try {
+            mSqLite.createUserTable();
+            mSqLite.createRoleTable();
+            mSqLite.createClassifyTable();
 
-                mSqLite.initDefaultRole();
-            }
-        }).start();
+            mSqLite.initDefaultRole();
+            mSqLite.initDefaultClassify();
+        } catch (SQLiteException e) {
+            e.printStackTrace();
+        }
     }
 
 }

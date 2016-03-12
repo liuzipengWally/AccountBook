@@ -13,7 +13,6 @@ import com.accountbook.view.customview.ProgressButton;
  * Created by Grady on 2016.2.24.
  */
 public class RegistryPresenter {
-
     private String username;
     private String password;
     private String passwordConfirm;

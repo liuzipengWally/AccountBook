@@ -282,7 +282,7 @@ public class HomeFragment extends Fragment implements IHomeView {
     }
 
     @Override
-    public void showLoadDataError() {
+    public void showLoadDataFailed() {
 
     }
 

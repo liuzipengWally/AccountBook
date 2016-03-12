@@ -2,6 +2,7 @@ package com.accountbook.biz.impl;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.accountbook.biz.api.IUserBiz;
 import com.accountbook.biz.api.OnLoginListener;

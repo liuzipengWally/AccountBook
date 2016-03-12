@@ -11,7 +11,7 @@ public interface IHomeView {
     /**
      * 显示查询错误信息
      */
-    void showLoadDataError();
+    void showLoadDataFailed();
 
     /**
      * 刷新数据
@@ -22,9 +22,9 @@ public interface IHomeView {
      * 在页面中载入数据
      *
      * @param accountBills 包含多个homeItem实体的集合
-     * @param income    当月总收入
-     * @param expend    当月总支出
-     * @param balance   单月预算余额
+     * @param income       当月总收入
+     * @param expend       当月总支出
+     * @param balance      单月预算余额
      */
     void LoadData(List<AccountBill> accountBills, String income, String expend, String balance);
 

@@ -4,7 +4,6 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -20,10 +19,8 @@ import com.accountbook.presenter.AddRecordPresenter;
 import com.accountbook.view.api.IAddView;
 import com.accountbook.view.customview.AutoHideFab;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -64,7 +61,7 @@ public class AddActivity extends BaseActivity implements IAddView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add);
+        setContentView(R.layout.add_activity);
         ButterKnife.bind(this);
 
         mPresenter = new AddRecordPresenter(this);
@@ -89,6 +86,13 @@ public class AddActivity extends BaseActivity implements IAddView {
     }
 
     private void bindEvent() {
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         //角色下拉列表的选择事件
         mRoleSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
