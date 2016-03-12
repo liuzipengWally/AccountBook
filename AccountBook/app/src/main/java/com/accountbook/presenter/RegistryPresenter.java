@@ -62,7 +62,7 @@ public class RegistryPresenter {
                 }
             });
 
-            view.uiEndReg();
+
         }//if
     }
 
