@@ -4,8 +4,10 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,7 @@ import android.widget.FrameLayout;
 import com.accountbook.R;
 import com.accountbook.entity.Classify;
 import com.accountbook.presenter.ClassifyPresenter;
+import com.accountbook.view.adapter.ClassifyAdapter;
 import com.accountbook.view.api.IClassifyView;
 
 import java.util.List;
@@ -66,15 +69,21 @@ public class ClassifyFragment extends Fragment implements IClassifyView {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = mLayoutView = inflater.inflate(R.layout.classify_fragment, container, false);
+
         ButterKnife.bind(this, view);
         init();
+        mPresenter.loadClassifyData(mType);
 
         return view;
     }
 
     private void init() {
+        //这个recyclerView因为要显示的是图标，所以以grid方式显示
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 4);
+        mClassifyList.setLayoutManager(gridLayoutManager);
+        mClassifyList.setItemAnimator(new DefaultItemAnimator());
+
         mPresenter = new ClassifyPresenter(this);
-        mPresenter.loadClassifyData(mType);
     }
 
     @Override
@@ -91,7 +100,7 @@ public class ClassifyFragment extends Fragment implements IClassifyView {
 
     @Override
     public void loadData(List<Classify> classifies) {
-
+        mClassifyList.setAdapter(new ClassifyAdapter(classifies, mContext));
     }
 
     @Override

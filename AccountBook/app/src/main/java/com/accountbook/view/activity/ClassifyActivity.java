@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.accountbook.R;
@@ -42,12 +43,8 @@ public class ClassifyActivity extends AppCompatActivity {
 
     private void init() {
         setSupportActionBar(mToolbar);
-
-        //初始化顶部tab
-        mTabLayout.addTab(mTabLayout.newTab().setText(R.string.expend));
-        mTabLayout.addTab(mTabLayout.newTab().setText(R.string.income));
-        mTabLayout.addTab(mTabLayout.newTab().setText(R.string.borrow));
-        mTabLayout.addTab(mTabLayout.newTab().setText(R.string.lend));
+        mToolbar.inflateMenu(R.menu.classify_menu);
+        mToolbar.setTitle(R.string.classify);
 
         mFragments = new ArrayList<>();
         mFragments.add(ClassifyFragment.newInstance(ConstantContainer.EXPEND));
@@ -59,7 +56,12 @@ public class ClassifyActivity extends AppCompatActivity {
         mViewPager.setAdapter(adapter);
 
         mTabLayout.setupWithViewPager(mViewPager);
-        mTabLayout.getTabAt(0).select();
+        //初始化顶部tab
+        mTabLayout.addTab(mTabLayout.newTab().setText(R.string.expend));
+        mTabLayout.addTab(mTabLayout.newTab().setText(R.string.income));
+        mTabLayout.addTab(mTabLayout.newTab().setText(R.string.borrow));
+        mTabLayout.addTab(mTabLayout.newTab().setText(R.string.lend));
+
     }
 
     private void eventBind() {

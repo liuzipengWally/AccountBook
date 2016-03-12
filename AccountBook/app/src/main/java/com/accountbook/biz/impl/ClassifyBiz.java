@@ -2,6 +2,7 @@ package com.accountbook.biz.impl;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.accountbook.biz.api.IClassifyBiz;
 import com.accountbook.entity.Classify;
@@ -43,6 +44,8 @@ public class ClassifyBiz implements IClassifyBiz {
                 classify.setIconResId(cursor.getInt(cursor.getColumnIndex("iconResId")));
                 classify.setType(cursor.getInt(cursor.getColumnIndex("type")));
                 classifies.add(classify);
+
+                Log.i("分类", cursor.getString(cursor.getColumnIndex("classify")) + type);
             }
 
             //查询到的数据通过回调传递出去给presenter
