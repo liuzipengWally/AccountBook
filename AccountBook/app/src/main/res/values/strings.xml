@@ -46,4 +46,5 @@
     <string name="add_date">记录日期</string>
     <string name="add_creditor">添加债权人</string>
     <string name="add_debtor">添加债务人</string>
+
 </resources>

@@ -7,10 +7,7 @@ public interface ILoginView {
      */
     void uiBeginLogin();
 
-    /**
-     * 结束后的UI变化
-     */
-    void uiEndLogin();
+
 
     /**
      * 提供给presenter获取username的方法

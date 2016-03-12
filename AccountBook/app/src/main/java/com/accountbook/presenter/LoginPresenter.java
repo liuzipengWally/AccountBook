@@ -3,6 +3,7 @@ package com.accountbook.presenter;
 import android.content.Context;
 import android.os.Handler;
 
+import com.accountbook.biz.impl.Sync;
 import com.accountbook.biz.impl.UserBiz;
 import com.accountbook.biz.api.IUserBiz;
 import com.accountbook.biz.api.OnLoginListener;
@@ -81,8 +82,6 @@ public class LoginPresenter {
                 }
 
             });
-
-            view.uiEndLogin();
         }
 
     }

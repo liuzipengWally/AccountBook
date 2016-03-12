@@ -3,7 +3,6 @@ package com.accountbook.application;
 import android.app.Application;
 
 import com.accountbook.biz.impl.SQLite;
-import com.accountbook.entity.User;
 import com.accountbook.entity.UserForLeanCloud;
 import com.accountbook.tools.QuickSimpleIO;
 import com.avos.avoscloud.AVOSCloud;
@@ -16,9 +15,6 @@ public class MyApplication extends Application {
     private final String APP_KEY = "HICgky71weK7ucIgeBhO2Fri";
 
     private SQLite mSqLite;
-
-    //全局User对象，好像没什么用，暂留
-    private User user;
 
     @Override
     public void onCreate() {
@@ -55,11 +51,4 @@ public class MyApplication extends Application {
         }).start();
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 }

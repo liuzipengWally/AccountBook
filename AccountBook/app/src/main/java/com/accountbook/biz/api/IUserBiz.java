@@ -20,5 +20,12 @@ public interface IUserBiz {
      * @param listener 注册结果回调
      */
     void registry(Context context,String username,String password,OnRegistryListener listener);
+
+    /**
+     * 处理登出
+     * @param context 上下文
+     * @param isClearLocalData 是否清除现有数据
+     */
+    void logOut(Context context,boolean isClearLocalData,OnLogoutListener listener);
 }
 

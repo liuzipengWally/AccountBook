@@ -12,14 +12,6 @@ import com.accountbook.tools.ConstantContainer;
 import java.util.UUID;
 
 public class SQLite {
-    public static final String USER_TABLE = "user";
-    public static final String USER_COLUMN_ID = "_id";
-    public static final String USER_COLUMN_USERNAME = "username";
-    public static final String USER_COLUMN_EMAIL = "email";
-//    public static final String USER_COLUMN_FID = "fid";
-//    public static final String USER_COLUMN_ACTOR = "actor";
-//    public static final String USER_COLUMN_MONEY = "money";
-//    public static final String USER_COLUMN_MODIFIED = "modified";       //修改标记
 
     public static final String ROLE_TABLE = "role";
 
@@ -40,7 +32,6 @@ public class SQLite {
                 }
             }
         }
-
         return mInstance;
     }
 
@@ -120,5 +111,13 @@ public class SQLite {
     public void initDefaultClassify() {
         TypedArray icons = mContext.getResources().obtainTypedArray(R.array.expend_classify_default_icon);
 
+    }
+
+    /**
+     * 清理数据
+     * 因为不同情景对于异常有不同处理方式所以，抛异常
+     */
+    public void clearData() throws Exception{
+        throw new Exception("假失败");
     }
 }
