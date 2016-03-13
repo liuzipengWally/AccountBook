@@ -17,11 +17,7 @@ import java.util.List;
 public class ClassifyBiz implements IClassifyBiz {
     private SQLiteDatabase mDatabase;
 
-    public interface OnQueryClassifyListener {
-        void querySuccess(List<Classify> classifies);
 
-        void queryFailed();
-    }
 
     public ClassifyBiz() {
         mDatabase = SQLite.getInstance().getDatabaseObject();

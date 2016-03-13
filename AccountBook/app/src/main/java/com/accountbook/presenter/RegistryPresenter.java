@@ -4,10 +4,8 @@ import android.content.Context;
 import android.os.Handler;
 
 import com.accountbook.biz.api.IUserBiz;
-import com.accountbook.biz.api.OnRegistryListener;
 import com.accountbook.biz.impl.UserBiz;
 import com.accountbook.view.api.IRegistryView;
-import com.accountbook.view.customview.ProgressButton;
 
 /**
  * Created by Grady on 2016.2.24.
@@ -35,7 +33,7 @@ public class RegistryPresenter {
         if (validateUsername() && validatePassword()) {
             view.uiBeginReg();
 
-            userBiz.registry((Context) view, username, password, new OnRegistryListener() {
+            userBiz.registry((Context) view, username, password, new IUserBiz.OnRegistryListener() {
                 @Override
                 public void registrySuccess() {
 

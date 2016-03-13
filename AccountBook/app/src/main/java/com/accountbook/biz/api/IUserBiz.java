@@ -27,5 +27,64 @@ public interface IUserBiz {
      * @param isClearLocalData 是否清除现有数据
      */
     void logOut(Context context,boolean isClearLocalData,OnLogoutListener listener);
+
+
+
+    interface OnLoginListener {
+        /**
+         * 登录成功回调
+         */
+        void loginSuccess();
+
+        /**
+         * 登录失败回调
+         * @param message 失败原因
+         */
+        void loginFailed(String message);
+    }
+
+
+    interface OnLogoutListener {
+
+        /**
+         * 登出完成
+         */
+        void logoutComplete();
+
+        /**
+         * 登出失败
+         *
+         * @param message 错误信息
+         */
+        void logoutFailed(String message);
+
+        /**
+         * 清除数据完成
+         */
+        void clearComplete();
+
+        /**
+         * 清除数据失败
+         *
+         * @param message 错误信息
+         */
+        void clearFailed(String message);
+    }
+
+
+    interface OnRegistryListener {
+
+        /**
+         * 注册成功
+         */
+        void registrySuccess();
+
+        /**
+         * 注册失败
+         * @param message 错误信息
+         */
+        void registryFailed(String message);
+
+    }
 }
 

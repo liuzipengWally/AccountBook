@@ -4,7 +4,6 @@ import android.graphics.Color;
 
 import com.accountbook.R;
 import com.accountbook.biz.api.IHomeLoadDataBiz;
-import com.accountbook.biz.api.OnHomeQueryDataListener;
 import com.accountbook.entity.AccountBill;
 import com.accountbook.tools.ConstantContainer;
 
