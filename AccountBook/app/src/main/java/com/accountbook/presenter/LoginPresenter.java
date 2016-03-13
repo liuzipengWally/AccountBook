@@ -2,13 +2,10 @@ package com.accountbook.presenter;
 
 import android.content.Context;
 import android.os.Handler;
-
-import com.accountbook.biz.impl.Sync;
 import com.accountbook.biz.impl.UserBiz;
 import com.accountbook.biz.api.IUserBiz;
-import com.accountbook.biz.api.OnLoginListener;
 import com.accountbook.view.api.ILoginView;
-import com.accountbook.view.customview.ProgressButton;
+
 
 public class LoginPresenter {
 
@@ -55,7 +52,7 @@ public class LoginPresenter {
 
         if (validateUsername() && validatePassword()) {
             view.uiBeginLogin();
-            userBiz.login((Context) view, username, password, new OnLoginListener() {
+            userBiz.login((Context) view, username, password, new IUserBiz.OnLoginListener() {
 
                 @Override
                 public void loginSuccess() {

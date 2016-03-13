@@ -2,12 +2,8 @@ package com.accountbook.biz.impl;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.accountbook.biz.api.IUserBiz;
-import com.accountbook.biz.api.OnLoginListener;
-import com.accountbook.biz.api.OnLogoutListener;
-import com.accountbook.biz.api.OnRegistryListener;
 import com.accountbook.entity.UserForLeanCloud;
 import com.accountbook.tools.Util;
 import com.avos.avoscloud.AVException;
@@ -107,6 +103,8 @@ public class UserBiz implements IUserBiz {
         }
 
     }
+
+
 
 
 }

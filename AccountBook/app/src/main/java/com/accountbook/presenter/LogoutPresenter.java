@@ -3,7 +3,6 @@ package com.accountbook.presenter;
 import android.content.Context;
 import android.os.Handler;
 import com.accountbook.biz.api.IUserBiz;
-import com.accountbook.biz.api.OnLogoutListener;
 import com.accountbook.biz.impl.UserBiz;
 import com.accountbook.view.api.ILogoutView;
 /**
@@ -19,7 +18,7 @@ public class LogoutPresenter {
     }
 
     public void doLogout() {
-        userBiz.logOut((Context) view, view.isClearData(), new OnLogoutListener() {
+        userBiz.logOut((Context) view, view.isClearData(), new IUserBiz.OnLogoutListener() {
             @Override
             public void logoutComplete() {
                 Handler handler = new Handler();

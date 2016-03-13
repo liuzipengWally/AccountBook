@@ -7,4 +7,11 @@ import com.accountbook.biz.impl.AddBiz;
  */
 public interface IAddBiz {
     void queryRole(AddBiz.OnQueryRoleListener onQueryRoleListener);
+
+    //该查询的监听器
+    interface OnQueryRoleListener {
+        void querySuccess(String[] roles);
+
+        void queryFailed();
+    }
 }

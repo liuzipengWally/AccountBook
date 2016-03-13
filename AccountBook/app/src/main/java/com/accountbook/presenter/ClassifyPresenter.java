@@ -20,7 +20,7 @@ public class ClassifyPresenter {
     }
 
     public void loadClassifyData(int type) {
-        mClassifyBiz.query(type, new ClassifyBiz.OnQueryClassifyListener() {
+        mClassifyBiz.query(type, new IClassifyBiz.OnQueryClassifyListener() {
             @Override
             public void querySuccess(List<Classify> classifies) {
                 mClassifyView.loadData(classifies);

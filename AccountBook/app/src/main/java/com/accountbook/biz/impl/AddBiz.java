@@ -2,11 +2,9 @@ package com.accountbook.biz.impl;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-
 import com.accountbook.biz.api.IAddBiz;
 import com.accountbook.entity.Role;
 import com.accountbook.tools.ConstantContainer;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,12 +15,7 @@ public class AddBiz implements IAddBiz {
     private SQLiteDatabase mDatabase;
     private List<Role> mRoleList;
 
-    //该查询的监听器
-    public interface OnQueryRoleListener {
-        void querySuccess(String[] roles);
 
-        void queryFailed();
-    }
 
     //构造方法中获取db对象
     public AddBiz() {
