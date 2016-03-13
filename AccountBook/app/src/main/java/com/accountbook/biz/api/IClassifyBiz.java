@@ -1,6 +1,9 @@
 package com.accountbook.biz.api;
 
 import com.accountbook.biz.impl.ClassifyBiz;
+import com.accountbook.entity.Classify;
+
+import java.util.List;
 
 /**
  * Created by liuzipeng on 16/3/12.
@@ -14,7 +17,6 @@ public interface IClassifyBiz {
      * @param classifyListener 查询监听
      */
     void query(int type, ClassifyBiz.OnQueryClassifyListener classifyListener);
-
 
     /**
      * 删除分类的方法

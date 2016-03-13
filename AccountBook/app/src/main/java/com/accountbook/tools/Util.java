@@ -1,24 +1,17 @@
 package com.accountbook.tools;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.content.res.TypedArray;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
-
 import com.avos.avoscloud.AVException;
-
 import java.util.Calendar;
-import java.util.Locale;
 
 /**
  * 工具类
  */
 public class Util {
-
-
     /**
      * 翻译leanCloud异常
      * @param e 异常对象

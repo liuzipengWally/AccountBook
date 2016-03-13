@@ -7,6 +7,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,10 +28,8 @@ import butterknife.ButterKnife;
 
 
 public class LoginAndRegistryActivity extends BaseActivity implements ILoginView, IRegistryView {
-
     View[] views;
     String[] titles;
-
 
     @Bind(R.id.login_reg_toolbar)
     Toolbar toolbar;
@@ -192,21 +191,21 @@ public class LoginAndRegistryActivity extends BaseActivity implements ILoginView
             }
         });
 
-//        login_passwordInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-//            @Override
-//            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-//                loginPresenter.doLogin();
-//                return false;
-//            }
-//        });
-//
-//        reg_passwordConfirmInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-//            @Override
-//            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-//                registryPresenter.doRegistry();
-//                return false;
-//            }
-//        });
+        login_passwordInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                loginPresenter.doLogin();
+                return false;
+            }
+        });
+
+        reg_passwordConfirmInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                registryPresenter.doRegistry();
+                return false;
+            }
+        });
     }
 
 
@@ -220,13 +219,6 @@ public class LoginAndRegistryActivity extends BaseActivity implements ILoginView
         login_btn.showProgress();
     }
 
-    /**
-     * 结束后的UI变化
-     */
-    @Override
-    public void uiEndLogin() {
-
-    }
 
     /**
      * 开始执行操作的UI变化
@@ -237,14 +229,6 @@ public class LoginAndRegistryActivity extends BaseActivity implements ILoginView
         reg_passwordWrapper.setError("");
         reg_passwordConfirmWrapper.setError("");
         reg_btn.showProgress();
-    }
-
-    /**
-     * 结束后的UI变化
-     */
-    @Override
-    public void uiEndReg() {
-
     }
 
     /**

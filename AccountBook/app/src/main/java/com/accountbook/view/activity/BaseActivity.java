@@ -1,5 +1,7 @@
 package com.accountbook.view.activity;
 
+import android.content.Context;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -14,7 +16,6 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.base_activity);
     }
 
     /**
@@ -61,6 +62,20 @@ public class BaseActivity extends AppCompatActivity {
     private void hideKeyBoard(View view) {
         InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    /**
+     * 通用方法，显示一个对话框
+     * @param title
+     * @param message
+     */
+    protected void showDialog(Context context,String title,String message){
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(title);
+        builder.setMessage(message);
+        builder.setPositiveButton("确定",null);
+        builder.setNegativeButton("取消",null);
+        builder.create().show();
     }
 
 

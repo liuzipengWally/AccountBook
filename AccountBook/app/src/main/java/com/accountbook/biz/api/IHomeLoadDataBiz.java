@@ -1,5 +1,10 @@
 package com.accountbook.biz.api;
 
+import com.accountbook.biz.impl.HomeLoadDataBiz;
+import com.accountbook.entity.AccountBill;
+
+import java.util.List;
+
 /**
  * Created by liuzipeng on 16/2/23.
  */
@@ -9,5 +14,5 @@ public interface IHomeLoadDataBiz {
      *
      * @param queryListener 查询结果监听
      */
-    void query(OnHomeQueryDataListener queryListener);
+    void query(HomeLoadDataBiz.OnHomeQueryDataListener queryListener);
 }

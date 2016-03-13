@@ -4,7 +4,6 @@ import android.graphics.Color;
 
 import com.accountbook.R;
 import com.accountbook.biz.api.IHomeLoadDataBiz;
-import com.accountbook.biz.api.OnHomeQueryDataListener;
 import com.accountbook.entity.AccountBill;
 import com.accountbook.tools.ConstantContainer;
 
@@ -15,6 +14,12 @@ import java.util.List;
  * 负责查询主页所要用到的数据，属于业务逻辑层(biz)
  */
 public class HomeLoadDataBiz implements IHomeLoadDataBiz {
+    public interface OnHomeQueryDataListener {
+        void querySuccess(List<AccountBill> accountBills, String income, String expend, String balance);
+
+        void queryFailed();
+    }
+
     @Override
     public void query(OnHomeQueryDataListener queryListener) {
         String income = getIncomeTotal();

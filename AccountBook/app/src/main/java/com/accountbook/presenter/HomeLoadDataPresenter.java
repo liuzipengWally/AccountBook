@@ -1,7 +1,6 @@
 package com.accountbook.presenter;
 
 import com.accountbook.biz.api.IHomeLoadDataBiz;
-import com.accountbook.biz.api.OnHomeQueryDataListener;
 import com.accountbook.biz.impl.HomeLoadDataBiz;
 import com.accountbook.entity.AccountBill;
 import com.accountbook.view.api.IHomeView;
@@ -24,7 +23,7 @@ public class HomeLoadDataPresenter {
      * 查询到结果之后对UI做具体的操作
      */
     public void query() {
-        mHomeLoadDataBiz.query(new OnHomeQueryDataListener() {
+        mHomeLoadDataBiz.query(new HomeLoadDataBiz.OnHomeQueryDataListener() {
             @Override
             public void querySuccess(List<AccountBill> accountBills, String income, String expend, String balance) {
                 mHomeView.LoadData(accountBills, income, expend, balance);

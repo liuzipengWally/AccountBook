@@ -2,7 +2,6 @@ package com.accountbook.biz.impl;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.accountbook.biz.api.IAddBiz;
 import com.accountbook.entity.Role;

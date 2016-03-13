@@ -1,5 +1,7 @@
 package com.accountbook.view.activity;
 
+
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -8,12 +10,16 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.accountbook.R;
 import com.accountbook.entity.UserForLeanCloud;
+import com.accountbook.presenter.LogoutPresenter;
+import com.accountbook.view.api.ILogoutView;
 import com.accountbook.view.api.ToolbarMenuOnClickListener;
 import com.accountbook.view.fragment.BudgetFragment;
 import com.accountbook.view.fragment.ChartFragment;
@@ -24,7 +30,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 
-public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, ToolbarMenuOnClickListener {
+public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, ToolbarMenuOnClickListener, ILogoutView {
     @Bind(R.id.drawer)
     DrawerLayout mDrawerLayout;
 
@@ -32,6 +38,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     NavigationView mNavigationView;
 
     private TextView userName;
+    private LogoutPresenter logoutPresenter;
+    private boolean isClearData = false;
+    private AlertDialog logoutDialog;
 
     private HomeFragment mHomeFragment;
     private ChartFragment mChartFragment;
@@ -105,7 +114,18 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
-        switchFragment(id);
+
+        switch (id) {
+            case R.id.logout:
+                if (AVUser.getCurrentUser() == null) {
+                    Toast.makeText(MainActivity.this, "请先登录", Toast.LENGTH_SHORT).show();
+                } else
+                    showLogoutDialog();
+                break;
+            default:
+                switchFragment(id);
+        }
+
         mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -217,13 +237,96 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
      */
     private void loadUserInfo() {
         UserForLeanCloud user = UserForLeanCloud.getCurrentUser(UserForLeanCloud.class);
-//            User user = ((MyApplication)getApplicationContext()).getUser();
         if (user != null) {
             userName.setText(user.getUsername());
-
             // TODO: 2016.3.4 刷新各种数据
+        } else userName.setText(R.string.loginHint);
+    }
+
+    /**
+     * 开始注销
+     */
+    public void showLogoutDialog() {
+        if (logoutDialog == null) {
+            System.out.println(111111);
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("确定注销吗？");
+            builder.setMultiChoiceItems(new String[]{"删除全部数据"}, new boolean[]{false}, new DialogInterface.OnMultiChoiceClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                    System.out.println(isChecked);
+                    System.out.println(isClearData);
+                    MainActivity.this.isClearData = isChecked;
+                }
+            });
+            builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                    if (MainActivity.this.logoutPresenter == null) {
+                        MainActivity.this.logoutPresenter = new LogoutPresenter(MainActivity.this);
+                    }
+
+                    logoutPresenter.doLogout();
+                }
+            });
+            builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            logoutDialog = builder.create();
         }
+        logoutDialog.show();
+
     }
 
 
+    /**
+     * 是否清除数据
+     *
+     * @return true == 是
+     */
+    @Override
+    public boolean isClearData() {
+        return isClearData;
+    }
+
+    /**
+     * 登出完成
+     */
+    @Override
+    public void logoutComplete() {
+        mDrawerLayout.openDrawer(GravityCompat.START);
+        loadUserInfo();
+    }
+
+    /**
+     * 登出失败
+     *
+     * @param message 错误信息
+     */
+    @Override
+    public void logoutFailed(String message) {
+        showDialog(this, "注销失败", message);
+    }
+
+    /**
+     * 清除完成
+     */
+    @Override
+    public void clearComplete() {
+        Toast.makeText(MainActivity.this, "清除完成", Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * 清除失败
+     *
+     * @param message 错误信息
+     */
+    @Override
+    public void clearFailed(String message) {
+        showDialog(this, "清除数据失败", message);
+    }
 }

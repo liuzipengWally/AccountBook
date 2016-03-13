@@ -10,10 +10,6 @@ public interface IRegistryView {
      */
     void uiBeginReg();
 
-    /**
-     * 结束后的UI变化
-     */
-    void uiEndReg();
 
     /**
      * 提供用户名
