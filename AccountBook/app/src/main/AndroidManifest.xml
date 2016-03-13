@@ -30,8 +30,9 @@
             android:label="" />
         <activity
             android:name=".view.activity.AddActivity"
-            android:theme="@style/Add_theme"></activity>
-        <activity android:name=".view.activity.ClassifyActivity"></activity>
+            android:theme="@style/Add_theme" />
+        <activity android:name=".view.activity.ClassifyActivity" />
+        <activity android:name=".view.activity.EditClassifyActivity"></activity>
     </application>
 
 </manifest>

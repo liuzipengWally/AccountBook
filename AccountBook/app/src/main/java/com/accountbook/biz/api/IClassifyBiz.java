@@ -14,4 +14,21 @@ public interface IClassifyBiz {
      * @param classifyListener 查询监听
      */
     void query(int type, ClassifyBiz.OnQueryClassifyListener classifyListener);
+
+
+    /**
+     * 删除分类的方法
+     *
+     * @param id                     要删除的那个数据的id
+     * @param deleteClassifyListener 删除监听
+     */
+    void delete(String id, ClassifyBiz.OnDeleteClassifyListener deleteClassifyListener);
+
+    /**
+     * 恢复删除的数据
+     *
+     * @param id                       要恢复的数据的id
+     * @param recoveryClassifyListener 恢复数据的监听
+     */
+    void recovery(String id, ClassifyBiz.OnRecoveryClassifyListener recoveryClassifyListener);
 }

@@ -19,4 +19,30 @@ public interface IClassifyView {
      * 载入数据失败
      */
     void loadFailed();
+
+    /**
+     * 删除成功
+     *
+     * @param id 被删除的数据的ID
+     */
+    void deleteSuccess(String id);
+
+    /**
+     * 删除失败
+     *
+     * @param id 被删除的数据的ID
+     */
+    void deleteFailed(String id);
+
+    /**
+     * 恢复成功
+     */
+    void recoverySuccess();
+
+    /**
+     * 恢复失败
+     *
+     * @param id 被删除的数据的ID
+     */
+    void recoveryFailed(String id);
 }

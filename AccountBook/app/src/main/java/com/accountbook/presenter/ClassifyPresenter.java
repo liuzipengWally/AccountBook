@@ -32,4 +32,32 @@ public class ClassifyPresenter {
             }
         });
     }
+
+    public void deleteClassify(final String id) {
+        mClassifyBiz.delete(id, new ClassifyBiz.OnDeleteClassifyListener() {
+            @Override
+            public void deleteSuccess() {
+                mClassifyView.deleteSuccess(id);
+            }
+
+            @Override
+            public void deleteFailed() {
+                mClassifyView.deleteFailed(id);
+            }
+        });
+    }
+
+    public void recoveryClassify(final String id) {
+        mClassifyBiz.recovery(id, new ClassifyBiz.OnRecoveryClassifyListener() {
+            @Override
+            public void recoverySuccess() {
+                mClassifyView.recoverySuccess();
+            }
+
+            @Override
+            public void recoveryFailed() {
+                mClassifyView.recoveryFailed(id);
+            }
+        });
+    }
 }

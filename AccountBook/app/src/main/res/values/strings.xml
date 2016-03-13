@@ -53,6 +53,7 @@
     <string name="borrow">借入</string>
     <string name="lend">借出</string>
     <string name="add_classify">添加新分类</string>
+    <string name="options">选项</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

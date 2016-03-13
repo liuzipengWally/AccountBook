@@ -22,15 +22,15 @@ public class ClassifyAdapter extends RecyclerView.Adapter<ClassifyAdapter.ViewHo
     private List<Classify> mClassifies;
     private LayoutInflater mInflater;
 
-    private HomeListAdapter.OnItemClickListener mClickListener;
+    private ClassifyAdapter.OnItemClickListener mClickListener;
 
     public interface OnItemClickListener {
-        void onClick(View view, int position, int type);
+        void onItemClick(int type, String classify, String id);
 
-        void onLongClick(View view, int position, int type);
+        void onLongClick(Classify classify, int position);
     }
 
-    public void setOnItemClickListener(HomeListAdapter.OnItemClickListener listener) {
+    public void setOnItemClickListener(ClassifyAdapter.OnItemClickListener listener) {
         mClickListener = listener;
     }
 
@@ -46,15 +46,62 @@ public class ClassifyAdapter extends RecyclerView.Adapter<ClassifyAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.circleIcon.setIconResId(mClassifies.get(position).getIconResId());
         holder.circleIcon.setColor(Color.parseColor(mClassifies.get(position).getColor()));
         holder.textView.setText(mClassifies.get(position).getClassify());
+
+        //绑定点击监听，传递type，classify，id 三个数据，为了选中之后，可把这三个数据传递到addActivity
+        //以便保存
+        holder.linearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position = holder.getLayoutPosition();
+                if (mClickListener != null) {
+                    mClickListener.onItemClick(mClassifies.get(position).getType(),
+                            mClassifies.get(position).getClassify(), mClassifies.get(position).getId());
+                }
+            }
+        });
+
+        //绑定长按监听，因为长按可能要编辑这个item，所以将整个分类实体传过去，
+        //再可能会是删除，所以传一个position，以确定删除的是哪个item
+        holder.linearLayout.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                int position = holder.getLayoutPosition();
+                if (mClickListener != null) {
+                    mClickListener.onLongClick(mClassifies.get(position), position);
+                }
+                return true;
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return mClassifies.size();
+    }
+
+    /**
+     * 添加数据
+     *
+     * @param position 添加的位置
+     * @param classify 要添加的数据
+     */
+    public void addItem(int position, Classify classify) {
+        mClassifies.add(position, classify);
+        notifyItemInserted(position);
+    }
+
+    /**
+     * 删除数据
+     *
+     * @param position 删除的位置
+     */
+    public void removeItem(int position) {
+        mClassifies.remove(position);
+        notifyItemRemoved(position);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

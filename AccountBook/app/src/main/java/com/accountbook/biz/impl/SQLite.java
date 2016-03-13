@@ -212,6 +212,9 @@ public class SQLite {
 
                 mDatabase.insert(CLASSIFY_TABLE, null, lendValues);
                 lendValues.clear();
+
+                expendIcons.recycle();
+                incomeIcons.recycle();
             }
         }).start();
     }

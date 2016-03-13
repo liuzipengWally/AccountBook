@@ -1,5 +1,6 @@
 package com.accountbook.biz.impl;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
@@ -23,6 +24,18 @@ public class ClassifyBiz implements IClassifyBiz {
         void queryFailed();
     }
 
+    public interface OnDeleteClassifyListener {
+        void deleteSuccess();
+
+        void deleteFailed();
+    }
+
+    public interface OnRecoveryClassifyListener {
+        void recoverySuccess();
+
+        void recoveryFailed();
+    }
+
     public ClassifyBiz() {
         mDatabase = SQLite.getInstance().getDatabaseObject();
     }
@@ -44,8 +57,6 @@ public class ClassifyBiz implements IClassifyBiz {
                 classify.setIconResId(cursor.getInt(cursor.getColumnIndex("iconResId")));
                 classify.setType(cursor.getInt(cursor.getColumnIndex("type")));
                 classifies.add(classify);
-
-                Log.i("分类", cursor.getString(cursor.getColumnIndex("classify")) + type);
             }
 
             //查询到的数据通过回调传递出去给presenter
@@ -56,6 +67,44 @@ public class ClassifyBiz implements IClassifyBiz {
             //查询失败，通知presenter
             if (classifyListener != null) {
                 classifyListener.queryFailed();
+            }
+        }
+    }
+
+    @Override
+    public void delete(String id, OnDeleteClassifyListener deleteClassifyListener) {
+        ContentValues values = new ContentValues();
+        values.put("available", ConstantContainer.FALSE);
+
+        int successfulNum = mDatabase.update(SQLite.CLASSIFY_TABLE, values, "_id = ?", new String[]{id});
+        values.clear();
+
+        if (successfulNum > 0) {
+            if (deleteClassifyListener != null) {
+                deleteClassifyListener.deleteSuccess();
+            }
+        } else {
+            if (deleteClassifyListener != null) {
+                deleteClassifyListener.deleteFailed();
+            }
+        }
+    }
+
+    @Override
+    public void recovery(String id, OnRecoveryClassifyListener recoveryClassifyListener) {
+        ContentValues values = new ContentValues();
+        values.put("available", ConstantContainer.TRUE);
+
+        int successfulNum = mDatabase.update(SQLite.CLASSIFY_TABLE, values, "_id = ?", new String[]{id});
+        values.clear();
+
+        if (successfulNum > 0) {
+            if (recoveryClassifyListener != null) {
+                recoveryClassifyListener.recoverySuccess();
+            }
+        } else {
+            if (recoveryClassifyListener != null) {
+                recoveryClassifyListener.recoveryFailed();
             }
         }
     }

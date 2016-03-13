@@ -1,5 +1,6 @@
 package com.accountbook.view.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -8,6 +9,8 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -42,9 +45,8 @@ public class ClassifyActivity extends AppCompatActivity {
     }
 
     private void init() {
-        setSupportActionBar(mToolbar);
-        mToolbar.inflateMenu(R.menu.classify_menu);
         mToolbar.setTitle(R.string.classify);
+        setSupportActionBar(mToolbar);
 
         mFragments = new ArrayList<>();
         mFragments.add(ClassifyFragment.newInstance(ConstantContainer.EXPEND));
@@ -57,11 +59,10 @@ public class ClassifyActivity extends AppCompatActivity {
 
         mTabLayout.setupWithViewPager(mViewPager);
         //初始化顶部tab
-        mTabLayout.addTab(mTabLayout.newTab().setText(R.string.expend));
-        mTabLayout.addTab(mTabLayout.newTab().setText(R.string.income));
-        mTabLayout.addTab(mTabLayout.newTab().setText(R.string.borrow));
-        mTabLayout.addTab(mTabLayout.newTab().setText(R.string.lend));
-
+        mTabLayout.getTabAt(0).setText(R.string.expend);
+        mTabLayout.getTabAt(1).setText(R.string.income);
+        mTabLayout.getTabAt(2).setText(R.string.borrow);
+        mTabLayout.getTabAt(3).setText(R.string.lend);
     }
 
     private void eventBind() {
@@ -71,6 +72,24 @@ public class ClassifyActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.classify_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            //点击添加分类菜单，跳转到分类编辑activity
+            case R.id.add_classify:
+                Intent intent = new Intent(ClassifyActivity.this, EditClassifyActivity.class);
+                startActivityForResult(intent, 0);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     class ClassifyAdapter extends FragmentPagerAdapter {

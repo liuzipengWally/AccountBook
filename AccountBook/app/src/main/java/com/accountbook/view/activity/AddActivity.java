@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.accountbook.R;
 import com.accountbook.presenter.AddRecordPresenter;
+import com.accountbook.tools.ConstantContainer;
 import com.accountbook.view.api.IAddView;
 import com.accountbook.view.customview.AutoHideFab;
 
@@ -34,6 +35,8 @@ public class AddActivity extends BaseActivity implements IAddView {
     TextView mMoneyTypeText;
     @Bind(R.id.description_edit)
     EditText mDescriptionEdit;
+    @Bind(R.id.borrowing_item)
+    RelativeLayout mBorrowingItem;
     @Bind(R.id.borrowing_edit)
     EditText mBorrowingEdit;
     @Bind(R.id.classify_text)
@@ -57,6 +60,7 @@ public class AddActivity extends BaseActivity implements IAddView {
     private int mRolePosition;
     private String mAccount;
     private String mDate;
+    private String mClassifyId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -155,7 +159,34 @@ public class AddActivity extends BaseActivity implements IAddView {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+        if (data != null) {
+            switch (resultCode) {
+                case 0:
+                    Bundle bundle = data.getExtras();
+                    mClassifyId = bundle.getString("id");
+                    int type = bundle.getInt("type");
+                    handleType(type);
+                    mClassifyText.setText(bundle.getString("classify"));
+
+                    break;
+            }
+        }
+    }
+
+    private void handleType(int type) {
+        switch (type) {
+            case ConstantContainer.BORROW:
+                mBorrowingItem.setVisibility(View.VISIBLE);
+                mBorrowingEdit.setHint(R.string.add_creditor);
+                break;
+            case ConstantContainer.LEND:
+                mBorrowingItem.setVisibility(View.VISIBLE);
+                mBorrowingEdit.setHint(R.string.add_debtor);
+                break;
+            default:
+                mBorrowingItem.setVisibility(View.GONE);
+                break;
+        }
     }
 
     @Override

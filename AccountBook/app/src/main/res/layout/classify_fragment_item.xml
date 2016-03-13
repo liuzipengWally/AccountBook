@@ -4,11 +4,11 @@
     android:id="@+id/classify_item_rootLayout"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:padding="@dimen/dp16"
     android:background="@drawable/circle_ripple"
     android:clickable="true"
     android:gravity="center"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="@dimen/dp16">
 
     <com.accountbook.view.customview.CircleIcon
         android:id="@+id/classify_circleIcon"
@@ -21,6 +21,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp8"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="1"
         android:text="公交出行" />
 </LinearLayout>
 
