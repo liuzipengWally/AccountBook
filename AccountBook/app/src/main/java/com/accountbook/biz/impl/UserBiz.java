@@ -95,11 +95,6 @@ public class UserBiz implements IUserBiz {
      */
     @Override
     public void logOut(Context context, boolean isClearLocalData, final OnLogoutListener listener) {
-
-        if (AVUser.getCurrentUser() == null) {
-            listener.logoutFailed("未登录");
-            return;
-        }
         try {
             if (isClearLocalData) {
                 SQLite.getInstance().clearData();

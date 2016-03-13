@@ -117,7 +117,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         switch (id) {
             case R.id.logout:
-                showLogoutDialog();
+                if (AVUser.getCurrentUser() == null) {
+                    Toast.makeText(MainActivity.this, "请先登录", Toast.LENGTH_SHORT).show();
+                } else
+                    showLogoutDialog();
                 break;
             default:
                 switchFragment(id);
@@ -244,7 +247,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
      * 开始注销
      */
     public void showLogoutDialog() {
-        if(logoutDialog == null){
+        if (logoutDialog == null) {
             System.out.println(111111);
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("确定注销吗？");
