@@ -69,7 +69,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
     private void settingsItemViews(ViewHolder holder, int position) {
         AccountBill accountBill = mAccountBills.get(position);
 
-        holder.titleText.setText(accountBill.getCategory());
+        holder.titleText.setText(accountBill.getClassify());
         holder.accountTypeText.setText(accountBill.getAccountType());
         holder.moneyText.setText(accountBill.getMoney());
         holder.circleIcon.setColor(accountBill.getColor());

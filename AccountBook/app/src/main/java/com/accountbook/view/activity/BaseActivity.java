@@ -33,7 +33,6 @@ public class BaseActivity extends AppCompatActivity {
         return super.dispatchTouchEvent(event);
     }
 
-
     /**
      * 判断点击坐标是否在当前得到焦点的EditText内
      */
@@ -77,6 +76,4 @@ public class BaseActivity extends AppCompatActivity {
         builder.setNegativeButton("取消",null);
         builder.create().show();
     }
-
-
 }

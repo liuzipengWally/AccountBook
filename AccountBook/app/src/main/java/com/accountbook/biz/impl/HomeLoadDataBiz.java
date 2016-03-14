@@ -43,7 +43,7 @@ public class HomeLoadDataBiz implements IHomeLoadDataBiz {
         List<AccountBill> accountBills = new ArrayList<>();
 
         AccountBill item1 = new AccountBill();
-        item1.setCategory("衣服鞋子");
+        item1.setClassify("衣服鞋子");
         item1.setAccountType("银行卡");
         item1.setMoney("-300");
         item1.setIconResId(R.mipmap.ic_invert_colors_white_24dp);
@@ -52,7 +52,7 @@ public class HomeLoadDataBiz implements IHomeLoadDataBiz {
         accountBills.add(item1);
 
         AccountBill item2 = new AccountBill();
-        item2.setCategory("早餐晚餐");
+        item2.setClassify("早餐晚餐");
         item2.setAccountType("现金");
         item2.setMoney("-20");
         item2.setIconResId(R.mipmap.ic_local_restaurant_white_24dp);
@@ -61,7 +61,7 @@ public class HomeLoadDataBiz implements IHomeLoadDataBiz {
         accountBills.add(item2);
 
         AccountBill item3 = new AccountBill();
-        item3.setCategory("工资");
+        item3.setClassify("工资");
         item3.setAccountType("银行卡");
         item3.setMoney("+5000");
         item3.setIconResId(R.mipmap.ic_attach_money_white_24dp);
@@ -70,7 +70,7 @@ public class HomeLoadDataBiz implements IHomeLoadDataBiz {
         accountBills.add(item3);
 
         AccountBill item4 = new AccountBill();
-        item4.setCategory("借出");
+        item4.setClassify("借出");
         item4.setAccountType("银行卡");
         item4.setMoney("2000");
         item4.setIconResId(R.mipmap.ic_thumbs_up_down_white_24dp);
@@ -79,7 +79,7 @@ public class HomeLoadDataBiz implements IHomeLoadDataBiz {
         accountBills.add(item4);
 
         AccountBill item5 = new AccountBill();
-        item5.setCategory("借入");
+        item5.setClassify("借入");
         item5.setAccountType("银行卡");
         item5.setMoney("2000");
         item5.setIconResId(R.mipmap.ic_thumbs_up_down_white_24dp);
@@ -88,7 +88,7 @@ public class HomeLoadDataBiz implements IHomeLoadDataBiz {
         accountBills.add(item5);
 
         AccountBill item6 = new AccountBill();
-        item6.setCategory("借入");
+        item6.setClassify("借入");
         item6.setAccountType("银行卡");
         item6.setMoney("2000");
         item6.setIconResId(R.mipmap.ic_thumbs_up_down_white_24dp);
@@ -97,7 +97,7 @@ public class HomeLoadDataBiz implements IHomeLoadDataBiz {
         accountBills.add(item6);
 
         AccountBill item7 = new AccountBill();
-        item7.setCategory("借入");
+        item7.setClassify("借入");
         item7.setAccountType("银行卡");
         item7.setMoney("2000");
         item7.setIconResId(R.mipmap.ic_thumbs_up_down_white_24dp);
@@ -106,7 +106,7 @@ public class HomeLoadDataBiz implements IHomeLoadDataBiz {
         accountBills.add(item7);
 
         AccountBill item8 = new AccountBill();
-        item8.setCategory("借入");
+        item8.setClassify("借入");
         item8.setAccountType("银行卡");
         item8.setMoney("2000");
         item8.setIconResId(R.mipmap.ic_thumbs_up_down_white_24dp);

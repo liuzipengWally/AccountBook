@@ -3,7 +3,10 @@ package com.accountbook.view.activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -15,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.accountbook.R;
+import com.accountbook.entity.Role;
 import com.accountbook.presenter.AddRecordPresenter;
 import com.accountbook.tools.ConstantContainer;
 import com.accountbook.view.api.IAddView;
@@ -22,6 +26,7 @@ import com.accountbook.view.customview.AutoHideFab;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -53,11 +58,15 @@ public class AddActivity extends BaseActivity implements IAddView {
     RelativeLayout mDateItem;
     @Bind(R.id.edit_btn)
     AutoHideFab mDoneBtn;
+    @Bind(R.id.RootLayout)
+    CoordinatorLayout mRootLayout;
+
 
     private AddRecordPresenter mPresenter;
 
+    private List<Role> mRoles;
     private String[] mAccounts;
-    private int mRolePosition;
+    private String mRoleId;
     private String mAccount;
     private String mDate;
     private String mClassifyId;
@@ -65,9 +74,12 @@ public class AddActivity extends BaseActivity implements IAddView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent = new Intent(AddActivity.this, ClassifyActivity.class);
+        Bundle bundle = new Bundle();
+        startActivityForResult(intent, 1);
+
         setContentView(R.layout.add_activity);
         ButterKnife.bind(this);
-
         mPresenter = new AddRecordPresenter(this);
         mPresenter.queryRole();
 
@@ -86,7 +98,7 @@ public class AddActivity extends BaseActivity implements IAddView {
 
         //初始化日期
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy年MM月dd日");
-        mDateText.setText(dateFormat.format(System.currentTimeMillis()));
+        mDateText.setText(mDate = dateFormat.format(System.currentTimeMillis()));
     }
 
     private void bindEvent() {
@@ -101,7 +113,7 @@ public class AddActivity extends BaseActivity implements IAddView {
         mRoleSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                mRolePosition = position;
+                mRoleId = mRoles.get(position).getRole();
             }
 
             @Override
@@ -122,7 +134,6 @@ public class AddActivity extends BaseActivity implements IAddView {
 
             }
         });
-
 
         //分类Item 点击事件
         mClassifyItem.setOnClickListener(new View.OnClickListener() {
@@ -146,6 +157,7 @@ public class AddActivity extends BaseActivity implements IAddView {
                         calendar.set(Calendar.MONTH, monthOfYear);
                         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
+                        //使用日期格式化类，将calendar.getTimeInMillis()获取到的日期毫秒值转换为"yyyy年MM月dd日"形式的字符串
                         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy年MM月dd日");
                         mDate = dateFormat.format(calendar.getTimeInMillis());
                         mDateText.setText(mDate);
@@ -155,20 +167,27 @@ public class AddActivity extends BaseActivity implements IAddView {
                 dialog.show();
             }
         });
+
+        //保存按钮的点击事件
+        mDoneBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.saveRecord();
+            }
+        });
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (data != null) {
-            switch (resultCode) {
-                case 0:
-                    Bundle bundle = data.getExtras();
-                    mClassifyId = bundle.getString("id");
-                    int type = bundle.getInt("type");
-                    handleType(type);
-                    mClassifyText.setText(bundle.getString("classify"));
-
-                    break;
+            Bundle bundle = data.getExtras();
+            mClassifyId = bundle.getString("id");
+            int type = bundle.getInt("type");
+            handleType(type);//根据传回来的数据中的type判断是否需要用户填写债权人或债务人
+            mClassifyText.setText(bundle.getString("classify"));
+        } else {
+            if (requestCode == 1) {  //如果没有数据，并且请求码为1，那么证明这个跳转是一开始点击记录按钮跳转到的那个分类界面
+                finish(); //此时，我们应该直接把这个activity关闭
             }
         }
     }
@@ -190,8 +209,15 @@ public class AddActivity extends BaseActivity implements IAddView {
     }
 
     @Override
-    public void loadRole(String[] roles) {
-        mRoleSpinner.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, roles));
+    public void loadRole(List<Role> roles) {
+        mRoles = roles; //把获取到的 role集合先置于全局，用于之后获得ID
+
+        //循环获取到所有的role明
+        String[] roleArr = new String[roles.size()];
+        for (int i = 0; i < roles.size(); i++) {
+            roleArr[i] = roles.get(i).getRole();
+        }
+        mRoleSpinner.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, roleArr));
     }
 
     @Override
@@ -210,7 +236,7 @@ public class AddActivity extends BaseActivity implements IAddView {
     }
 
     @Override
-    public String getDate() {
+    public String getCreateTime() {
         return mDate;
     }
 
@@ -220,27 +246,42 @@ public class AddActivity extends BaseActivity implements IAddView {
     }
 
     @Override
-    public int getRolePosition() {
-        return mRolePosition;
+    public String getRoleId() {
+        return mRoleId;
     }
 
     @Override
-    public int getClassifyId() {
-        return 0;
+    public String getClassifyId() {
+        return mClassifyId;
     }
 
     @Override
     public void loadRoleFailed() {
-        Toast.makeText(this, "数据初始化失败", Toast.LENGTH_SHORT).show();
+        Snackbar.make(mRootLayout, "数据初始化失败,请重试", Snackbar.LENGTH_LONG).setAction("重试", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.queryRole();
+            }
+        });
     }
 
     @Override
-    public void addFailed() {
-
+    public void validateFailed(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
     }
 
     @Override
-    public void addSuccess() {
+    public void saveFailed() {
+        Snackbar.make(mRootLayout, "保存失败，请重试", Snackbar.LENGTH_LONG).setAction("重试", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.saveRecord();
+            }
+        });
+    }
 
+    @Override
+    public void saveSuccess() {
+        Toast.makeText(this, "保存成功", Toast.LENGTH_SHORT).show();
     }
 }

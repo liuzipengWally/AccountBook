@@ -13,11 +13,17 @@ import com.accountbook.tools.ConstantContainer;
 
 import java.util.UUID;
 
+/**
+ * 该类为SQLite的helper类，提供了一些创建表，以及初始化数据的方法，可供全局调用
+ * 并且用于返回一个仅可以让业务逻辑的实现获取到的SQLiteDatabase对象，用于在业务逻辑层进行相关的持久化操作
+ * <p/>
+ * 该类中几乎每个方法都抛了一个SQLiteException出去，其目的是因为，并不希望因为数据的初始化就导致程序强行终止
+ */
 public class SQLite {
 
     public static final String ROLE_TABLE = "role";
     public static final String CLASSIFY_TABLE = "classify";
-
+    public static final String RECORD_TABLE = "record";
 
     private Context mContext;
     private SQLiteDatabase mDatabase;
@@ -28,6 +34,11 @@ public class SQLite {
 
     }
 
+    /**
+     * 单例构造
+     *
+     * @return 唯一的该类对象
+     */
     public static SQLite getInstance() {
         if (mInstance == null) {
             synchronized (SQLite.class) {
@@ -78,7 +89,8 @@ public class SQLite {
                 "role text," +
                 "isSave int," +
                 "available int," +
-                "timestamp number)");
+                "timestamp number);" +
+                "PRAGMA foreign_keys = true;");
     }
 
     /**
@@ -119,7 +131,8 @@ public class SQLite {
                 "type int," +
                 "isSave int," +
                 "available int," +
-                "timestamp number)");
+                "timestamp number);" +
+                "PRAGMA foreign_keys = true;");
     }
 
     /**
@@ -209,11 +222,37 @@ public class SQLite {
             }
         }).start();
     }
+
+    /**
+     * 创建记录表
+     *
+     * @throws SQLiteException SQLite异常
+     */
+    public void createRecordTable() throws SQLiteException {
+        mDatabase.execSQL("create table if not exists record (" +
+                "_id text primary key, " +
+                "object_id text," +
+                "money int," +
+                "description text," +
+                "borrow_name text," +
+                "classify_id text," +
+                "account text," +
+                "role_id text," +
+                "create_time text," +
+                "isSave int," +
+                "available int," +
+                "timestamp number," +
+                "CONSTRAINT \"classify_fk\" FOREIGN KEY (\"classify_id\") REFERENCES \"classify\" (\"_id\")," +
+                "CONSTRAINT \"role_fk\" FOREIGN KEY (\"role_id\") REFERENCES \"role\" (\"_id\")" +
+                ");" +
+                "PRAGMA foreign_keys = true;");
+    }
+
     /**
      * 清理数据
      * 因为不同情景对于异常有不同处理方式所以，抛异常
      */
-    public void clearData() throws Exception{
+    public void clearData() throws Exception {
         throw new Exception("假失败");
     }
 }

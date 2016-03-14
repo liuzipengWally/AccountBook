@@ -14,7 +14,7 @@ public interface IAddView {
      *
      * @param roles 角色
      */
-    void loadRole(String[] roles);
+    void loadRole(List<Role> roles);
 
     /**
      * 获取金额
@@ -42,7 +42,7 @@ public interface IAddView {
      *
      * @return 时间
      */
-    String getDate();
+    String getCreateTime();
 
     /**
      * 获取账户源
@@ -56,14 +56,14 @@ public interface IAddView {
      *
      * @return 角色下标
      */
-    int getRolePosition();
+    String getRoleId();
 
     /**
      * 获取选中的分类ID
      *
      * @return 分类ID
      */
-    int getClassifyId();
+    String getClassifyId();
 
     /**
      * 获取角色数据失败
@@ -71,12 +71,17 @@ public interface IAddView {
     void loadRoleFailed();
 
     /**
+     * 验证数据失败
+     */
+    void validateFailed(String msg);
+
+    /**
      * 添加数据失败
      */
-    void addFailed();
+    void saveFailed();
 
     /**
      * 添加数据成功
      */
-    void addSuccess();
+    void saveSuccess();
 }

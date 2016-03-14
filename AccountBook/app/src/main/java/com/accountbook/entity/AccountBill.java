@@ -4,19 +4,19 @@ package com.accountbook.entity;
  * 主页所使用的数据实体类
  */
 public class AccountBill {
-    private String category;
+    private String classify;
     private String money;
     private int moneyType;
     private String accountType;
     private int color;
     private int iconResId;
 
-    public String getCategory() {
-        return category;
+    public String getClassify() {
+        return classify;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setClassify(String classify) {
+        this.classify = classify;
     }
 
     public String getMoney() {
@@ -62,7 +62,7 @@ public class AccountBill {
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer("AccountBill{");
-        sb.append(", category='").append(category).append('\'');
+        sb.append(", classify='").append(classify).append('\'');
         sb.append(", money='").append(money).append('\'');
         sb.append(", moneyType=").append(moneyType);
         sb.append(", accountType='").append(accountType).append('\'');
