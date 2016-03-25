@@ -46,6 +46,7 @@ public class MyApplication extends Application {
             mSqLite.createRoleTable();
             mSqLite.createClassifyTable();
             mSqLite.createRecordTable();
+            mSqLite.createBudgetTable();
 
             mSqLite.initDefaultRole();
             mSqLite.initDefaultClassify();

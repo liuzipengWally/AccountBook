@@ -2,30 +2,29 @@ package com.accountbook.presenter;
 
 import android.content.Context;
 import android.os.Handler;
+
 import com.accountbook.biz.api.IUserBiz;
 import com.accountbook.biz.impl.UserBiz;
 import com.accountbook.view.api.ILogoutView;
-/**
- * Created by Grady on 2016.3.12.
- */
-public class LogoutPresenter {
-    private ILogoutView view;
-    private IUserBiz userBiz;
 
-    public LogoutPresenter(ILogoutView view) {
-        this.view = view;
-        userBiz = new UserBiz();
+public class LogoutPresenter {
+    private ILogoutView mLogoutView;
+    private IUserBiz mUserBiz;
+
+    public LogoutPresenter(ILogoutView iLogoutView) {
+        this.mLogoutView = iLogoutView;
+        mUserBiz = new UserBiz();
     }
 
-    public void doLogout() {
-        userBiz.logOut((Context) view, view.isClearData(), new IUserBiz.OnLogoutListener() {
+    public void doLogout(Context context) {
+        mUserBiz.logOut(context, mLogoutView.isClearData(), new UserBiz.OnLogoutListener() {
             @Override
             public void logoutComplete() {
                 Handler handler = new Handler();
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        view.logoutComplete();
+                        mLogoutView.logoutComplete();
                     }
                 });
             }
@@ -36,7 +35,7 @@ public class LogoutPresenter {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        view.logoutFailed(message);
+                        mLogoutView.logoutFailed(message);
                     }
                 });
             }
@@ -47,7 +46,7 @@ public class LogoutPresenter {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        view.clearComplete();
+                        mLogoutView.clearComplete();
                     }
                 });
             }
@@ -58,7 +57,7 @@ public class LogoutPresenter {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        view.clearFailed(message);
+                        mLogoutView.clearFailed(message);
                     }
                 });
             }

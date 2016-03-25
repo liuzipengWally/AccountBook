@@ -2,16 +2,21 @@ package com.accountbook.view.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.accountbook.R;
 import com.accountbook.entity.AccountBill;
+import com.accountbook.entity.Classify;
 import com.accountbook.tools.ConstantContainer;
+import com.accountbook.tools.Util;
 import com.accountbook.view.customview.CircleIcon;
 
 import java.util.List;
@@ -22,12 +27,14 @@ import java.util.List;
 public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHolder> {
     private List<AccountBill> mAccountBills;
     private LayoutInflater mInflater;
+    private Context mContext;
 
     private OnItemClickListener mItemClickListener;
 
-    public HomeListAdapter(List<AccountBill> mAccountBills, Context mContext) {
+    public HomeListAdapter(List<AccountBill> mAccountBills, Context context) {
         this.mAccountBills = mAccountBills;
-        this.mInflater = LayoutInflater.from(mContext);
+        this.mInflater = LayoutInflater.from(context);
+        mContext = context;
     }
 
     public interface OnItemClickListener {
@@ -54,7 +61,12 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.home_fragment_recent_item, parent, false);
+        View view;
+        if (viewType != ConstantContainer.NORMAL_ITEM) {
+            view = mInflater.inflate(R.layout.home_fragment_recent_item_date, parent, false);
+        } else {
+            view = mInflater.inflate(R.layout.home_fragment_recent_item, parent, false);
+        }
 
         return new ViewHolder(view, viewType);
     }
@@ -69,16 +81,31 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
     private void settingsItemViews(ViewHolder holder, int position) {
         AccountBill accountBill = mAccountBills.get(position);
 
+        if (!accountBill.getCreate_time().equals("")) {
+            holder.dateText.setText(accountBill.getCreate_time());
+            holder.countText.setText(accountBill.getMoneyCount());
+        }
+
         holder.titleText.setText(accountBill.getClassify());
-        holder.accountTypeText.setText(accountBill.getAccountType());
-        holder.moneyText.setText(accountBill.getMoney());
-        holder.circleIcon.setColor(accountBill.getColor());
+        holder.moneyText.setText(accountBill.getMoney() + "");
+        holder.circleIcon.setColor(Color.parseColor(accountBill.getColor()));
         holder.circleIcon.setIconResId(accountBill.getIconResId());
 
+        switch (accountBill.getType()) {
+            case ConstantContainer.BORROW:
+                holder.accountTypeText.setText("借入->" + accountBill.getAccount());
+                break;
+            case ConstantContainer.LEND:
+                holder.accountTypeText.setText("借出<-" + accountBill.getAccount());
+                break;
+            default:
+                holder.accountTypeText.setText(accountBill.getAccount());
+                break;
+        }
 
-        if (accountBill.getMoneyType() == ConstantContainer.INCOME) {
+        if (accountBill.getType() == ConstantContainer.INCOME) {
             holder.moneyText.setTextColor(Color.parseColor("#217c4a"));
-        } else if (accountBill.getMoneyType() == ConstantContainer.EXPEND) {
+        } else if (accountBill.getType() == ConstantContainer.EXPEND) {
             holder.moneyText.setTextColor(Color.parseColor("#b10909"));
         }
     }
@@ -103,7 +130,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
                     @Override
                     public boolean onLongClick(View v) {
                         int position = holder.getLayoutPosition();
-                        mItemClickListener.onItemClick(v, position);
+                        mItemClickListener.onLongClick(v, position);
                         return true;
                     }
                 });
@@ -112,8 +139,38 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
     }
 
     @Override
+    public int getItemViewType(int position) {
+        if (!mAccountBills.get(position).getCreate_time().equals("")) {
+            return ConstantContainer.USE_DATE_ITEM;
+        } else {
+            return ConstantContainer.NORMAL_ITEM;
+        }
+    }
+
+    @Override
     public int getItemCount() {
         return mAccountBills.size();
+    }
+
+    /**
+     * 添加数据
+     *
+     * @param position    添加的位置
+     * @param accountBill 要添加的数据
+     */
+    public void addItem(int position, AccountBill accountBill) {
+        mAccountBills.add(position, accountBill);
+        notifyItemInserted(position);
+    }
+
+    /**
+     * 删除数据
+     *
+     * @param position 删除的位置
+     */
+    public void removeItem(int position) {
+        mAccountBills.remove(position);
+        notifyItemRemoved(position);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -124,6 +181,9 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
         TextView accountTypeText;
         TextView moneyText;
 
+        TextView dateText;
+        TextView countText;
+
         public ViewHolder(View itemView, int viewType) {
             super(itemView);
             homeItemLayout = (RelativeLayout) itemView.findViewById(R.id.home_item);
@@ -131,6 +191,11 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
             titleText = (TextView) itemView.findViewById(R.id.title_text);
             accountTypeText = (TextView) itemView.findViewById(R.id.account_type_text);
             moneyText = (TextView) itemView.findViewById(R.id.money_text);
+
+            if (viewType != ConstantContainer.NORMAL_ITEM) {
+                dateText = (TextView) itemView.findViewById(R.id.DateText);
+                countText = (TextView) itemView.findViewById(R.id.CountText);
+            }
         }
     }
 }

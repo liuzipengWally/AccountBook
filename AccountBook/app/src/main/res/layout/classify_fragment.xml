@@ -3,7 +3,7 @@
     android:id="@+id/RootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.accountbook.view.fragment.ClassifyFragment">
+    tools:context="com.accountbook.mloginView.fragment.ClassifyFragment">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/classify_list"

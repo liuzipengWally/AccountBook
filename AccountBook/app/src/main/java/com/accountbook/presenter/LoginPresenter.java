@@ -2,6 +2,7 @@ package com.accountbook.presenter;
 
 import android.content.Context;
 import android.os.Handler;
+
 import com.accountbook.biz.impl.UserBiz;
 import com.accountbook.biz.api.IUserBiz;
 import com.accountbook.view.api.ILoginView;
@@ -9,13 +10,13 @@ import com.accountbook.view.api.ILoginView;
 
 public class LoginPresenter {
 
-    private ILoginView view;
+    private ILoginView mLoginView;
     private IUserBiz userBiz;
     private String username;
     private String password;
 
     public LoginPresenter(ILoginView view) {
-        this.view = view;
+        this.mLoginView = view;
         userBiz = new UserBiz();
     }
 
@@ -26,7 +27,7 @@ public class LoginPresenter {
      */
     private boolean validateUsername() {
         if (username.equals("")) {
-            view.showLoginUsernameError("用户名不能为空");
+            mLoginView.loginFailed("用户名不能为空");
             return false;
         } else return true;
     }
@@ -38,7 +39,7 @@ public class LoginPresenter {
      */
     private boolean validatePassword() {
         if (password.equals("")) {
-            view.showLoginPasswordError("密码不能为空");
+            mLoginView.loginFailed("密码不能为空");
             return false;
         } else return true;
     }
@@ -46,38 +47,36 @@ public class LoginPresenter {
     /**
      * 登录逻辑
      */
-    public void doLogin() {
-        username = view.getLoginUsername();
-        password = view.getLoginPassword();
+    public void doLogin(Context context) {
+        username = mLoginView.getLoginUsername();
+        password = mLoginView.getLoginPassword();
+        mLoginView.showProgress();
 
         if (validateUsername() && validatePassword()) {
-            view.uiBeginLogin();
-            userBiz.login((Context) view, username, password, new IUserBiz.OnLoginListener() {
-
+            userBiz.login(context, username, password, new UserBiz.OnLoginListener() {
                 @Override
                 public void loginSuccess() {
-                    //提交UI变化
+                    //更新UI
                     Handler handler = new Handler();
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
-                            view.loginSuccess();
+                            mLoginView.loginSuccess();
                         }
                     });
                 }
 
                 @Override
                 public void loginFailed(final String message) {
-                    //提交UI变化
+                    //更新UI
                     Handler handler = new Handler();
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
-                            view.loginFailed(message);
+                            mLoginView.loginFailed(message);
                         }
                     });
                 }
-
             });
         }
 

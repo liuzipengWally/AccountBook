@@ -6,9 +6,9 @@ package com.accountbook.view.api;
 public interface IRegistryView {
 
     /**
-     * 开始执行操作的UI变化
+     * 显示进度
      */
-    void uiBeginReg();
+    void showProgress();
 
 
     /**
@@ -31,27 +31,6 @@ public interface IRegistryView {
      * @return 填入的密码确认
      */
     String getRegPasswordConfirm();
-
-    /**
-     * 显示用户名错误
-     *
-     * @param message 错误信息
-     */
-    void showRegUsernameError(String message);
-
-    /**
-     * 显示密码错误
-     *
-     * @param message 错误信息
-     */
-    void showRegPasswordError(String message);
-
-    /**
-     * 显示重复密码错误
-     *
-     * @param message 错误信息
-     */
-    void showRegPasswordConfirmError(String message);
 
     /**
      * 注册成功

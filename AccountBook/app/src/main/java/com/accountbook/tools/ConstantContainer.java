@@ -31,4 +31,9 @@ public class ConstantContainer {
     public static final int TRUE = 1;
     public static final int FALSE = 0;
 
+    public static final int NORMAL_ITEM = 0;
+    public static final int USE_DATE_ITEM = 1;
+
+    public static final int EDIT_RECROD_REQUEST = 0;
+    public static final int BUDGET_REQUEST = 1;
 }

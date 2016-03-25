@@ -26,7 +26,7 @@
         android:id="@+id/login_passwordWrapper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/edit_margin">
+        >
 
         <EditText
             android:id="@+id/login_passwordInput"
@@ -39,10 +39,10 @@
     </android.support.design.widget.TextInputLayout>
 
     <com.accountbook.view.customview.ProgressButton
+        android:layout_marginTop="@dimen/dp16"
         android:id="@+id/login_btn"
         android:layout_width="match_parent"
         android:layout_height="42dp"
         android:clickable="true"
         app:btn_text="@string/login_btn_text" />
-
 </LinearLayout>

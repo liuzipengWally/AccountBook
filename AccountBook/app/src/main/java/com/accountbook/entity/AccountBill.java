@@ -4,12 +4,23 @@ package com.accountbook.entity;
  * 主页所使用的数据实体类
  */
 public class AccountBill {
+    private String id;
     private String classify;
-    private String money;
-    private int moneyType;
-    private String accountType;
-    private int color;
+    private int money;
+    private int type;
+    private String account;
+    private String color;
     private int iconResId;
+    private String create_time = "";
+    private String moneyCount;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getClassify() {
         return classify;
@@ -19,35 +30,35 @@ public class AccountBill {
         this.classify = classify;
     }
 
-    public String getMoney() {
+    public int getMoney() {
         return money;
     }
 
-    public void setMoney(String money) {
+    public void setMoney(int money) {
         this.money = money;
     }
 
-    public int getMoneyType() {
-        return moneyType;
+    public int getType() {
+        return type;
     }
 
-    public void setMoneyType(int moneyType) {
-        this.moneyType = moneyType;
+    public void setType(int type) {
+        this.type = type;
     }
 
-    public String getAccountType() {
-        return accountType;
+    public String getAccount() {
+        return account;
     }
 
-    public void setAccountType(String accountType) {
-        this.accountType = accountType;
+    public void setAccount(String account) {
+        this.account = account;
     }
 
-    public int getColor() {
+    public String getColor() {
         return color;
     }
 
-    public void setColor(int color) {
+    public void setColor(String color) {
         this.color = color;
     }
 
@@ -59,15 +70,34 @@ public class AccountBill {
         this.iconResId = iconResId;
     }
 
+    public String getCreate_time() {
+        return create_time;
+    }
+
+    public void setCreate_time(String create_time) {
+        this.create_time = create_time;
+    }
+
+    public String getMoneyCount() {
+        return moneyCount;
+    }
+
+    public void setMoneyCount(String moneyCount) {
+        this.moneyCount = moneyCount;
+    }
+
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer("AccountBill{");
+        sb.append("id='").append(id).append('\'');
         sb.append(", classify='").append(classify).append('\'');
-        sb.append(", money='").append(money).append('\'');
-        sb.append(", moneyType=").append(moneyType);
-        sb.append(", accountType='").append(accountType).append('\'');
-        sb.append(", color=").append(color);
+        sb.append(", money=").append(money);
+        sb.append(", type=").append(type);
+        sb.append(", account='").append(account).append('\'');
+        sb.append(", color='").append(color).append('\'');
         sb.append(", iconResId=").append(iconResId);
+        sb.append(", create_time='").append(create_time).append('\'');
+        sb.append(", moneyCount='").append(moneyCount).append('\'');
         sb.append('}');
         return sb.toString();
     }

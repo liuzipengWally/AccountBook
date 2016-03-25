@@ -7,13 +7,23 @@ import com.accountbook.entity.UserForLeanCloud;
  */
 public class Sync {
 
-    private static final Sync mInstance = new Sync();
+    private Sync(){}
 
-    private Sync(){
+    private static Sync mInstance;
 
-    }
-
-    public static Sync getInstance(){
+    /**
+     * 单例构造
+     *
+     * @return 唯一的该类对象
+     */
+    public static Sync getInstance() {
+        if (mInstance == null) {
+            synchronized (SQLite.class) {
+                if (mInstance == null) {
+                    mInstance = new Sync();
+                }
+            }
+        }
         return mInstance;
     }
 

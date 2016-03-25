@@ -30,23 +30,23 @@ public class HomeListDivider extends RecyclerView.ItemDecoration {
 
     @Override
     public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
-        View weekText = parent.findViewById(R.id.circle_icon);
+        View circle_icon = parent.findViewById(R.id.circle_icon);
         DisplayMetrics metrics = parent.getContext().getResources().getDisplayMetrics();
-
-        int left = (int) (weekText.getWidth() + Util.dp2px(32, metrics));
-        int right = (int) (parent.getWidth() - Util.dp2px(16, metrics));
-
         int childCount = parent.getChildCount();
+        if (childCount != 0) {
+            int left = (int) (circle_icon.getWidth() + Util.dp2px(32, metrics));
+            int right = (int) (parent.getWidth() - Util.dp2px(16, metrics));
 
-        for (int i = 0; i < childCount; i++) {
-            View child = parent.getChildAt(i);
-            RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
+            for (int i = 0; i < childCount; i++) {
+                View child = parent.getChildAt(i);
+                RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
 
-            int top = child.getBottom() + params.bottomMargin;
-            int bottom = top + mDivider.getIntrinsicHeight();
+                int top = child.getBottom() + params.bottomMargin;
+                int bottom = top + mDivider.getIntrinsicHeight();
 
-            mDivider.setBounds(left, top, right, bottom);
-            mDivider.draw(c);
+                mDivider.setBounds(left, top, right, bottom);
+                mDivider.draw(c);
+            }
         }
     }
 }

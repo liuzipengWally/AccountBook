@@ -1,14 +1,6 @@
 package com.accountbook.view.api;
 
 public interface ILoginView {
-
-    /**
-     * 开始执行操作的UI变化
-     */
-    void uiBeginLogin();
-
-
-
     /**
      * 提供给presenter获取username的方法
      *
@@ -34,16 +26,7 @@ public interface ILoginView {
     void loginFailed(String message);
 
     /**
-     * 显示用户名错误
-     *
-     * @param message 错误信息
+     * 显示进度
      */
-    void showLoginUsernameError(String message);
-
-    /**
-     * 显示密码错误
-     *
-     * @param message 错误信息
-     */
-    void showLoginPasswordError(String message);
+    void showProgress();
 }

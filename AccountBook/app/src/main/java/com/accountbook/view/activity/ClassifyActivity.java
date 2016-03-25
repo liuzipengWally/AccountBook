@@ -40,29 +40,41 @@ public class ClassifyActivity extends AppCompatActivity {
         setContentView(R.layout.classify_activity);
         ButterKnife.bind(this);
 
-        init();
+        Intent intent = getIntent();
+        int type = intent.getIntExtra("type", ConstantContainer.EDIT_RECROD_REQUEST);
+
+        init(type);
         eventBind();
     }
 
-    private void init() {
+    private void init(int type) {
         mToolbar.setTitle(R.string.classify);
         setSupportActionBar(mToolbar);
+        ClassifyAdapter adapter = new ClassifyAdapter(getSupportFragmentManager());
 
         mFragments = new ArrayList<>();
-        mFragments.add(ClassifyFragment.newInstance(ConstantContainer.EXPEND));
-        mFragments.add(ClassifyFragment.newInstance(ConstantContainer.INCOME));
-        mFragments.add(ClassifyFragment.newInstance(ConstantContainer.BORROW));
-        mFragments.add(ClassifyFragment.newInstance(ConstantContainer.LEND));
 
-        ClassifyAdapter adapter = new ClassifyAdapter(getSupportFragmentManager());
-        mViewPager.setAdapter(adapter);
-
-        mTabLayout.setupWithViewPager(mViewPager);
-        //初始化顶部tab
-        mTabLayout.getTabAt(0).setText(R.string.expend);
-        mTabLayout.getTabAt(1).setText(R.string.income);
-        mTabLayout.getTabAt(2).setText(R.string.borrow);
-        mTabLayout.getTabAt(3).setText(R.string.lend);
+        switch (type) {
+            case ConstantContainer.BUDGET_REQUEST:
+                mFragments.add(ClassifyFragment.newInstance(ConstantContainer.EXPEND));
+                mViewPager.setAdapter(adapter);
+                mTabLayout.setupWithViewPager(mViewPager);
+                mTabLayout.getTabAt(0).setText(R.string.expend);
+                break;
+            case ConstantContainer.EDIT_RECROD_REQUEST:
+                mFragments.add(ClassifyFragment.newInstance(ConstantContainer.EXPEND));
+                mFragments.add(ClassifyFragment.newInstance(ConstantContainer.INCOME));
+                mFragments.add(ClassifyFragment.newInstance(ConstantContainer.BORROW));
+                mFragments.add(ClassifyFragment.newInstance(ConstantContainer.LEND));
+                mViewPager.setAdapter(adapter);
+                mTabLayout.setupWithViewPager(mViewPager);
+                //初始化顶部tab
+                mTabLayout.getTabAt(0).setText(R.string.expend);
+                mTabLayout.getTabAt(1).setText(R.string.income);
+                mTabLayout.getTabAt(2).setText(R.string.borrow);
+                mTabLayout.getTabAt(3).setText(R.string.lend);
+                break;
+        }
     }
 
     private void eventBind() {
@@ -72,24 +84,6 @@ public class ClassifyActivity extends AppCompatActivity {
                 finish();
             }
         });
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.classify_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            //点击添加分类菜单，跳转到分类编辑activity
-            case R.id.add_classify:
-                Intent intent = new Intent(ClassifyActivity.this, EditClassifyActivity.class);
-                startActivityForResult(intent, 0);
-                break;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     class ClassifyAdapter extends FragmentPagerAdapter {

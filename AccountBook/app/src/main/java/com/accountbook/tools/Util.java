@@ -5,7 +5,11 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
+
 import com.avos.avoscloud.AVException;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 /**
@@ -14,6 +18,7 @@ import java.util.Calendar;
 public class Util {
     /**
      * 翻译leanCloud异常
+     *
      * @param e 异常对象
      * @return 中文的错误信息
      */
@@ -78,5 +83,20 @@ public class Util {
             default:
                 return "";
         }
+    }
+
+    public static String formatDateUseCh(long ms) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy年MM月dd日");
+        return dateFormat.format(ms);
+    }
+
+    public static long formatDateNotCh(long ms) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+        return new Integer(dateFormat.format(ms));
+    }
+
+    public static long parseMsNotCh(String date) throws ParseException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+        return dateFormat.parse(date).getTime();
     }
 }

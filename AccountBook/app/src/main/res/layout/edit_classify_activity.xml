@@ -7,6 +7,6 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.accountbook.view.activity.EditClassifyActivity">
+    tools:context="com.accountbook.mloginView.activity.EditClassifyActivity">
 
 </RelativeLayout>

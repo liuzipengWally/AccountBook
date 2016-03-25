@@ -16,6 +16,63 @@ public class UserBiz implements IUserBiz {
     private SQLiteDatabase mDatabase;
     private Exception exception;
 
+    public interface OnLogoutListener {
+
+        /**
+         * 登出完成
+         */
+        void logoutComplete();
+
+        /**
+         * 登出失败
+         *
+         * @param message 错误信息
+         */
+        void logoutFailed(String message);
+
+        /**
+         * 清除数据完成
+         */
+        void clearComplete();
+
+        /**
+         * 清除数据失败
+         *
+         * @param message 错误信息
+         */
+        void clearFailed(String message);
+    }
+
+    public interface OnLoginListener {
+        /**
+         * 登录成功回调
+         */
+        void loginSuccess();
+
+        /**
+         * 登录失败回调
+         *
+         * @param message 失败原因
+         */
+        void loginFailed(String message);
+    }
+
+
+    public interface OnRegistryListener {
+
+        /**
+         * 注册成功
+         */
+        void registrySuccess();
+
+        /**
+         * 注册失败
+         *
+         * @param message 错误信息
+         */
+        void registryFailed(String message);
+    }
+
     public UserBiz() {
         this.mDatabase = SQLite.getInstance().getDatabaseObject();
     }
@@ -30,21 +87,14 @@ public class UserBiz implements IUserBiz {
      */
     @Override
     public void login(final Context context, final String username, final String password, final OnLoginListener listener) {
-        if (AVUser.getCurrentUser() != null) {
-            listener.loginFailed("请注销当前账户");
-            return;
-        }
-
         if (Util.isNetworkAvailable(context)) {
             AVUser.logInInBackground(username, password, new LogInCallback<UserForLeanCloud>() {
-
                 @Override
                 public void done(UserForLeanCloud avUser, AVException e) {
                     if (avUser == null) {
                         listener.loginFailed(Util.getLocalizeLeanCloudError(e));
                     } else {
                         listener.loginSuccess();
-                        Sync.getInstance().loadUserData(avUser);
                     }
                 }
             }, UserForLeanCloud.class);
@@ -98,13 +148,8 @@ public class UserBiz implements IUserBiz {
             }
             AVUser.logOut();
             listener.logoutComplete();
-        }catch (Exception e){
+        } catch (Exception e) {
             listener.clearFailed(e.getMessage());
         }
-
     }
-
-
-
-
 }

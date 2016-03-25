@@ -11,6 +11,8 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -30,17 +32,16 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 
-public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, ToolbarMenuOnClickListener, ILogoutView {
-    @Bind(R.id.drawer)
-    DrawerLayout mDrawerLayout;
-
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, ToolbarMenuOnClickListener, ILogoutView {
     @Bind(R.id.nav_view)
     NavigationView mNavigationView;
 
+    @Bind(R.id.Drawer)
+    DrawerLayout mDrawerLayout;
+
     private TextView userName;
-    private LogoutPresenter logoutPresenter;
+    private LogoutPresenter mLogoutPresenter;
     private boolean isClearData = false;
-    private AlertDialog logoutDialog;
 
     private HomeFragment mHomeFragment;
     private ChartFragment mChartFragment;
@@ -52,6 +53,43 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         setContentView(R.layout.main_activity);
         ButterKnife.bind(this);
         initView();
+        recoveryFragment(savedInstanceState);
+    }
+
+    /**
+     * 该方法用于在内存重载时恢复fragment的状态，防止重叠bug
+     *
+     * @param savedInstanceState savedInstanceState 不等于null时，代表应用的内存被重载了
+     */
+    private void recoveryFragment(Bundle savedInstanceState) {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+
+        if (savedInstanceState != null) {
+            mHomeFragment = (HomeFragment) fm.findFragmentByTag("HomeFragment");
+            mChartFragment = (ChartFragment) fm.findFragmentByTag("ChartFragment");
+            mBudgetFragment = (BudgetFragment) fm.findFragmentByTag("BudgetFragment");
+
+            transaction.hide(mChartFragment).hide(mBudgetFragment).show(mHomeFragment);
+            transaction.commit(); //提交事物
+        } else {
+            //内存未被重载的时候，初始化所有的fragment，并添加进transaction
+            mHomeFragment = new HomeFragment();
+            mHomeFragment.setToolbarMenuOnClickListener(this);
+            transaction.add(R.id.frag_container, mHomeFragment, "HomeFragment");
+
+            mChartFragment = new ChartFragment();
+            mChartFragment.setToolbarMenuOnClickListener(this);
+            transaction.add(R.id.frag_container, mChartFragment, "ChartFragment");
+
+            mBudgetFragment = new BudgetFragment();
+            mBudgetFragment.setToolbarMenuOnClickListener(this);
+            transaction.add(R.id.frag_container, mBudgetFragment, "BudgetFragment");
+
+            //将主页显示出来，其他隐藏
+            transaction.hide(mChartFragment).hide(mBudgetFragment).show(mHomeFragment);
+            transaction.commit();//提交事物
+        }
     }
 
     @Override
@@ -70,8 +108,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         mDrawerLayout.addDrawerListener(toggle);
 
         toggle.syncState();
-
-        switchFragment(R.id.home_page);
     }
 
     /**
@@ -122,6 +158,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 } else
                     showLogoutDialog();
                 break;
+            case R.id.family:
+                startActivity(new Intent(MainActivity.this, RolesActivity.class));
+                break;
             default:
                 switchFragment(id);
         }
@@ -145,42 +184,19 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             case R.id.home_page:
                 /*先隐藏所有的Fragment*/
                 hideAllFragment(transaction);
-
-                /*如果该对象为空，就实例化这个Fragment，并且将它添加进事物中。
-                * transaction.add(R.id.contents,mOrderFragment);
-                * 该方法第一个参数为要存放这些fragment的viewGroup，第二个参数就是该Fragment
-                * */
-                if (mHomeFragment == null) {
-                    mHomeFragment = new HomeFragment();
-                    mHomeFragment.setToolbarMenuOnClickListener(this);
-                    transaction.add(R.id.frag_container, mHomeFragment);
-                }
-
-                //如果不为空则显示出来
+                //显示出要显示的fragment
                 transaction.show(mHomeFragment);
                 break;
             case R.id.budget:
                 /*先隐藏所有的Fragment*/
                 hideAllFragment(transaction);
-
-                if (mBudgetFragment == null) {
-                    mBudgetFragment = new BudgetFragment();
-                    mBudgetFragment.setToolbarMenuOnClickListener(this);
-                    transaction.add(R.id.frag_container, mBudgetFragment);
-                }
-
+                //显示出要显示的fragment
                 transaction.show(mBudgetFragment);
                 break;
             case R.id.chart:
                 /*先隐藏所有的Fragment*/
                 hideAllFragment(transaction);
-
-                if (mChartFragment == null) {
-                    mChartFragment = new ChartFragment();
-                    mChartFragment.setToolbarMenuOnClickListener(this);
-                    transaction.add(R.id.frag_container, mChartFragment);
-                }
-
+                //显示出要显示的fragment
                 transaction.show(mChartFragment);
                 break;
         }
@@ -228,9 +244,16 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == 2) {
             loadUserInfo();
+        } else if (resultCode == 11) {
+            FragmentManager fm = getSupportFragmentManager();
+            mHomeFragment = (HomeFragment) fm.findFragmentByTag("HomeFragment");
+            mHomeFragment.onActivityResult(requestCode, resultCode, data);
+        } else if (requestCode == 12) {
+            FragmentManager fm = getSupportFragmentManager();
+            mBudgetFragment = (BudgetFragment) fm.findFragmentByTag("BudgetFragment");
+            mBudgetFragment.onActivityResult(requestCode, resultCode, data);
         }
     }
-
 
     /**
      * 读取用户数据
@@ -247,39 +270,28 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
      * 开始注销
      */
     public void showLogoutDialog() {
-        if (logoutDialog == null) {
-            System.out.println(111111);
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("确定注销吗？");
-            builder.setMultiChoiceItems(new String[]{"删除全部数据"}, new boolean[]{false}, new DialogInterface.OnMultiChoiceClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                    System.out.println(isChecked);
-                    System.out.println(isClearData);
-                    MainActivity.this.isClearData = isChecked;
-                }
-            });
-            builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
 
-                    if (MainActivity.this.logoutPresenter == null) {
-                        MainActivity.this.logoutPresenter = new LogoutPresenter(MainActivity.this);
-                    }
-
-                    logoutPresenter.doLogout();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("确定注销吗？");
+        builder.setMultiChoiceItems(new String[]{"删除全部数据"}, new boolean[]{false}, new DialogInterface.OnMultiChoiceClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                isClearData = isChecked;
+            }
+        });
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (mLogoutPresenter == null) {
+                    mLogoutPresenter = new LogoutPresenter(MainActivity.this);
                 }
-            });
-            builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
-            logoutDialog = builder.create();
-        }
-        logoutDialog.show();
 
+                mLogoutPresenter.doLogout(MainActivity.this);
+            }
+        });
+        builder.setNegativeButton("取消", null);
+
+        builder.show();
     }
 
 
@@ -290,6 +302,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
      */
     @Override
     public boolean isClearData() {
+        Log.i("data", isClearData + "");
         return isClearData;
     }
 
@@ -309,7 +322,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
      */
     @Override
     public void logoutFailed(String message) {
-        showDialog(this, "注销失败", message);
+//        showDialog(this, "注销失败", message);
     }
 
     /**
@@ -327,6 +340,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
      */
     @Override
     public void clearFailed(String message) {
-        showDialog(this, "清除数据失败", message);
+//        showDialog(this, "清除数据失败", message);
     }
 }

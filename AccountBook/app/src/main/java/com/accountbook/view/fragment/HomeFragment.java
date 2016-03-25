@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.CardView;
@@ -18,14 +20,14 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.accountbook.R;
 import com.accountbook.entity.AccountBill;
-import com.accountbook.presenter.HomeLoadDataPresenter;
-import com.accountbook.view.activity.AddActivity;
+import com.accountbook.presenter.HomePresenter;
+import com.accountbook.tools.DialogManager;
+import com.accountbook.tools.Util;
+import com.accountbook.view.activity.EditActivity;
 import com.accountbook.view.adapter.HomeListAdapter;
-import com.accountbook.view.adapter.ToolbarSpinnerAdapter;
 import com.accountbook.view.api.IHomeView;
 import com.accountbook.view.api.ToolbarMenuOnClickListener;
 import com.accountbook.view.customview.AutoHideFab;
@@ -33,6 +35,8 @@ import com.accountbook.view.customview.DoubleClickDomain;
 import com.accountbook.view.customview.FoldAppBar;
 import com.accountbook.view.customview.HomeListDivider;
 
+import java.lang.reflect.Field;
+import java.util.Calendar;
 import java.util.List;
 
 import butterknife.Bind;
@@ -63,19 +67,24 @@ public class HomeFragment extends Fragment implements IHomeView {
     SwipeRefreshLayout mSwipeRefreshLayout;
     @Bind(R.id.edit_btn)
     AutoHideFab mEditBtn;
-
+    @Bind(R.id.RootLayout)
+    CoordinatorLayout mRootLayout;
     private View mLayoutView;
-
-    private String[] mSpinnerTitle;
 
     private Context mContext;
 
     private int downY;
     private int offsetY;
+    private long mStartTime;
+    private long mEndTime;
+    private boolean mDecorationFlag;
 
     private HomeListAdapter mAdapter;
+    private HomePresenter mPresenter;
 
-    private HomeLoadDataPresenter mLoadDataPresenter;
+    private List<AccountBill> mAccountBills;
+    private AccountBill mAccountBillCurr;
+    private int mDeletePosition;
 
     private ToolbarMenuOnClickListener mToolbarMenuOnClickListener;
 
@@ -95,9 +104,7 @@ public class HomeFragment extends Fragment implements IHomeView {
     @Override
     public void onStart() {
         super.onStart();
-        mSwipeRefreshLayout.setRefreshing(true);
         //加载初始数据，该方法会去查询数据，并最终走到下面的LoadData去适配数据到列表中
-        mLoadDataPresenter.query();
         bindEvents();
     }
 
@@ -108,14 +115,8 @@ public class HomeFragment extends Fragment implements IHomeView {
     }
 
     private void initView() {
-        //初始化toolbar
-        mToolbar.inflateMenu(R.menu.home_fragment_menu);
-
-        mSpinnerTitle = getResources().getStringArray(R.array.home_page_spinner);
-        mSpinner.setAdapter(new ToolbarSpinnerAdapter(mContext, mSpinnerTitle));
-
         //初始化presenter
-        mLoadDataPresenter = new HomeLoadDataPresenter(this);
+        mPresenter = new HomePresenter(this);
 
         //初始化下拉刷新控件
         mSwipeRefreshLayout.setColorSchemeResources(R.color.colorAccent); //设置控件进度条颜色
@@ -125,8 +126,6 @@ public class HomeFragment extends Fragment implements IHomeView {
         mRecyclerView.setLayoutManager(layoutManager);
         //列表动画使用默认动画
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        //添加分割线
-        mRecyclerView.addItemDecoration(new HomeListDivider(mContext));
     }
 
     //// TODO: 16/2/29  事件绑定方法，所有事件均集中到这个方法中
@@ -152,10 +151,60 @@ public class HomeFragment extends Fragment implements IHomeView {
             }
         });
 
+        //// TODO: 16/3/16 反射改变spinner的选择事件，让其可重选
+        mSpinner.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                Class<?> clazz = AdapterView.class;
+                try {
+                    Field field = clazz.getDeclaredField("mOldSelectedPosition");
+                    field.setAccessible(true);
+                    field.setInt(mSpinner, -1);
+                } catch (NoSuchFieldException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+                return false;
+            }
+        });
+
+        // TODO: 16/3/17 每个月的1号会提前或后退一天。  待修复   时间有严重问题，丢失周日
         mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(mContext, mSpinnerTitle[position], Toast.LENGTH_SHORT).show();
+                Calendar calendar = Calendar.getInstance();
+
+                mEndTime = Util.formatDateNotCh(calendar.getTimeInMillis());
+                switch (position) {
+                    case 0:
+                        calendar.set(Calendar.DAY_OF_WEEK, calendar.getFirstDayOfWeek());
+                        mStartTime = Util.formatDateNotCh(calendar.getTimeInMillis());
+                        mPresenter.queryAccountBills(mStartTime, mEndTime);
+                        break;
+                    case 1:
+                        calendar.set(Calendar.DAY_OF_MONTH, 1);
+                        mStartTime = Util.formatDateNotCh(calendar.getTimeInMillis());
+                        mPresenter.queryAccountBills(mStartTime, mEndTime);
+                        break;
+                    case 2:
+                        calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) - 2);
+                        calendar.set(Calendar.DAY_OF_MONTH, 1);
+                        mStartTime = Util.formatDateNotCh(calendar.getTimeInMillis());
+                        mPresenter.queryAccountBills(mStartTime, mEndTime);
+                        break;
+                    case 3:
+                        DialogManager dialogManager = new DialogManager(mContext);
+                        dialogManager.showDateRangePickerDialog(new DialogManager.OnDateRangeSetListener() {
+                            @Override
+                            public void dateRangeSet(long startMillisecond, long endMillisecond) {
+                                mStartTime = Util.formatDateNotCh(startMillisecond);
+                                mEndTime = Util.formatDateNotCh(endMillisecond);
+                                mPresenter.queryAccountBills(mStartTime, mEndTime);
+                            }
+                        });
+                        break;
+                }
             }
 
             @Override
@@ -193,32 +242,25 @@ public class HomeFragment extends Fragment implements IHomeView {
             }
         });
 
-        //主页列表RecyclerView每一item的点击事件
-        mAdapter.setItemClickListener(new HomeListAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-
-            }
-
-            @Override
-            public void onLongClick(View view, int position) {
-
-            }
-        });
-
         //下拉刷新控件的刷新事件
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mLoadDataPresenter.query();
+                mSpinner.setSelection(0);
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(Calendar.DAY_OF_WEEK, calendar.getFirstDayOfWeek());
+                mStartTime = Util.formatDateNotCh(calendar.getTimeInMillis());
+                mEndTime = Util.formatDateNotCh(System.currentTimeMillis());
+                mPresenter.queryAccountBills(mStartTime, mEndTime);
             }
         });
 
+        //主页floatingactionbutton点击事件
         mEditBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, AddActivity.class);
-                startActivity(intent);
+                Intent intent = new Intent(mContext, EditActivity.class);
+                startActivityForResult(intent, 0);
             }
         });
     }
@@ -272,9 +314,9 @@ public class HomeFragment extends Fragment implements IHomeView {
                 //也就是说，手指离开屏幕时要半段，如果当前appbar的高度>limit，我需要让appbar完全展开
                 //否则也就需要把他折叠回去
                 int limit = mAppBarLayout.maxHeight - (mAppBarLayout.maxHeight - mAppBarLayout.minHeight) / 2;
-                if (mAppBarLayout.getHeight() > limit) {
+                if (mAppBarLayout.getHeight() > limit && mAppBarLayout.getHeight() < mAppBarLayout.maxHeight) {
                     mAppBarLayout.unfold();
-                } else {
+                } else if (mAppBarLayout.getHeight() < limit) {
                     mAppBarLayout.fold();
                 }
                 break;
@@ -282,36 +324,134 @@ public class HomeFragment extends Fragment implements IHomeView {
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        mSpinner.setSelection(0);
+        Calendar calendar = Calendar.getInstance();
+        mEndTime = Util.formatDateNotCh(System.currentTimeMillis());
+        calendar.set(Calendar.DAY_OF_WEEK, calendar.getFirstDayOfWeek());
+        mStartTime = Util.formatDateNotCh(calendar.getTimeInMillis());
+        mPresenter.queryAccountBills(mStartTime, mEndTime);
+    }
+
+    @Override
     public void showLoadDataFailed() {
+        if (mAccountBills != null) {
+            mAccountBills.removeAll(mAccountBills);
+            mAdapter.notifyDataSetChanged();
+        }
 
+        Snackbar.make(mRootLayout, "数据获取失败或无数据", Snackbar.LENGTH_LONG).setAction("重试", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.queryAccountBills(mStartTime, mEndTime);
+            }
+        }).show();
     }
 
     @Override
-    public void refresh() {
+    public void LoadAccountBills(List<AccountBill> accountBills) {
+        mAccountBills = accountBills;
+        mAdapter = new HomeListAdapter(accountBills, mContext); //上面几个参数为查询数据库得到的数据，用来构造适配器
+        mRecyclerView.setAdapter(mAdapter); //设置适配器，加载数据到列表
 
+        if (!mDecorationFlag) {
+            mRecyclerView.addItemDecoration(new HomeListDivider(mContext));
+            mDecorationFlag = true;
+        }
+        mSwipeRefreshLayout.setRefreshing(false);  //数据加载完，进度条也要停止刷新动画
+
+        bindItemEvent();//item的点击事件必须在这绑定，否则因为数据没有适配，会出错
+    }
+
+    private void bindItemEvent() {
+        //主页列表RecyclerView每一item的点击事件
+        mAdapter.setItemClickListener(new HomeListAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                mDeletePosition = position;
+                mAccountBillCurr = mAccountBills.get(position);
+                Intent intent = new Intent(mContext, EditActivity.class);
+                intent.putExtra("id", mAccountBillCurr.getId());
+                startActivityForResult(intent, 1);
+            }
+
+            @Override
+            public void onLongClick(View view, final int position) {
+                mDeletePosition = position;
+                DialogManager manager = new DialogManager(mContext);
+                mAccountBillCurr = mAccountBills.get(position);
+                manager.showMenuDialog(new String[]{"删除记录"}, new DialogManager.OnDialogMenuSelectListener() {
+                    @Override
+                    public void menuSelect(int which) {
+                        switch (which) {
+                            case 0:
+                                mPresenter.deleteAccountBill(mAccountBillCurr.getId());
+                                break;
+                        }
+                    }
+                });
+            }
+        });
     }
 
     @Override
-    public void LoadData(List<AccountBill> accountBills, String income, String expend, String balance) {
+    public void loadInfoCard(String expend, String income, String balance) {
         mIncomeText.setText(income);
         mExpendText.setText(expend);
         mBalanceText.setText(balance);
         mStatusHintText.setText(getStatus(new Integer(balance)));
-
-        mAdapter = new HomeListAdapter(accountBills, mContext); //上面几个参数为查询数据库得到的数据，用来构造适配器
-        mRecyclerView.setAdapter(mAdapter); //设置适配器，加载数据到列表
-
-        mSwipeRefreshLayout.setRefreshing(false);  //数据加载完，进度条也要停止刷新动画
     }
 
     @Override
-    public void toDetailedActivity(int id, int moneyType) {
+    public void loadInfoCardFailed() {
 
     }
 
     @Override
-    public void refreshDone() {
+    public void showLoadingProgress() {
+        mSwipeRefreshLayout.setRefreshing(true);
+    }
 
+    @Override
+    public void hideLoadingProgress() {
+        mSwipeRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void deleteSuccess(final String id) {
+        mAdapter.removeItem(mDeletePosition);
+        Snackbar.make(mRootLayout, "删除成功", Snackbar.LENGTH_LONG).setAction("恢复", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.recoveryAccountBill(id);
+            }
+        }).show();
+    }
+
+    @Override
+    public void deleteFailed(final String id) {
+        Snackbar.make(mRootLayout, "删除失败", Snackbar.LENGTH_LONG).setAction("重试", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.deleteAccountBill(id);
+            }
+        }).show();
+    }
+
+    @Override
+    public void recoverySuccess() {
+        mAdapter.addItem(mDeletePosition, mAccountBillCurr);
+        Snackbar.make(mRootLayout, "恢复成功", Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void recoveryFailed(final String id) {
+        Snackbar.make(mRootLayout, "恢复失败", Snackbar.LENGTH_LONG).setAction("重试", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.recoveryAccountBill(id);
+            }
+        }).show();
     }
 
     private String getStatus(Integer balance) {
@@ -328,5 +468,7 @@ public class HomeFragment extends Fragment implements IHomeView {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+        mLayoutView = null;
     }
+
 }

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="0dp">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dp16">
+
+        <TextView
+            android:id="@+id/DateText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="2016年2月16日周三"
+            android:textColor="@color/black54"
+            android:textSize="@dimen/subhead" />
+
+        <TextView
+            android:id="@+id/CountText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="-500"
+            android:textColor="@color/black54"
+            android:textSize="@dimen/subhead" />
+    </RelativeLayout>
+
+    <include layout="@layout/home_fragment_recent_item" />
+</LinearLayout>

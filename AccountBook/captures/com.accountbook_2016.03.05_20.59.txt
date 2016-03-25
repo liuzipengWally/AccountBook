@@ -1,5 +1,5 @@
 TASK com.accountbook id=3174
-  ACTIVITY com.accountbook/.view.activity.MainActivity 5ccd462 pid=22469
+  ACTIVITY com.accountbook/.mloginView.activity.MainActivity 5ccd462 pid=22469
     Local FragmentActivity fdea112 State:
       mCreated=truemResumed=true mStopped=false mReallyStopped=false
       mLoadersStarted=true
@@ -30,7 +30,7 @@ TASK com.accountbook id=3174
     View Hierarchy:
       com.android.internal.policy.PhoneWindow$DecorView{d7eaaf V.E..... ... 0,0-1080,1920}
         android.widget.LinearLayout{7ca6ebc V.E..... ... 0,0-1080,1776}
-          android.view.ViewStub{bdee50c G.E..... ... 0,0-0,0 #10203a9 android:id/action_mode_bar_stub}
+          android.mloginView.ViewStub{bdee50c G.E..... ... 0,0-0,0 #10203a9 android:id/action_mode_bar_stub}
           android.widget.FrameLayout{569e45 V.E..... ... 0,0-1080,1776}
             android.support.v7.widget.FitWindowsLinearLayout{778999a V.E..... ... 0,0-1080,1776 #7f0d005e app:id/action_bar_root}
               android.support.v7.widget.ViewStubCompat{af95e55 G.E..... ... 0,0-0,0 #7f0d005f app:id/action_mode_bar_stub}
@@ -38,19 +38,19 @@ TASK com.accountbook id=3174
                 android.support.v4.widget.DrawerLayout{82dbaa8 VFED.... ... 0,0-1080,1776 #7f0d007c app:id/drawer}
                   android.widget.FrameLayout{47d9c1 V.E..... ... 0,72-1080,1776 #7f0d007d app:id/frag_container}
                     android.widget.LinearLayout{f36b566 V.E..... ... 0,0-1080,1704}
-                      com.accountbook.view.customview.FoldAppBar{87480a7 V.E..... ... 0,0-1080,168 #7f0d0097 app:id/appbar}
+                      com.accountbook.mloginView.customview.FoldAppBar{87480a7 V.E..... ... 0,0-1080,168 #7f0d0097 app:id/appbar}
                         android.support.v7.widget.Toolbar{f7d954 V.E..... ... 0,0-1080,168 #7f0d008d app:id/toolbar}
                           android.widget.ImageButton{8b750fd VFED..C. ... 0,0-168,168}
                           android.support.v7.widget.AppCompatSpinner{b43f4d7 VFED..C. ... 207,12-567,156 #7f0d0098 app:id/home_spinner}
                             android.support.v7.widget.AppCompatCheckedTextView{8d9c06e V.ED.... ... 0,0-240,144 #1020014 android:id/text1}
                           android.support.v7.widget.ActionMenuView{168c1f2 V.E..... ... 936,0-1080,168}
-                            android.support.v7.view.menu.ActionMenuItemView{7de8043 VFED..CL ... 0,12-144,156 #7f0d00b5 app:id/notification}
+                            android.support.v7.mloginView.menu.ActionMenuItemView{7de8043 VFED..CL ... 0,12-144,156 #7f0d00b5 app:id/notification}
                           android.widget.TextView{ba336c0 V.ED.... ... 180,43-195,124}
                         android.support.v7.widget.CardView{7acfff9 V.E..... ... 24,168-1056,168 #7f0d009b app:id/home_card}
                           android.widget.LinearLayout{e3d0b3e V.E...C. ... 0,0-1032,0 #7f0d009c app:id/home_card_layout}
                             android.widget.LinearLayout{95edd9f V.E..... ... 48,0-371,0}
-                              com.accountbook.view.customview.DateTextView{ce4feec V.ED.... ... 0,0-86,0}
-                              com.accountbook.view.customview.DateTextView{9b4a2b5 V.ED.... ... 86,79-323,79}
+                              com.accountbook.mloginView.customview.DateTextView{ce4feec V.ED.... ... 0,0-86,0}
+                              com.accountbook.mloginView.customview.DateTextView{9b4a2b5 V.ED.... ... 86,79-323,79}
                             android.widget.RelativeLayout{87a9d4a V.E..... ... 48,0-984,0}
                               android.widget.LinearLayout{95db4bb V.E..... ... 0,48-168,210}
                                 android.support.v7.widget.AppCompatTextView{d991dd8 V.ED.... ... 0,0-168,57}
@@ -66,47 +66,47 @@ TASK com.accountbook id=3174
                         android.support.v4.widget.SwipeRefreshLayout{c60bfee V.ED.... ... 0,0-1080,1536 #7f0d0099 app:id/refresh}
                           android.support.v7.widget.RecyclerView{fc06c8f VFED.... F.. 0,0-1080,1536 #7f0d009a app:id/home_list}
                             android.widget.RelativeLayout{74b22e2 V.E...C. ... 0,0-1080,226 #7f0d00a1 app:id/home_item}
-                              com.accountbook.view.customview.CircleText{c6ae673 V.ED.... ... 48,50-174,176 #7f0d00a2 app:id/week_lbl}
+                              com.accountbook.mloginView.customview.CircleText{c6ae673 V.ED.... ... 48,50-174,176 #7f0d00a2 app:id/week_lbl}
                               android.support.v7.widget.AppCompatTextView{bad5930 V.ED.... ... 222,48-390,105 #7f0d00a3 app:id/title_text}
                               android.support.v7.widget.AppCompatTextView{51bc9a9 V.ED.... ... 222,129-330,178 #7f0d00a4 app:id/account_type_text}
                               android.support.v7.widget.AppCompatTextView{5fc8b2e V.ED.... ... 948,84-1032,141 #7f0d00a5 app:id/money_text}
                             android.widget.RelativeLayout{3eab0eb V.E...C. ... 0,226-1080,452 #7f0d00a1 app:id/home_item}
-                              com.accountbook.view.customview.CircleText{d971e48 V.ED.... ... 48,50-174,176 #7f0d00a2 app:id/week_lbl}
+                              com.accountbook.mloginView.customview.CircleText{d971e48 V.ED.... ... 48,50-174,176 #7f0d00a2 app:id/week_lbl}
                               android.support.v7.widget.AppCompatTextView{84204e1 V.ED.... ... 222,48-390,105 #7f0d00a3 app:id/title_text}
                               android.support.v7.widget.AppCompatTextView{89ed206 V.ED.... ... 222,129-294,178 #7f0d00a4 app:id/account_type_text}
                               android.support.v7.widget.AppCompatTextView{64170c7 V.ED.... ... 972,84-1032,141 #7f0d00a5 app:id/money_text}
                             android.widget.RelativeLayout{d216e60 V.E...C. ... 0,452-1080,678 #7f0d00a1 app:id/home_item}
-                              com.accountbook.view.customview.CircleText{51d6f19 V.ED.... ... 48,50-174,176 #7f0d00a2 app:id/week_lbl}
+                              com.accountbook.mloginView.customview.CircleText{51d6f19 V.ED.... ... 48,50-174,176 #7f0d00a2 app:id/week_lbl}
                               android.support.v7.widget.AppCompatTextView{bb81bde V.ED.... ... 222,48-306,105 #7f0d00a3 app:id/title_text}
                               android.support.v7.widget.AppCompatTextView{195b1bf V.ED.... ... 222,129-330,178 #7f0d00a4 app:id/account_type_text}
                               android.support.v7.widget.AppCompatTextView{19f108c V.ED.... ... 912,84-1032,141 #7f0d00a5 app:id/money_text}
                             android.widget.RelativeLayout{944e851 V.E...C. ... 0,678-1080,904 #7f0d00a1 app:id/home_item}
-                              com.accountbook.view.customview.CircleText{c5c8b6 V.ED.... ... 48,50-174,176 #7f0d00a2 app:id/week_lbl}
+                              com.accountbook.mloginView.customview.CircleText{c5c8b6 V.ED.... ... 48,50-174,176 #7f0d00a2 app:id/week_lbl}
                               android.support.v7.widget.AppCompatTextView{a2219b7 V.ED.... ... 222,48-306,105 #7f0d00a3 app:id/title_text}
                               android.support.v7.widget.AppCompatTextView{ee4e524 V.ED.... ... 222,129-330,178 #7f0d00a4 app:id/account_type_text}
                               android.support.v7.widget.AppCompatTextView{31eb88d V.ED.... ... 936,84-1032,141 #7f0d00a5 app:id/money_text}
                             android.widget.RelativeLayout{f91388e V.E...C. ... 0,904-1080,1130 #7f0d00a1 app:id/home_item}
-                              com.accountbook.view.customview.CircleText{be488af V.ED.... ... 48,50-174,176 #7f0d00a2 app:id/week_lbl}
+                              com.accountbook.mloginView.customview.CircleText{be488af V.ED.... ... 48,50-174,176 #7f0d00a2 app:id/week_lbl}
                               android.support.v7.widget.AppCompatTextView{84db4bc V.ED.... ... 222,48-306,105 #7f0d00a3 app:id/title_text}
                               android.support.v7.widget.AppCompatTextView{b8f6c45 V.ED.... ... 222,129-330,178 #7f0d00a4 app:id/account_type_text}
                               android.support.v7.widget.AppCompatTextView{16c4f9a V.ED.... ... 936,84-1032,141 #7f0d00a5 app:id/money_text}
                             android.widget.RelativeLayout{8b6dea7 V.E...C. ... 0,1130-1080,1356 #7f0d00a1 app:id/home_item}
-                              com.accountbook.view.customview.CircleText{9dddf54 V.ED.... ... 48,50-174,176 #7f0d00a2 app:id/week_lbl}
+                              com.accountbook.mloginView.customview.CircleText{9dddf54 V.ED.... ... 48,50-174,176 #7f0d00a2 app:id/week_lbl}
                               android.support.v7.widget.AppCompatTextView{c7bdefd V.ED.... ... 222,48-306,105 #7f0d00a3 app:id/title_text}
                               android.support.v7.widget.AppCompatTextView{35d37f2 V.ED.... ... 222,129-330,178 #7f0d00a4 app:id/account_type_text}
                               android.support.v7.widget.AppCompatTextView{ce8be43 V.ED.... ... 936,84-1032,141 #7f0d00a5 app:id/money_text}
                             android.widget.RelativeLayout{fc5c4ec V.E...C. ... 0,1356-1080,1582 #7f0d00a1 app:id/home_item}
-                              com.accountbook.view.customview.CircleText{3bcf0b5 V.ED.... ... 48,50-174,176 #7f0d00a2 app:id/week_lbl}
+                              com.accountbook.mloginView.customview.CircleText{3bcf0b5 V.ED.... ... 48,50-174,176 #7f0d00a2 app:id/week_lbl}
                               android.support.v7.widget.AppCompatTextView{9c7d34a V.ED.... ... 222,48-306,105 #7f0d00a3 app:id/title_text}
                               android.support.v7.widget.AppCompatTextView{1b1b2bb V.ED.... ... 222,129-330,178 #7f0d00a4 app:id/account_type_text}
                               android.support.v7.widget.AppCompatTextView{4c043d8 V.ED.... ... 936,84-1032,141 #7f0d00a5 app:id/money_text}
                           android.support.v4.widget.CircleImageView{50f25fe G.ED.... ... 480,-120-600,0}
-                        com.accountbook.view.customview.AutoHideFab{57ac15f VFED.... ... 864,1320-1032,1488 #7f0d008e app:id/edit_btn}
+                        com.accountbook.mloginView.customview.AutoHideFab{57ac15f VFED.... ... 864,1320-1032,1488 #7f0d008e app:id/edit_btn}
                   android.support.design.widget.NavigationView{aa977ac I.E..... ... -888,0-0,1776 #7f0d007e app:id/nav_view}
                     android.support.design.internal.NavigationMenuView{7a68c75 VFED.V.. ... 0,0-888,1776 #7f0d0093 app:id/design_navigation_view}
                       android.widget.LinearLayout{3b4147b V.E..... ... 0,0-888,504 #7f0d0092 app:id/navigation_header_container}
                         android.widget.LinearLayout{40c6298 V.E..... ... 0,0-888,480}
-                          com.accountbook.view.customview.CircleIcon{8e07af1 V.ED..C. ... 48,117-258,327 #7f0d00a6 app:id/header_icon}
+                          com.accountbook.mloginView.customview.CircleIcon{8e07af1 V.ED..C. ... 48,117-258,327 #7f0d00a6 app:id/header_icon}
                           android.support.v7.widget.AppCompatTextView{46ff6d6 V.ED.... ... 48,375-300,432 #7f0d00a7 app:id/userName}
                       android.support.design.internal.NavigationMenuItemView{84f0aae VFED..C. ... 0,504-888,648}
                         android.support.v7.widget.AppCompatCheckedTextView{f7cc04f V.ED.... ... 48,0-840,144 #7f0d0094 app:id/design_menu_item_text}
@@ -118,7 +118,7 @@ TASK com.accountbook id=3174
                         android.support.v7.widget.AppCompatCheckedTextView{6429c99 V.ED.... ... 48,0-840,144 #7f0d0094 app:id/design_menu_item_text}
                         android.widget.FrameLayout{d697b5e V.E..... ... 840,0-840,144 #7f0d0096 app:id/design_menu_item_action_area}
                       android.widget.FrameLayout{6cdef6a V.E..... ... 0,936-888,963}
-                        android.view.View{a9d6c5b V.ED.... ... 0,24-888,27}
+                        android.mloginView.View{a9d6c5b V.ED.... ... 0,24-888,27}
                       android.support.v7.widget.AppCompatTextView{7bc7337 V.ED.... ... 0,963-888,1107}
                       android.support.design.internal.NavigationMenuItemView{440922f VFED..C. ... 0,1107-888,1251}
                         android.support.v7.widget.AppCompatCheckedTextView{b62c03c V.ED.... ... 48,0-840,144 #7f0d0094 app:id/design_menu_item_text}
@@ -126,4 +126,4 @@ TASK com.accountbook id=3174
                       android.support.design.internal.NavigationMenuItemView{c107ae6 VFED..C. ... 0,1251-888,1395}
                         android.support.v7.widget.AppCompatCheckedTextView{c5a9827 V.ED.... ... 48,0-840,144 #7f0d0094 app:id/design_menu_item_text}
                         android.widget.FrameLayout{218dad4 V.E..... ... 840,0-840,144 #7f0d0096 app:id/design_menu_item_action_area}
-        android.view.View{8ce28e V.ED.... ... 0,1776-1080,1920 #1020030 android:id/navigationBarBackground}
+        android.mloginView.View{8ce28e V.ED.... ... 0,1776-1080,1920 #1020030 android:id/navigationBarBackground}

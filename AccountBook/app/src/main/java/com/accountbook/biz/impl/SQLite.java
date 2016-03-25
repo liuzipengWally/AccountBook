@@ -24,6 +24,7 @@ public class SQLite {
     public static final String ROLE_TABLE = "role";
     public static final String CLASSIFY_TABLE = "classify";
     public static final String RECORD_TABLE = "record";
+    public static final String BUDGET_TABLE = "budget";
 
     private Context mContext;
     private SQLiteDatabase mDatabase;
@@ -69,6 +70,10 @@ public class SQLite {
         mDatabase = mContext.openOrCreateDatabase(name, Context.MODE_PRIVATE, null);
     }
 
+    public void createDataBase(String name) {
+        mDatabase = mContext.openOrCreateDatabase(name, mContext.MODE_PRIVATE, null);
+    }
+
     /**
      * 创建user表
      */
@@ -89,7 +94,7 @@ public class SQLite {
                 "role text," +
                 "isSave int," +
                 "available int," +
-                "timestamp number);" +
+                "update_ms number);" +
                 "PRAGMA foreign_keys = true;");
     }
 
@@ -107,7 +112,7 @@ public class SQLite {
                     values.put("role", roles[i]);
                     values.put("isSave", ConstantContainer.FALSE);
                     values.put("available", ConstantContainer.TRUE);
-                    values.put("timestamp", System.currentTimeMillis());
+                    values.put("update_ms", System.currentTimeMillis());
                     mDatabase.insert(ROLE_TABLE, null, values);
 
                     values.clear();
@@ -131,7 +136,7 @@ public class SQLite {
                 "type int," +
                 "isSave int," +
                 "available int," +
-                "timestamp number);" +
+                "update_ms number);" +
                 "PRAGMA foreign_keys = true;");
     }
 
@@ -164,7 +169,7 @@ public class SQLite {
                     values.put("type", ConstantContainer.EXPEND);
                     values.put("isSave", ConstantContainer.FALSE);
                     values.put("available", ConstantContainer.TRUE);
-                    values.put("timestamp", System.currentTimeMillis());
+                    values.put("update_ms", System.currentTimeMillis());
 
                     mDatabase.insert(CLASSIFY_TABLE, null, values);
                     values.clear();
@@ -181,7 +186,7 @@ public class SQLite {
                     values.put("type", ConstantContainer.INCOME);
                     values.put("isSave", ConstantContainer.FALSE);
                     values.put("available", ConstantContainer.TRUE);
-                    values.put("timestamp", System.currentTimeMillis());
+                    values.put("update_ms", System.currentTimeMillis());
 
                     mDatabase.insert(CLASSIFY_TABLE, null, values);
                     values.clear();
@@ -197,7 +202,7 @@ public class SQLite {
                 borrowValues.put("type", ConstantContainer.BORROW);
                 borrowValues.put("isSave", ConstantContainer.FALSE);
                 borrowValues.put("available", ConstantContainer.TRUE);
-                borrowValues.put("timestamp", System.currentTimeMillis());
+                borrowValues.put("update_ms", System.currentTimeMillis());
 
                 mDatabase.insert(CLASSIFY_TABLE, null, borrowValues);
                 borrowValues.clear();
@@ -212,7 +217,7 @@ public class SQLite {
                 lendValues.put("type", ConstantContainer.LEND);
                 lendValues.put("isSave", ConstantContainer.FALSE);
                 lendValues.put("available", ConstantContainer.TRUE);
-                lendValues.put("timestamp", System.currentTimeMillis());
+                lendValues.put("update_ms", System.currentTimeMillis());
 
                 mDatabase.insert(CLASSIFY_TABLE, null, lendValues);
                 lendValues.clear();
@@ -238,12 +243,29 @@ public class SQLite {
                 "classify_id text," +
                 "account text," +
                 "role_id text," +
-                "create_time text," +
                 "isSave int," +
                 "available int," +
-                "timestamp number," +
+                "record_ms number," +
+                "update_ms number," +
                 "CONSTRAINT \"classify_fk\" FOREIGN KEY (\"classify_id\") REFERENCES \"classify\" (\"_id\")," +
                 "CONSTRAINT \"role_fk\" FOREIGN KEY (\"role_id\") REFERENCES \"role\" (\"_id\")" +
+                ");" +
+                "PRAGMA foreign_keys = true;");
+    }
+
+    public void createBudgetTable() throws SQLiteException {
+        mDatabase.execSQL("create table if not exists budget (" +
+                "_id text primary key, " +
+                "object_id text," +
+                "money int," +
+                "description text," +
+                "classify_id text," +
+                "isSave int," +
+                "available int," +
+                "start_date number," +
+                "end_date number," +
+                "update_ms number," +
+                "CONSTRAINT \"classify_fk\" FOREIGN KEY (\"classify_id\") REFERENCES \"classify\" (\"_id\")" +
                 ");" +
                 "PRAGMA foreign_keys = true;");
     }

@@ -14,30 +14,59 @@ public interface IHomeView {
     void showLoadDataFailed();
 
     /**
-     * 刷新数据
-     */
-    void refresh();
-
-    /**
      * 在页面中载入数据
      *
      * @param accountBills 包含多个homeItem实体的集合
-     * @param income       当月总收入
-     * @param expend       当月总支出
-     * @param balance      单月预算余额
      */
-    void LoadData(List<AccountBill> accountBills, String income, String expend, String balance);
+    void LoadAccountBills(List<AccountBill> accountBills);
 
     /**
-     * 跳转到详情页
+     * 加载主页卡片数据
      *
-     * @param id        所选数据的id
-     * @param moneyType 所选数据的金钱类别，有支出、收入、借出、借入
+     * @param expend  支出
+     * @param income  收入
+     * @param balance 预算余额
      */
-    void toDetailedActivity(int id, int moneyType);
+    void loadInfoCard(String expend, String income, String balance);
 
     /**
-     * 刷新完成
+     * 加载主页卡片数据失败
      */
-    void refreshDone();
+    void loadInfoCardFailed();
+
+    /**
+     * 显示载入数据的进度
+     */
+    void showLoadingProgress();
+
+    /**
+     * 隐藏载入数据的进度
+     */
+    void hideLoadingProgress();
+
+    /**
+     * 删除成功
+     *
+     * @param id 被删除的数据的ID
+     */
+    void deleteSuccess(String id);
+
+    /**
+     * 删除失败
+     *
+     * @param id 被删除的数据的ID
+     */
+    void deleteFailed(String id);
+
+    /**
+     * 恢复成功
+     */
+    void recoverySuccess();
+
+    /**
+     * 恢复失败
+     *
+     * @param id 被删除的数据的ID
+     */
+    void recoveryFailed(String id);
 }

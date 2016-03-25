@@ -14,35 +14,33 @@ public class RegistryPresenter {
     private String username;
     private String password;
     private String passwordConfirm;
-    private IRegistryView view;
+    private IRegistryView mRegistryView;
     private IUserBiz userBiz;
 
-    public RegistryPresenter(IRegistryView view) {
-        this.view = view;
+    public RegistryPresenter(IRegistryView iRegistryView) {
+        this.mRegistryView = iRegistryView;
         userBiz = new UserBiz();
     }
 
     /**
      * 执行注册
      */
-    public void doRegistry() {
-        username = view.getRegUsername();
-        password = view.getRegPassword();
-        passwordConfirm = view.getRegPasswordConfirm();
+    public void doRegistry(Context context) {
+        username = mRegistryView.getRegUsername();
+        password = mRegistryView.getRegPassword();
+        passwordConfirm = mRegistryView.getRegPasswordConfirm();
 
         if (validateUsername() && validatePassword()) {
-            view.uiBeginReg();
-
-            userBiz.registry((Context) view, username, password, new IUserBiz.OnRegistryListener() {
+            mRegistryView.showProgress();
+            userBiz.registry(context, username, password, new UserBiz.OnRegistryListener() {
                 @Override
                 public void registrySuccess() {
-
                     //提交UI变化
                     Handler handler = new Handler();
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
-                            view.registerSuccess();
+                            mRegistryView.registerSuccess();
                         }
                     });
                 }
@@ -54,7 +52,7 @@ public class RegistryPresenter {
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
-                            view.registerFailed(message);
+                            mRegistryView.registerFailed(message);
                         }
                     });
                 }
@@ -71,7 +69,7 @@ public class RegistryPresenter {
      */
     private boolean validateUsername() {
         if (username.equals("")) {
-            view.showRegUsernameError("用户名不能为空");
+            mRegistryView.registerFailed("用户名不能为空");
             return false;
         } else return true;
     }
@@ -83,14 +81,14 @@ public class RegistryPresenter {
      */
     private boolean validatePassword() {
         if (password.equals("")) {
-            view.showRegPasswordError("密码不能为空");
+            mRegistryView.registerFailed("密码不能为空");
             return false;
         } else if (passwordConfirm.equals("")) {
-            view.showRegPasswordConfirmError("重复密码不能为空");
+            mRegistryView.registerFailed("重复密码不能为空");
             return false;
         } else if (!password.equals(passwordConfirm)) {
-            view.showRegPasswordError("两次密码不一样");
-            view.showRegPasswordConfirmError("两次密码不一样");
+            mRegistryView.registerFailed("两次密码不一样");
+            mRegistryView.registerFailed("两次密码不一样");
             return false;
         } else return true;
     }

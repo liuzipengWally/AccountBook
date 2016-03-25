@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/dp16">
+
+    <RelativeLayout
+        android:id="@+id/itemLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/flat_ripple"
+        android:clickable="true"
+        android:orientation="vertical"
+        android:padding="@dimen/dp16">
+
+        <TextView
+            android:id="@+id/ClassifyText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="汽车相关"
+            android:textSize="@dimen/subhead" />
+
+        <TextView
+            android:id="@+id/CountMoneyText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="500CYN"
+            android:textSize="@dimen/subhead" />
+
+        <TextView
+            android:id="@+id/CurrMoneyText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ClassifyText"
+            android:layout_marginTop="@dimen/dp8"
+            android:text="当前用量：300"
+            android:textSize="@dimen/body" />
+
+        <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
+            android:id="@+id/Progress"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_below="@id/CurrMoneyText"
+            android:layout_marginTop="@dimen/dp8"
+            app:rcBackgroundColor="#cfcfcf"
+            app:rcBackgroundPadding="0dp"
+            app:rcProgressColor="#ff9800" />
+
+        <TextView
+            android:id="@+id/StartDateText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/Progress"
+            android:layout_marginTop="@dimen/dp8"
+            android:text="2016年3月23日"
+            android:textSize="@dimen/body" />
+
+        <TextView
+            android:id="@+id/EndDateText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/Progress"
+            android:layout_marginTop="@dimen/dp8"
+            android:text="2016年3月31日"
+            android:textSize="@dimen/body" />
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

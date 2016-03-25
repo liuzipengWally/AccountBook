@@ -1,18 +1,20 @@
 <resources>
     <string name="app_name">家庭账本</string>
     <string name="title_activity_main2">Main2Activity</string>
+    <string name="confirm">确定</string>
+    <string name="cancel">取消</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_settings">设置</string>
+    <string name="family">家庭</string>
     <string name="exit">退出应用</string>
     <string name="notification_center">信息中心</string>
 
     <string name="loginHint">点击头像登录</string>
 
     <string name="home_page">首页</string>
-    <string name="chart">情况概要</string>
+    <string name="chart">图表</string>
     <string name="budget">预算设置</string>
     <string name="account_water">流水清单</string>
     <string name="account">账户源</string>
@@ -54,6 +56,8 @@
     <string name="lend">借出</string>
     <string name="add_classify">添加新分类</string>
     <string name="options">选项</string>
+
+    <string name="budget_name">预算名</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

@@ -1,17 +1,13 @@
 package com.accountbook.view.fragment;
 
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +17,7 @@ import com.accountbook.R;
 import com.accountbook.entity.Classify;
 import com.accountbook.presenter.ClassifyPresenter;
 import com.accountbook.tools.ConstantContainer;
-import com.accountbook.view.activity.EditClassifyActivity;
+import com.accountbook.tools.DialogManager;
 import com.accountbook.view.adapter.ClassifyAdapter;
 import com.accountbook.view.api.IClassifyView;
 
@@ -40,9 +36,8 @@ public class ClassifyFragment extends Fragment implements IClassifyView {
     private int mType;
 
     private Context mContext;
-    private View mLayoutView;
     private ClassifyAdapter mAdapter;
-    private String[] mDialogOptions = {"编辑", "删除"};
+    private String[] mDialogOptions = {"删除"};
     private int mDeletePosition;
     private Classify mCurrClassify;
 
@@ -78,7 +73,7 @@ public class ClassifyFragment extends Fragment implements IClassifyView {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = mLayoutView = inflater.inflate(R.layout.classify_fragment, container, false);
+        View view = inflater.inflate(R.layout.classify_fragment, container, false);
 
         ButterKnife.bind(this, view);
         init();
@@ -122,35 +117,20 @@ public class ClassifyFragment extends Fragment implements IClassifyView {
             public void onLongClick(final Classify classify, final int position) {
                 //如果是长按item，则弹出对话框，询问用户是要编辑这个分类，还是删除
                 if (classify.getType() != ConstantContainer.BORROW && classify.getType() != ConstantContainer.LEND) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-                    builder.setTitle(R.string.options);
-                    builder.setItems(mDialogOptions, new DialogInterface.OnClickListener() {
+                    DialogManager dialogManager = new DialogManager(mContext);
+                    dialogManager.showMenuDialog(mDialogOptions, new DialogManager.OnDialogMenuSelectListener() {
                         @Override
-                        public void onClick(DialogInterface dialog, int which) {
+                        public void menuSelect(int which) {
                             switch (which) {
                                 case 0:
-                                    //选择编辑的时候，这个实体数据传递到编辑的Activity
-                                    Intent intent = new Intent(getActivity(), EditClassifyActivity.class);
-                                    Bundle bundle = new Bundle();
-                                    bundle.putString("id", classify.getId());
-                                    bundle.putString("classify", classify.getClassify());
-                                    bundle.putString("color", classify.getColor());
-                                    bundle.putInt("iconResId", classify.getIconResId());
-                                    bundle.putInt("type", classify.getType());
-
-                                    startActivityForResult(intent, 1, bundle);
-                                    break;
-                                case 1:
                                     //选择删除的时候，调用Presenter的删除方法，删除该item
-                                    mDeletePosition = position;
+                                    mDeletePosition = which;
                                     mCurrClassify = classify;
                                     mPresenter.deleteClassify(classify.getId());
                                     break;
                             }
                         }
                     });
-
-                    builder.show();
                 }
             }
         });
@@ -227,4 +207,6 @@ public class ClassifyFragment extends Fragment implements IClassifyView {
             }
         }).show();
     }
+
+
 }
