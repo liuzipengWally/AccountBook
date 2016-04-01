@@ -7,7 +7,6 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,8 +18,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.accountbook.R;
-import com.accountbook.entity.Record;
-import com.accountbook.entity.Role;
+import com.accountbook.entity.local.Record;
+import com.accountbook.entity.local.Role;
 import com.accountbook.presenter.EditRecordPresenter;
 import com.accountbook.tools.ConstantContainer;
 import com.accountbook.tools.Util;
@@ -28,7 +27,6 @@ import com.accountbook.view.api.IEditView;
 import com.accountbook.view.customview.AutoHideFab;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 

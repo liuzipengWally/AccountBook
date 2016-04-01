@@ -1,4 +1,4 @@
-package com.accountbook.entity;
+package com.accountbook.entity.local;
 
 public class Budget {
     private String id;

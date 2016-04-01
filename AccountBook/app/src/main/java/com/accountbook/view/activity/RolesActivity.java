@@ -15,7 +15,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.accountbook.R;
-import com.accountbook.entity.Role;
+import com.accountbook.entity.local.Role;
 import com.accountbook.presenter.RolePresenter;
 import com.accountbook.view.adapter.RolesListAdapter;
 import com.accountbook.view.api.IRoleView;

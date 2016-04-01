@@ -1,10 +1,11 @@
 package com.accountbook.presenter;
 
+import android.content.Context;
+
 import com.accountbook.biz.api.IRoleBiz;
-import com.accountbook.biz.impl.BudgetBiz;
 import com.accountbook.biz.impl.RoleBiz;
-import com.accountbook.entity.Budget;
-import com.accountbook.entity.Role;
+import com.accountbook.entity.local.Role;
+import com.accountbook.tools.QuickSimpleIO;
 import com.accountbook.view.api.IRoleView;
 
 import java.util.List;
@@ -15,10 +16,12 @@ import java.util.List;
 public class RolePresenter {
     private IRoleView mRoleView;
     private IRoleBiz mRoleBiz;
+    private QuickSimpleIO mSimpleIO;
 
     public RolePresenter(IRoleView iRoleView) {
         this.mRoleView = iRoleView;
         this.mRoleBiz = new RoleBiz();
+        this.mSimpleIO = new QuickSimpleIO((Context) iRoleView, "version_sp");
     }
 
     /**
@@ -42,6 +45,8 @@ public class RolePresenter {
         mRoleBiz.delete(id, new RoleBiz.OnDeleteListener() {
             @Override
             public void deleteSuccess() {
+                mSimpleIO.setBoolean("isSave", false);
+                mSimpleIO.setInt("roleVer", mSimpleIO.getInt("roleVer") + 1);
                 mRoleView.deleteSuccess();
             }
 
@@ -56,6 +61,8 @@ public class RolePresenter {
         mRoleBiz.saveRole(role, new RoleBiz.OnRoleSaveListener() {
             @Override
             public void saveSuccess() {
+                mSimpleIO.setBoolean("isSave", false);
+                mSimpleIO.setInt("roleVer", mSimpleIO.getInt("roleVer") + 1);
                 mRoleView.saveSuccess();
             }
 

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 /**
- * Created by liuzipeng on 16/3/7.
+ * 该类是处理SharedPreferences的工具类
  */
 public class QuickSimpleIO {
     private SharedPreferences mPreferences;
@@ -31,5 +31,14 @@ public class QuickSimpleIO {
 
     public boolean getBoolean(String key) {
         return mPreferences.getBoolean(key, true);
+    }
+
+    public void setInt(String key, int value) {
+        mEditor.putInt(key, value);
+        mEditor.commit();
+    }
+
+    public int getInt(String key) {
+        return mPreferences.getInt(key, 4);
     }
 }

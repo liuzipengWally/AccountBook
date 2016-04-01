@@ -3,11 +3,10 @@ package com.accountbook.biz.impl;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.accountbook.biz.api.IEditBiz;
-import com.accountbook.entity.Record;
-import com.accountbook.entity.Role;
+import com.accountbook.entity.local.Record;
+import com.accountbook.entity.local.Role;
 import com.accountbook.tools.ConstantContainer;
 
 import java.util.ArrayList;

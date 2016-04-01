@@ -1,10 +1,7 @@
 package com.accountbook.biz.api;
 
-import com.accountbook.biz.impl.BudgetBiz;
 import com.accountbook.biz.impl.RoleBiz;
-import com.accountbook.entity.Role;
-
-import java.util.List;
+import com.accountbook.entity.local.Role;
 
 public interface IRoleBiz {
     /**

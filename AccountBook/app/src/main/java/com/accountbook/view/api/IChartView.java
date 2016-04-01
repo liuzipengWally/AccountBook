@@ -1,6 +1,6 @@
 package com.accountbook.view.api;
 
-import com.accountbook.entity.ChartData;
+import com.accountbook.entity.local.ChartData;
 
 import java.util.List;
 

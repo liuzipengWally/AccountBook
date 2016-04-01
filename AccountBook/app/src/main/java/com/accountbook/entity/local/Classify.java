@@ -1,8 +1,5 @@
-package com.accountbook.entity;
+package com.accountbook.entity.local;
 
-/**
- * Created by liuzipeng on 16/3/12.
- */
 public class Classify {
     private String id;
     private String classify;

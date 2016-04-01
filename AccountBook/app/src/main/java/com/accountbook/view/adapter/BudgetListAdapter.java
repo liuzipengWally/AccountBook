@@ -3,7 +3,6 @@ package com.accountbook.view.adapter;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,17 +10,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.accountbook.R;
-import com.accountbook.entity.Budget;
-import com.accountbook.tools.ConstantContainer;
+import com.accountbook.entity.local.Budget;
 import com.accountbook.tools.Util;
-import com.accountbook.view.customview.CircleIcon;
 import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
 
 import java.text.ParseException;
 import java.util.List;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
 
 /**
  * 主页近期记录的适配器

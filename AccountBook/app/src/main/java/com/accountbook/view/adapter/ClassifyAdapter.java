@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.accountbook.R;
-import com.accountbook.entity.Classify;
+import com.accountbook.entity.local.Classify;
 import com.accountbook.view.customview.CircleIcon;
 
 import java.util.List;

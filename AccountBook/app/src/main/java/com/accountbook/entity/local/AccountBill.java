@@ -1,4 +1,4 @@
-package com.accountbook.entity;
+package com.accountbook.entity.local;
 
 /**
  * 主页所使用的数据实体类

@@ -1,7 +1,7 @@
 package com.accountbook.biz.api;
 
 import com.accountbook.biz.impl.EditBiz;
-import com.accountbook.entity.Record;
+import com.accountbook.entity.local.Record;
 
 public interface IEditBiz {
     /**

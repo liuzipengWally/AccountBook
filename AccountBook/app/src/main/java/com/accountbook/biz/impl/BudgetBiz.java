@@ -5,8 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.accountbook.biz.api.IBudgetBiz;
-import com.accountbook.entity.AccountBill;
-import com.accountbook.entity.Budget;
+import com.accountbook.entity.local.Budget;
 import com.accountbook.tools.ConstantContainer;
 
 import java.util.ArrayList;

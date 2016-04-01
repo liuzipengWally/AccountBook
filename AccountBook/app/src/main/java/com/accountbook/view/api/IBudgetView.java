@@ -1,7 +1,6 @@
 package com.accountbook.view.api;
 
-import com.accountbook.entity.AccountBill;
-import com.accountbook.entity.Budget;
+import com.accountbook.entity.local.Budget;
 
 import java.util.List;
 

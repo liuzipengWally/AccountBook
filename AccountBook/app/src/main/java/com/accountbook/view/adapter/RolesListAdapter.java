@@ -1,22 +1,16 @@
 package com.accountbook.view.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.accountbook.R;
-import com.accountbook.entity.Budget;
-import com.accountbook.entity.Role;
-import com.accountbook.tools.Util;
-import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
+import com.accountbook.entity.local.Role;
 
-import java.text.ParseException;
 import java.util.List;
 
 /**

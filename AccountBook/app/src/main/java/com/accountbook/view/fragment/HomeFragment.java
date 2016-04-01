@@ -22,8 +22,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.accountbook.R;
-import com.accountbook.entity.AccountBill;
+import com.accountbook.entity.local.AccountBill;
 import com.accountbook.presenter.HomePresenter;
+import com.accountbook.presenter.service.SyncService;
 import com.accountbook.tools.DialogManager;
 import com.accountbook.tools.Util;
 import com.accountbook.view.activity.EditActivity;
@@ -34,6 +35,7 @@ import com.accountbook.view.customview.AutoHideFab;
 import com.accountbook.view.customview.DoubleClickDomain;
 import com.accountbook.view.customview.FoldAppBar;
 import com.accountbook.view.customview.HomeListDivider;
+import com.avos.avoscloud.AVUser;
 
 import java.lang.reflect.Field;
 import java.util.Calendar;
@@ -116,7 +118,7 @@ public class HomeFragment extends Fragment implements IHomeView {
 
     private void initView() {
         //初始化presenter
-        mPresenter = new HomePresenter(this);
+        mPresenter = new HomePresenter(this, mContext);
 
         //初始化下拉刷新控件
         mSwipeRefreshLayout.setColorSchemeResources(R.color.colorAccent); //设置控件进度条颜色
@@ -128,7 +130,6 @@ public class HomeFragment extends Fragment implements IHomeView {
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
     }
 
-    //// TODO: 16/2/29  事件绑定方法，所有事件均集中到这个方法中
     private void bindEvents() {
         //toolbar上 汉堡条菜单按钮的点击事件
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -246,6 +247,10 @@ public class HomeFragment extends Fragment implements IHomeView {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                if (AVUser.getCurrentUser() != null) {
+                    mContext.startService(new Intent(mContext, SyncService.class));
+                }
+
                 mSpinner.setSelection(0);
                 Calendar calendar = Calendar.getInstance();
                 calendar.set(Calendar.DAY_OF_WEEK, calendar.getFirstDayOfWeek());
@@ -325,6 +330,10 @@ public class HomeFragment extends Fragment implements IHomeView {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (AVUser.getCurrentUser() != null) {
+            mContext.startService(new Intent(mContext, SyncService.class));
+        }
+
         mSpinner.setSelection(0);
         Calendar calendar = Calendar.getInstance();
         mEndTime = Util.formatDateNotCh(System.currentTimeMillis());

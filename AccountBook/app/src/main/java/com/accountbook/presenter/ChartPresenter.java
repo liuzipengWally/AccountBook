@@ -2,7 +2,7 @@ package com.accountbook.presenter;
 
 import com.accountbook.biz.api.IChartBiz;
 import com.accountbook.biz.impl.ChartBiz;
-import com.accountbook.entity.ChartData;
+import com.accountbook.entity.local.ChartData;
 import com.accountbook.view.api.IChartView;
 
 import java.util.List;

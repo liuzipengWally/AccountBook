@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.accountbook.R;
-import com.accountbook.entity.Classify;
+import com.accountbook.entity.local.Classify;
 import com.accountbook.presenter.ClassifyPresenter;
 import com.accountbook.tools.ConstantContainer;
 import com.accountbook.tools.DialogManager;
@@ -88,7 +88,7 @@ public class ClassifyFragment extends Fragment implements IClassifyView {
         mClassifyList.setLayoutManager(gridLayoutManager);
         mClassifyList.setItemAnimator(new DefaultItemAnimator());
 
-        mPresenter = new ClassifyPresenter(this);
+        mPresenter = new ClassifyPresenter(this, mContext);
     }
 
     @Override

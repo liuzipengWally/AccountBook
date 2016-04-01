@@ -1,11 +1,14 @@
 package com.accountbook.presenter;
 
+import android.content.Context;
 import android.os.Handler;
+import android.util.Log;
 
 import com.accountbook.biz.api.IEditBiz;
 import com.accountbook.biz.impl.EditBiz;
-import com.accountbook.entity.Record;
-import com.accountbook.entity.Role;
+import com.accountbook.entity.local.Record;
+import com.accountbook.entity.local.Role;
+import com.accountbook.tools.QuickSimpleIO;
 import com.accountbook.view.api.IEditView;
 
 import java.util.List;
@@ -14,9 +17,12 @@ public class EditRecordPresenter {
     private IEditBiz mAddBiz;
     private IEditView mAddView;
 
+    private QuickSimpleIO mSimpleIO;
+
     public EditRecordPresenter(IEditView addView) {
         this.mAddView = addView;
         this.mAddBiz = new EditBiz();
+        this.mSimpleIO = new QuickSimpleIO((Context) addView, "version_sp");
     }
 
     public void queryRole() {
@@ -41,6 +47,7 @@ public class EditRecordPresenter {
             mAddBiz.saveRecord(record, new EditBiz.OnRecordSaveListener() {
                 @Override
                 public void saveSuccess() {
+                    mSimpleIO.setBoolean("needSync", true);
                     mAddView.saveSuccess();
                 }
 
@@ -86,6 +93,7 @@ public class EditRecordPresenter {
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
+                            mSimpleIO.setBoolean("needSync", true);
                             mAddView.alterSuccess();
                         }
                     });

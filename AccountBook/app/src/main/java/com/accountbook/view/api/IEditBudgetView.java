@@ -1,10 +1,6 @@
 package com.accountbook.view.api;
 
-import com.accountbook.entity.Budget;
-import com.accountbook.entity.Record;
-import com.accountbook.entity.Role;
-
-import java.util.List;
+import com.accountbook.entity.local.Budget;
 
 public interface IEditBudgetView {
 

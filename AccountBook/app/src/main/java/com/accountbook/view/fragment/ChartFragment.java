@@ -17,10 +17,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.accountbook.R;
-import com.accountbook.entity.ChartData;
+import com.accountbook.entity.local.ChartData;
 import com.accountbook.presenter.ChartPresenter;
 import com.accountbook.tools.ConstantContainer;
 import com.accountbook.tools.DialogManager;
@@ -62,7 +61,6 @@ public class ChartFragment extends Fragment implements IChartView {
     private Context mContext;
     private long mStartTime;
     private long mEndTime;
-    private int mPosition;
 
     private ToolbarMenuOnClickListener mToolbarMenuOnClickListener;
 
@@ -175,6 +173,18 @@ public class ChartFragment extends Fragment implements IChartView {
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = context;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mChartSpinner.setSelection(0);
+        Calendar calendar = Calendar.getInstance();
+        mEndTime = Util.formatDateNotCh(System.currentTimeMillis());
+        calendar.set(Calendar.DAY_OF_WEEK, calendar.getFirstDayOfWeek());
+        mStartTime = Util.formatDateNotCh(calendar.getTimeInMillis());
+        mPresenter.loadClassifyPercent(ConstantContainer.EXPEND, mStartTime, mEndTime);
+        mPresenter.loadClassifyPercent(ConstantContainer.INCOME, mStartTime, mEndTime);
     }
 
     @Override

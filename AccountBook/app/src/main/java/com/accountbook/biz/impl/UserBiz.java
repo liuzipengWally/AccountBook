@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.accountbook.biz.api.IUserBiz;
-import com.accountbook.entity.UserForLeanCloud;
 import com.accountbook.tools.Util;
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVUser;
@@ -88,16 +87,16 @@ public class UserBiz implements IUserBiz {
     @Override
     public void login(final Context context, final String username, final String password, final OnLoginListener listener) {
         if (Util.isNetworkAvailable(context)) {
-            AVUser.logInInBackground(username, password, new LogInCallback<UserForLeanCloud>() {
+            AVUser.logInInBackground(username, password, new LogInCallback() {
                 @Override
-                public void done(UserForLeanCloud avUser, AVException e) {
+                public void done(AVUser avUser, AVException e) {
                     if (avUser == null) {
                         listener.loginFailed(Util.getLocalizeLeanCloudError(e));
                     } else {
                         listener.loginSuccess();
                     }
                 }
-            }, UserForLeanCloud.class);
+            });
 
         } else {
             listener.loginFailed("请联网后重试");
@@ -116,7 +115,7 @@ public class UserBiz implements IUserBiz {
     @Override
     public void registry(Context context, String username, String password, final OnRegistryListener listener) {
         if (Util.isNetworkAvailable(context)) {
-            final UserForLeanCloud user = new UserForLeanCloud();
+            final AVUser user = new AVUser();
             user.setUsername(username);
             user.setPassword(password);
             user.signUpInBackground(new SignUpCallback() {

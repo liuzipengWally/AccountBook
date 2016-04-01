@@ -1,6 +1,6 @@
 package com.accountbook.view.api;
 
-import com.accountbook.entity.Classify;
+import com.accountbook.entity.local.Classify;
 
 import java.util.List;
 

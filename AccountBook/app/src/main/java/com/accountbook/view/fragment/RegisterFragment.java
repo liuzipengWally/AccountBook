@@ -20,16 +20,10 @@ import butterknife.ButterKnife;
 public class RegisterFragment extends Fragment implements IRegistryView {
     @Bind(R.id.reg_usernameInput)
     EditText mRegUsernameInput;
-    @Bind(R.id.reg_usernameWrapper)
-    TextInputLayout mRegUsernameWrapper;
     @Bind(R.id.reg_passwordInput)
     EditText mRegPasswordInput;
-    @Bind(R.id.reg_passwordWrapper)
-    TextInputLayout mRegPasswordWrapper;
     @Bind(R.id.reg_passwordConfirmInput)
     EditText mRegPasswordConfirmInput;
-    @Bind(R.id.reg_passwordConfirmWrapper)
-    TextInputLayout mRegPasswordConfirmWrapper;
     @Bind(R.id.reg_btn)
     ProgressButton mRegBtn;
 

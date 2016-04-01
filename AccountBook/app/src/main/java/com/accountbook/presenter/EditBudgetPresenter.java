@@ -1,19 +1,23 @@
 package com.accountbook.presenter;
 
-import android.os.Handler;
+import android.content.Context;
 
 import com.accountbook.biz.api.IEditBudgetBiz;
 import com.accountbook.biz.impl.EditBudgetBiz;
-import com.accountbook.entity.Budget;
+import com.accountbook.entity.local.Budget;
+import com.accountbook.tools.QuickSimpleIO;
 import com.accountbook.view.api.IEditBudgetView;
 
 public class EditBudgetPresenter {
     private IEditBudgetView mBudgetView;
     private IEditBudgetBiz mBudgetBiz;
 
+    private QuickSimpleIO mSimpleIO;
+
     public EditBudgetPresenter(IEditBudgetView BudgetView) {
         this.mBudgetView = BudgetView;
         this.mBudgetBiz = new EditBudgetBiz();
+        this.mSimpleIO = new QuickSimpleIO((Context) BudgetView, "version_sp");
     }
 
     public void saveBudget() {
@@ -23,6 +27,7 @@ public class EditBudgetPresenter {
             mBudgetBiz.saveBudget(budget, new EditBudgetBiz.OnBudgetSaveListener() {
                 @Override
                 public void saveSuccess() {
+                    mSimpleIO.setBoolean("needSync", true);
                     mBudgetView.saveSuccess();
                 }
 
@@ -68,6 +73,7 @@ public class EditBudgetPresenter {
             mBudgetBiz.alterBudget(budget, new EditBudgetBiz.OnAlterBudgetListener() {
                 @Override
                 public void alterSuccess() {
+                    mSimpleIO.setBoolean("needSync", true);
                     mBudgetView.alterSuccess();
                 }
 

@@ -30,7 +30,9 @@
             android:theme="@style/Add_theme" />
         <activity android:name=".view.activity.ClassifyActivity" />
         <activity android:name=".view.activity.EditBudgetActivity" />
-        <activity android:name=".view.activity.RolesActivity"></activity>
+        <activity android:name=".view.activity.RolesActivity" />
+
+        <service android:name=".presenter.service.SyncService"></service>
     </application>
 
 </manifest>

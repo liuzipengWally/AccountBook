@@ -1,23 +1,28 @@
 package com.accountbook.presenter;
 
+import android.content.Context;
+
 import com.accountbook.biz.api.IBudgetBiz;
 import com.accountbook.biz.impl.BudgetBiz;
-import com.accountbook.entity.Budget;
-import com.accountbook.entity.Budget;
+import com.accountbook.entity.local.Budget;
+import com.accountbook.tools.QuickSimpleIO;
 import com.accountbook.view.api.IBudgetView;
 
 import java.util.List;
 
 /**
- * 主页数据查询的Presenter层交互类，负责HomeFragment与HomeLoadDataBiz的交互
+ * 预算数据查询的Presenter层交互类
  */
 public class BudgetPresenter {
     private IBudgetView mBudgetView;
     private IBudgetBiz mBudgetBiz;
 
-    public BudgetPresenter(IBudgetView mIBudgetView) {
+    private QuickSimpleIO mSimpleIO;
+
+    public BudgetPresenter(IBudgetView mIBudgetView, Context context) {
         this.mBudgetView = mIBudgetView;
         this.mBudgetBiz = new BudgetBiz();
+        this.mSimpleIO = new QuickSimpleIO(context, "version_sp");
     }
 
     /**
@@ -45,6 +50,7 @@ public class BudgetPresenter {
             @Override
             public void deleteSuccess() {
                 mBudgetView.deleteSuccess(id);
+                mSimpleIO.setBoolean("needSync", true);
             }
 
             @Override

@@ -1,11 +1,11 @@
 package com.accountbook.presenter;
 
-import android.util.Log;
+import android.content.Context;
 
 import com.accountbook.biz.api.IHomeBiz;
-import com.accountbook.biz.impl.ClassifyBiz;
 import com.accountbook.biz.impl.HomeBiz;
-import com.accountbook.entity.AccountBill;
+import com.accountbook.entity.local.AccountBill;
+import com.accountbook.tools.QuickSimpleIO;
 import com.accountbook.view.api.IHomeView;
 
 import java.util.List;
@@ -17,9 +17,12 @@ public class HomePresenter {
     private IHomeView mHomeView;
     private IHomeBiz mHomeBiz;
 
-    public HomePresenter(IHomeView mIHomeView) {
+    private QuickSimpleIO mSimpleIO;
+
+    public HomePresenter(IHomeView mIHomeView,Context context) {
         this.mHomeView = mIHomeView;
         this.mHomeBiz = new HomeBiz();
+        this.mSimpleIO = new QuickSimpleIO(context, "version_sp");
     }
 
     /**
@@ -50,6 +53,8 @@ public class HomePresenter {
         mHomeBiz.delete(id, new HomeBiz.OnDeleteAccountBillsListener() {
             @Override
             public void deleteSuccess() {
+                mSimpleIO.setBoolean("needSync", true);
+                mSimpleIO.setInt("recordVer", mSimpleIO.getInt("recordVer") + 1);
                 mHomeView.deleteSuccess(id);
             }
 

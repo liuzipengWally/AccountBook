@@ -1,8 +1,5 @@
-package com.accountbook.entity;
+package com.accountbook.entity.local;
 
-/**
- * Created by liuzipeng on 16/3/14.
- */
 public class Record {
     private String id;
     private int money;

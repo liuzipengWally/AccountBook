@@ -1,7 +1,7 @@
 package com.accountbook.view.api;
 
-import com.accountbook.entity.Record;
-import com.accountbook.entity.Role;
+import com.accountbook.entity.local.Record;
+import com.accountbook.entity.local.Role;
 
 import java.util.List;
 

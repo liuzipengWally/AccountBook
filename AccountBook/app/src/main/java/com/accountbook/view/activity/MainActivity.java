@@ -13,14 +13,16 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.accountbook.R;
-import com.accountbook.entity.UserForLeanCloud;
 import com.accountbook.presenter.LogoutPresenter;
+import com.accountbook.presenter.service.SyncService;
+import com.accountbook.tools.QuickSimpleIO;
 import com.accountbook.view.api.ILogoutView;
 import com.accountbook.view.api.ToolbarMenuOnClickListener;
 import com.accountbook.view.fragment.BudgetFragment;
@@ -243,7 +245,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == 2) {
+            mDrawerLayout.closeDrawer(Gravity.LEFT);
             loadUserInfo();
+            firstSync();
+            FragmentManager fm = getSupportFragmentManager();
+            mHomeFragment = (HomeFragment) fm.findFragmentByTag("HomeFragment");
+            mHomeFragment.onActivityResult(requestCode, resultCode, data);
         } else if (resultCode == 11) {
             FragmentManager fm = getSupportFragmentManager();
             mHomeFragment = (HomeFragment) fm.findFragmentByTag("HomeFragment");
@@ -255,14 +262,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    private void firstSync() {
+        QuickSimpleIO io = new QuickSimpleIO(this, "version_sp");
+        io.setBoolean("isFirstSync", true);
+    }
+
     /**
      * 读取用户数据
      */
     private void loadUserInfo() {
-        UserForLeanCloud user = UserForLeanCloud.getCurrentUser(UserForLeanCloud.class);
-        if (user != null) {
-            userName.setText(user.getUsername());
-            // TODO: 2016.3.4 刷新各种数据
+        if (AVUser.getCurrentUser() != null) {
+            userName.setText(AVUser.getCurrentUser().getUsername());
         } else userName.setText(R.string.loginHint);
     }
 
@@ -270,7 +280,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      * 开始注销
      */
     public void showLogoutDialog() {
-
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("确定注销吗？");
         builder.setMultiChoiceItems(new String[]{"删除全部数据"}, new boolean[]{false}, new DialogInterface.OnMultiChoiceClickListener() {

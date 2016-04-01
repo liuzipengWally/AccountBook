@@ -3,10 +3,9 @@ package com.accountbook.biz.impl;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.accountbook.biz.api.IClassifyBiz;
-import com.accountbook.entity.Classify;
+import com.accountbook.entity.local.Classify;
 import com.accountbook.tools.ConstantContainer;
 
 import java.util.ArrayList;

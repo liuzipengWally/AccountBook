@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.accountbook.biz.api.IChartBiz;
-import com.accountbook.entity.ChartData;
+import com.accountbook.entity.local.ChartData;
 import com.accountbook.tools.ConstantContainer;
 
 import java.util.ArrayList;

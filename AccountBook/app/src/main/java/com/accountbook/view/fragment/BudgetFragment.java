@@ -17,14 +17,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.accountbook.R;
-import com.accountbook.entity.Budget;
+import com.accountbook.entity.local.Budget;
 import com.accountbook.presenter.BudgetPresenter;
+import com.accountbook.presenter.service.SyncService;
 import com.accountbook.tools.DialogManager;
 import com.accountbook.view.activity.EditBudgetActivity;
 import com.accountbook.view.adapter.BudgetListAdapter;
 import com.accountbook.view.api.IBudgetView;
 import com.accountbook.view.api.ToolbarMenuOnClickListener;
 import com.accountbook.view.customview.AutoHideFab;
+import com.avos.avoscloud.AVUser;
 
 import java.util.List;
 
@@ -67,7 +69,7 @@ public class BudgetFragment extends Fragment implements IBudgetView {
         initView();
         bindEvents();
 
-        mPresenter = new BudgetPresenter(this);
+        mPresenter = new BudgetPresenter(this, mContext);
         return mLayoutView;
     }
 
@@ -87,6 +89,9 @@ public class BudgetFragment extends Fragment implements IBudgetView {
         mRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                if (AVUser.getCurrentUser() != null) {
+                    mContext.startService(new Intent(mContext, SyncService.class));
+                }
                 mPresenter.queryBudget();
             }
         });

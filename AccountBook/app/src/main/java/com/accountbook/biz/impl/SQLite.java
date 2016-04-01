@@ -108,9 +108,9 @@ public class SQLite {
                 String[] roles = mContext.getResources().getStringArray(R.array.role_default);
                 for (int i = 0; i < roles.length; i++) {
                     ContentValues values = new ContentValues();
-                    values.put("_id", UUID.randomUUID().toString());
+                    values.put("_id", i + "");
                     values.put("role", roles[i]);
-                    values.put("isSave", ConstantContainer.FALSE);
+                    values.put("isSave", ConstantContainer.TRUE);
                     values.put("available", ConstantContainer.TRUE);
                     values.put("update_ms", System.currentTimeMillis());
                     mDatabase.insert(ROLE_TABLE, null, values);
@@ -162,12 +162,12 @@ public class SQLite {
                 //添加支出的分类
                 for (int i = 0; i < expendLabels.length; i++) {
                     ContentValues values = new ContentValues();
-                    values.put("_id", UUID.randomUUID().toString());
+                    values.put("_id", i + "");
                     values.put("classify", expendLabels[i]);
                     values.put("iconResId", expendIcons.getResourceId(i, R.mipmap.ic_launcher));
                     values.put("color", colors[i]);
                     values.put("type", ConstantContainer.EXPEND);
-                    values.put("isSave", ConstantContainer.FALSE);
+                    values.put("isSave", ConstantContainer.TRUE);
                     values.put("available", ConstantContainer.TRUE);
                     values.put("update_ms", System.currentTimeMillis());
 
@@ -179,12 +179,12 @@ public class SQLite {
                 for (int i = 0; i < incomeLabels.length; i++) {
                     ContentValues values = new ContentValues();
 
-                    values.put("_id", UUID.randomUUID().toString());
+                    values.put("_id", expendLabels.length + i + "");
                     values.put("classify", incomeLabels[i]);
                     values.put("iconResId", incomeIcons.getResourceId(i, R.mipmap.ic_launcher));
                     values.put("color", colors[i]);
                     values.put("type", ConstantContainer.INCOME);
-                    values.put("isSave", ConstantContainer.FALSE);
+                    values.put("isSave", ConstantContainer.TRUE);
                     values.put("available", ConstantContainer.TRUE);
                     values.put("update_ms", System.currentTimeMillis());
 
@@ -195,12 +195,12 @@ public class SQLite {
                 //添加借入
                 ContentValues borrowValues = new ContentValues();
 
-                borrowValues.put("_id", UUID.randomUUID().toString());
+                borrowValues.put("_id", expendLabels.length + incomeLabels.length);
                 borrowValues.put("classify", "借入");
                 borrowValues.put("iconResId", R.mipmap.ic_thumbs_up_down_white_24dp);
                 borrowValues.put("color", "#795548");
                 borrowValues.put("type", ConstantContainer.BORROW);
-                borrowValues.put("isSave", ConstantContainer.FALSE);
+                borrowValues.put("isSave", ConstantContainer.TRUE);
                 borrowValues.put("available", ConstantContainer.TRUE);
                 borrowValues.put("update_ms", System.currentTimeMillis());
 
@@ -210,12 +210,12 @@ public class SQLite {
                 //添加借出
                 ContentValues lendValues = new ContentValues();
 
-                lendValues.put("_id", UUID.randomUUID().toString());
+                lendValues.put("_id", expendLabels.length + incomeLabels.length + 1 + "");
                 lendValues.put("classify", "借出");
                 lendValues.put("iconResId", R.mipmap.ic_thumbs_up_down_white_24dp);
                 lendValues.put("color", "#ff5722");
                 lendValues.put("type", ConstantContainer.LEND);
-                lendValues.put("isSave", ConstantContainer.FALSE);
+                lendValues.put("isSave", ConstantContainer.TRUE);
                 lendValues.put("available", ConstantContainer.TRUE);
                 lendValues.put("update_ms", System.currentTimeMillis());
 
@@ -253,6 +253,11 @@ public class SQLite {
                 "PRAGMA foreign_keys = true;");
     }
 
+    /**
+     * 创建预算表
+     *
+     * @throws SQLiteException
+     */
     public void createBudgetTable() throws SQLiteException {
         mDatabase.execSQL("create table if not exists budget (" +
                 "_id text primary key, " +
@@ -275,6 +280,16 @@ public class SQLite {
      * 因为不同情景对于异常有不同处理方式所以，抛异常
      */
     public void clearData() throws Exception {
-        throw new Exception("假失败");
+        mDatabase.execSQL("DELETE FROM " + RECORD_TABLE);
+        mDatabase.execSQL("DELETE FROM " + BUDGET_TABLE);
+    }
+
+    /**
+     * 清理数据的重载，传一个表名进来，清除自定表的数据
+     *
+     * @param table 表名
+     */
+    public void clearData(String table) {
+        mDatabase.execSQL("DELETE FROM " + table);
     }
 }

@@ -14,8 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.accountbook.R;
-import com.accountbook.entity.Budget;
-import com.accountbook.entity.Classify;
+import com.accountbook.entity.local.Budget;
 import com.accountbook.presenter.EditBudgetPresenter;
 import com.accountbook.tools.ConstantContainer;
 import com.accountbook.tools.Util;

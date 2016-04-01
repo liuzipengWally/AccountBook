@@ -3,12 +3,9 @@ package com.accountbook.biz.impl;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.accountbook.biz.api.IEditBudgetBiz;
-import com.accountbook.entity.Budget;
-import com.accountbook.entity.Record;
+import com.accountbook.entity.local.Budget;
 import com.accountbook.tools.ConstantContainer;
 
 import java.util.UUID;

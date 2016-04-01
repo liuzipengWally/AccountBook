@@ -1,8 +1,11 @@
 package com.accountbook.presenter;
 
+import android.content.Context;
+
 import com.accountbook.biz.api.IClassifyBiz;
 import com.accountbook.biz.impl.ClassifyBiz;
-import com.accountbook.entity.Classify;
+import com.accountbook.entity.local.Classify;
+import com.accountbook.tools.QuickSimpleIO;
 import com.accountbook.view.api.IClassifyView;
 
 import java.util.List;
@@ -14,9 +17,12 @@ public class ClassifyPresenter {
     private IClassifyBiz mClassifyBiz;
     private IClassifyView mClassifyView;
 
-    public ClassifyPresenter(IClassifyView classifyView) {
+    private QuickSimpleIO mSimpleIO;
+
+    public ClassifyPresenter(IClassifyView classifyView, Context context) {
         this.mClassifyView = classifyView;
         this.mClassifyBiz = new ClassifyBiz();
+        this.mSimpleIO = new QuickSimpleIO(context, "version_sp");
     }
 
     public void loadClassifyData(int type) {
@@ -37,6 +43,8 @@ public class ClassifyPresenter {
         mClassifyBiz.delete(id, new ClassifyBiz.OnDeleteClassifyListener() {
             @Override
             public void deleteSuccess() {
+                mSimpleIO.setBoolean("needSync", true);
+                mSimpleIO.setInt("classifyVer", mSimpleIO.getInt("classifyVer") + 1);
                 mClassifyView.deleteSuccess(id);
             }
 

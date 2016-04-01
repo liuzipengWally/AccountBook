@@ -1,8 +1,5 @@
-package com.accountbook.entity;
+package com.accountbook.entity.local;
 
-/**
- * Created by liuzipeng on 16/3/21.
- */
 public class ChartData {
     private String classify;
     private float percent;

@@ -1,9 +1,7 @@
 package com.accountbook.biz.api;
 
-import com.accountbook.biz.impl.EditBiz;
 import com.accountbook.biz.impl.EditBudgetBiz;
-import com.accountbook.entity.Budget;
-import com.accountbook.entity.Record;
+import com.accountbook.entity.local.Budget;
 
 public interface IEditBudgetBiz {
     /**
