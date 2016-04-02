@@ -245,6 +245,34 @@ public class HomeFragment extends Fragment implements IHomeView {
             }
         });
 
+//        //主页列表RecyclerView的滑动事件
+//        mRecyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+//            @Override
+//            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+//                scrollEvent(e);
+//                return false;
+//            }
+//
+//            @Override
+//            public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+//
+//            }
+//
+//            @Override
+//            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+//
+//            }
+//        });
+//
+//        //appbar的状态事件，可监听折叠，展开的改变
+//        mAppBarLayout.setStateChangeListener(new FoldAppBar.OnAppbarStateChangeListener() {
+//            @Override
+//            public void onStateChange(boolean isFold) {
+//                if (!isFold) {
+//                    mEditBtn.show();
+//                }
+//            }
+//        });
 
         //下拉刷新控件的刷新事件
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -273,6 +301,64 @@ public class HomeFragment extends Fragment implements IHomeView {
             }
         });
     }
+
+//    //RecyclerView滚动的具体处理
+//    private void scrollEvent(MotionEvent e) {
+//        int y = (int) e.getY();   //每次手指触发onTouchEvent的时候记录手指当前所处屏幕的位置
+//        switch (e.getAction()) {
+//            case MotionEvent.ACTION_DOWN:
+//                downY = y;  //记录下点击时手指的位置
+//                break;
+//            case MotionEvent.ACTION_MOVE:
+//                offsetY = y - downY; //每次移动，用当前手指所在位置去减去 点击下去的时候的位置，得到的就是我们手指移动的距离
+//                int height = mAppBarLayout.getHeight();
+//                int toolbarHeight = mAppBarLayout.minHeight;
+//
+//                //appbar的高度>toolbar的高度 并且 <= appbar高度限定的最大值时，我们要让appbar可以根据手指拖动多少距离，放大缩小多少
+//                if (height > toolbarHeight && height <= mAppBarLayout.maxHeight) {
+//                    ViewGroup.LayoutParams params = mAppBarLayout.getLayoutParams();
+//                    //每次滑动，我们的appbar的高度要变为原高度加上我们的滑动距离。
+//                    int newHeight = height + offsetY;
+//                    params.height = newHeight;
+//
+//                    //如果得到的新高度会小于toolbar的高度，那么我们就把高度设置为toolbar的高度
+//                    if (newHeight < toolbarHeight) {
+//                        params.height = toolbarHeight;
+//                    } else if (newHeight > mAppBarLayout.maxHeight) {
+//                        //如果大于最大高度，那么我们就设置为最大高度
+//                        params.height = mAppBarLayout.maxHeight;
+//                    }
+//                    mAppBarLayout.setLayoutParams(params);
+//
+//                    //如果滑动距离小于0，代表我们在往上滑动，appbar的折叠状态应该设置为false，否则为往下互动，既设置为true
+//                    if (offsetY < 0) {
+//                        mAppBarLayout.isFold = false;
+//                    } else {
+//                        mAppBarLayout.isFold = true;
+//                    }
+//                }
+//
+//                //根据手指滑动距离，判断出滑动方向，决定FloatingActionButton 是显示还是隐藏
+//                if (offsetY > 10) {
+//                    mEditBtn.show();
+//                } else if (offsetY < -10) {
+//                    mEditBtn.hide();
+//                }
+//
+//                break;
+//            case MotionEvent.ACTION_UP:
+//                //当手指离开屏幕是，我们需要有个界限值，这个值即是下面的limit，差不多是主页图片高度的一半
+//                //也就是说，手指离开屏幕时要半段，如果当前appbar的高度>limit，我需要让appbar完全展开
+//                //否则也就需要把他折叠回去
+//                int limit = mAppBarLayout.maxHeight - (mAppBarLayout.maxHeight - mAppBarLayout.minHeight) / 2;
+//                if (mAppBarLayout.getHeight() > limit && mAppBarLayout.getHeight() < mAppBarLayout.maxHeight) {
+//                    mAppBarLayout.unfold();
+//                } else if (mAppBarLayout.getHeight() < limit) {
+//                    mAppBarLayout.fold();
+//                }
+//                break;
+//        }
+//    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

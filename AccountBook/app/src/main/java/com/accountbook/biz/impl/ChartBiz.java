@@ -34,7 +34,7 @@ public class ChartBiz implements IChartBiz {
                 "c.type =? " +
                 "group by c.classify";
 
-        int moneyCount = queryMoneyCount(type, startTime, endTime);
+        float moneyCount = queryMoneyCount(type, startTime, endTime);
 
         List<ChartData> chartDataList = new ArrayList<>();
 
@@ -44,7 +44,7 @@ public class ChartBiz implements IChartBiz {
                 ChartData chartData = new ChartData();
                 chartData.setClassify(cursor.getString(cursor.getColumnIndex("classify")));
                 chartData.setColor(cursor.getString(cursor.getColumnIndex("color")));
-                float percent = ((float) cursor.getInt(cursor.getColumnIndex("sum")) / moneyCount) * 100;
+                float percent = (Math.abs(cursor.getFloat(cursor.getColumnIndex("sum"))) / moneyCount) * 100;
                 chartData.setPercent(percent);
 
                 chartDataList.add(chartData);
@@ -60,7 +60,7 @@ public class ChartBiz implements IChartBiz {
         }
     }
 
-    private int queryMoneyCount(int type, long startTime, long endTime) {
+    private float queryMoneyCount(int type, long startTime, long endTime) {
         String sql = "select sum(r.money) sum from record r inner join classify c " +
                 "on r.classify_id = c._id " +
                 "where r.available = ? and " +
@@ -71,7 +71,7 @@ public class ChartBiz implements IChartBiz {
         Log.i("cursor", cursor.getCount() + "");
         if (cursor.getCount() != 0) {
             cursor.moveToNext();
-            int money = cursor.getInt(cursor.getColumnIndex("sum"));
+            float money = Math.abs(cursor.getFloat(cursor.getColumnIndex("sum")));
 
             cursor.close();
 
