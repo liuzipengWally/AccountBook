@@ -27,6 +27,8 @@ public class SyncBiz implements ISyncBiz {
 
     private OnSyncErrorListener mErrorListener;
     private OnSyncVersionListener mVersionListener;
+    private OnSyncRecordDoneListener mRecordDoneListener;
+    private OnSyncBudgetDoneListener mBudgetDoneListener;
 
     private int mCloudVer;
 
@@ -38,6 +40,14 @@ public class SyncBiz implements ISyncBiz {
         void done();
     }
 
+    public interface OnSyncRecordDoneListener {
+        void done();
+    }
+
+    public interface OnSyncBudgetDoneListener {
+        void done();
+    }
+
     @Override
     public void setOnPostErrorListener(OnSyncErrorListener listener) {
         this.mErrorListener = listener;
@@ -46,6 +56,16 @@ public class SyncBiz implements ISyncBiz {
     @Override
     public void setOnSyncVersionListener(OnSyncVersionListener listener) {
         this.mVersionListener = listener;
+    }
+
+    @Override
+    public void setOnSyncRecordDoneListener(OnSyncRecordDoneListener listener) {
+        this.mRecordDoneListener = listener;
+    }
+
+    @Override
+    public void setOnSyncBudgetDoneListener(OnSyncBudgetDoneListener listener) {
+        this.mBudgetDoneListener = listener;
     }
 
     private Context mContext;
@@ -60,354 +80,414 @@ public class SyncBiz implements ISyncBiz {
     public void syncRecord() {
         try {
             postRecordAdd();
-            postRecordUpdate();
-
-            //对比完版本号，如果是true，表示版本号相同，那么同步到此为止，因为如果两端版本号是一样的，证明云端和本地是一致的
-            //如果为false，那只会是一种情况，云端的版本号更高，这就表示云端有我们本地没有的数据，此时我们将现在云端的整张表下载下来下来
-            if (!compareVersion("recordVer")) {
-                downloadRecord();
-            }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     private void postRecordAdd() throws Exception {
-        //objectId为空的代表是新增的，isSave为0的代表是未保存的
-        String sql = "select * from record " +
-                "where object_id is null and " +
-                "isSave = ? and " +
-                "available = ?";
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //objectId为空的代表是新增的，isSave为0的代表是未保存的
+                String sql = "select * from record " +
+                        "where object_id is null and " +
+                        "isSave = ? and " +
+                        "available = ?";
 
-        //将符合条件的数据从数据库中查询出来
-        final Cursor cursor = mDatabase.rawQuery(sql, new String[]{ConstantContainer.FALSE + "", ConstantContainer.TRUE + ""});
-        if (cursor.getCount() != 0) {
-            while (cursor.moveToNext()) {
-                final RecordForCloud recordForCloud = new RecordForCloud();
-                final String id = cursor.getString(cursor.getColumnIndex("_id"));
-                recordForCloud.setId(id);
-                recordForCloud.setClassifyId(cursor.getString(cursor.getColumnIndex("classify_id")));
-                recordForCloud.setRoleId(cursor.getString(cursor.getColumnIndex("role_id")));
-                recordForCloud.setAccount(cursor.getString(cursor.getColumnIndex("account")));
-                recordForCloud.setBorrowName(cursor.getString(cursor.getColumnIndex("borrow_name")));
-                recordForCloud.setDescription(cursor.getString(cursor.getColumnIndex("description")));
-                recordForCloud.setMoney(cursor.getInt(cursor.getColumnIndex("money")));
-                recordForCloud.setRecordMs(cursor.getLong(cursor.getColumnIndex("record_ms")));
-                recordForCloud.setUpdateMs(cursor.getLong(cursor.getColumnIndex("update_ms")));
-                recordForCloud.setAvailable(cursor.getInt(cursor.getColumnIndex("available")));
-                recordForCloud.setUser(AVUser.getCurrentUser());
+                //将符合条件的数据从数据库中查询出来
+                final Cursor cursor = mDatabase.rawQuery(sql, new String[]{ConstantContainer.FALSE + "", ConstantContainer.TRUE + ""});
+                if (cursor.getCount() != 0) {
+                    while (cursor.moveToNext()) {
+                        final RecordForCloud recordForCloud = new RecordForCloud();
+                        final String id = cursor.getString(cursor.getColumnIndex("_id"));
+                        recordForCloud.setId(id);
+                        recordForCloud.setClassifyId(cursor.getString(cursor.getColumnIndex("classify_id")));
+                        recordForCloud.setRoleId(cursor.getString(cursor.getColumnIndex("role_id")));
+                        recordForCloud.setAccount(cursor.getString(cursor.getColumnIndex("account")));
+                        recordForCloud.setBorrowName(cursor.getString(cursor.getColumnIndex("borrow_name")));
+                        recordForCloud.setDescription(cursor.getString(cursor.getColumnIndex("description")));
+                        recordForCloud.setMoney(cursor.getInt(cursor.getColumnIndex("money")));
+                        recordForCloud.setRecordMs(cursor.getLong(cursor.getColumnIndex("record_ms")));
+                        recordForCloud.setUpdateMs(cursor.getLong(cursor.getColumnIndex("update_ms")));
+                        recordForCloud.setAvailable(cursor.getInt(cursor.getColumnIndex("available")));
+                        recordForCloud.setUser(AVUser.getCurrentUser());
 
-                recordForCloud.saveInBackground(new SaveCallback() {//每查一条保存一条到云端
-                    @Override
-                    public void done(AVException e) {
-                        if (e != null) {
-                            if (mErrorListener != null) {
-                                mErrorListener.error("上传record表新增数据出错" + e.getMessage());
-                            }
-                        } else {
-                            //保存完毕，将这条数据生成的objectId保存到本地的该条数据中，并更新isSave为True
-                            ContentValues values = new ContentValues();
-                            values.put("object_id", recordForCloud.getObjectId());
-                            values.put("isSave", ConstantContainer.TRUE);
-                            int success = mDatabase.update(SQLite.RECORD_TABLE, values, "_id = ?", new String[]{id});
-                            if (success == 0) {
-                                if (mErrorListener != null) {
-                                    mErrorListener.error("record保存objectId时出错");
+                        recordForCloud.saveInBackground(new SaveCallback() {//每查一条保存一条到云端
+                            @Override
+                            public void done(AVException e) {
+                                if (e != null) {
+                                    if (mErrorListener != null) {
+                                        mErrorListener.error("上传record表新增数据出错" + e.getMessage());
+                                    }
+                                } else {
+                                    //保存完毕，将这条数据生成的objectId保存到本地的该条数据中，并更新isSave为True
+                                    ContentValues values = new ContentValues();
+                                    values.put("object_id", recordForCloud.getObjectId());
+                                    values.put("isSave", ConstantContainer.TRUE);
+                                    int success = mDatabase.update(SQLite.RECORD_TABLE, values, "_id = ?", new String[]{id});
+                                    if (success == 0) {
+                                        if (mErrorListener != null) {
+                                            mErrorListener.error("record保存objectId时出错");
+                                        }
+                                    }
+                                    values.clear();
                                 }
                             }
-                            values.clear();
-                        }
+                        });
                     }
-                });
-            }
-        } else {
-            Log.i("info", "没有record数据可add");
-        }
+                } else {
+                    Log.i("info", "没有record数据可add");
+                }
 
-        cursor.close();
+                try {
+                    postRecordUpdate();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                cursor.close();
+            }
+        }).start();
     }
 
     private void postRecordUpdate() throws Exception {
-        String sql = "select * from record " +
-                "where object_id not null and " +
-                "isSave = ?";
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
 
-        final Cursor cursor = mDatabase.rawQuery(sql, new String[]{ConstantContainer.FALSE + ""});
-        AVQuery<RecordForCloud> query = new AVQuery<>("Record");
+                String sql = "select * from record " +
+                        "where object_id not null and " +
+                        "isSave = ?";
 
-        if (cursor.getCount() != 0) {
-            while (cursor.moveToNext()) {
-                final String objectId = cursor.getString(cursor.getColumnIndex("object_id"));
-                final String classifyId = cursor.getString(cursor.getColumnIndex("classify_id"));
-                final String roleId = cursor.getString(cursor.getColumnIndex("role_id"));
-                final long updateMs = cursor.getLong(cursor.getColumnIndex("update_ms"));
-                final String account = cursor.getString(cursor.getColumnIndex("account"));
-                final String borrow = cursor.getString(cursor.getColumnIndex("borrow_name"));
-                final String description = cursor.getString(cursor.getColumnIndex("description"));
-                final int money = cursor.getInt(cursor.getColumnIndex("money"));
-                final long recordMs = cursor.getLong(cursor.getColumnIndex("record_ms"));
-                final int available = cursor.getInt(cursor.getColumnIndex("available"));
+                final Cursor cursor = mDatabase.rawQuery(sql, new String[]{ConstantContainer.FALSE + ""});
+                AVQuery<RecordForCloud> query = new AVQuery<>("Record");
 
-                query.getInBackground(objectId, new GetCallback<RecordForCloud>() {
-                    @Override
-                    public void done(final RecordForCloud recordForCloud, AVException e) {
-                        if (recordForCloud.getUpdateMs() < updateMs) {
-                            recordForCloud.setClassifyId(classifyId);
-                            recordForCloud.setRoleId(roleId);
-                            recordForCloud.setAccount(account);
-                            recordForCloud.setBorrowName(borrow);
-                            recordForCloud.setDescription(description);
-                            recordForCloud.setMoney(money);
-                            recordForCloud.setRecordMs(recordMs);
-                            recordForCloud.setUpdateMs(updateMs);
-                            recordForCloud.setAvailable(available);
-                            recordForCloud.saveInBackground(new SaveCallback() {
-                                @Override
-                                public void done(AVException e) {
-                                    if (e != null) {
-                                        if (mErrorListener != null) {
-                                            mErrorListener.error("上传record表更新出错" + e.getMessage());
-                                        }
-                                    } else {
-                                        //保存完毕，将这条数据生成的objectId保存到本地的该条数据中，并更新isSave为True
-                                        ContentValues values = new ContentValues();
-                                        values.put("isSave", ConstantContainer.TRUE);
-                                        int success = mDatabase.update(SQLite.RECORD_TABLE, values, "object_id = ?", new String[]{objectId});
-                                        if (success == 0) {
-                                            if (mErrorListener != null) {
-                                                mErrorListener.error("record更新保存状态时出错");
+                if (cursor.getCount() != 0) {
+                    while (cursor.moveToNext()) {
+                        final String objectId = cursor.getString(cursor.getColumnIndex("object_id"));
+                        final String classifyId = cursor.getString(cursor.getColumnIndex("classify_id"));
+                        final String roleId = cursor.getString(cursor.getColumnIndex("role_id"));
+                        final long updateMs = cursor.getLong(cursor.getColumnIndex("update_ms"));
+                        final String account = cursor.getString(cursor.getColumnIndex("account"));
+                        final String borrow = cursor.getString(cursor.getColumnIndex("borrow_name"));
+                        final String description = cursor.getString(cursor.getColumnIndex("description"));
+                        final int money = cursor.getInt(cursor.getColumnIndex("money"));
+                        final long recordMs = cursor.getLong(cursor.getColumnIndex("record_ms"));
+                        final int available = cursor.getInt(cursor.getColumnIndex("available"));
+
+                        query.getInBackground(objectId, new GetCallback<RecordForCloud>() {
+                            @Override
+                            public void done(final RecordForCloud recordForCloud, AVException e) {
+                                if (recordForCloud.getUpdateMs() < updateMs) {
+                                    recordForCloud.setClassifyId(classifyId);
+                                    recordForCloud.setRoleId(roleId);
+                                    recordForCloud.setAccount(account);
+                                    recordForCloud.setBorrowName(borrow);
+                                    recordForCloud.setDescription(description);
+                                    recordForCloud.setMoney(money);
+                                    recordForCloud.setRecordMs(recordMs);
+                                    recordForCloud.setUpdateMs(updateMs);
+                                    recordForCloud.setAvailable(available);
+                                    recordForCloud.saveInBackground(new SaveCallback() {
+                                        @Override
+                                        public void done(AVException e) {
+                                            if (e != null) {
+                                                if (mErrorListener != null) {
+                                                    mErrorListener.error("上传record表更新出错" + e.getMessage());
+                                                }
+                                            } else {
+                                                //保存完毕，将这条数据生成的objectId保存到本地的该条数据中，并更新isSave为True
+                                                ContentValues values = new ContentValues();
+                                                values.put("isSave", ConstantContainer.TRUE);
+                                                int success = mDatabase.update(SQLite.RECORD_TABLE, values, "object_id = ?", new String[]{objectId});
+                                                if (success == 0) {
+                                                    if (mErrorListener != null) {
+                                                        mErrorListener.error("record更新保存状态时出错");
+                                                    }
+                                                }
+                                                values.clear();
                                             }
                                         }
-                                        values.clear();
-                                    }
+                                    });
                                 }
-                            });
-                        }
+                            }
+                        });
                     }
-                });
+                    cursor.close();
+                } else {
+                    Log.i("查询", "record没有数据可update");
+                }
+
+                //对比完版本号，如果是true，表示版本号相同，那么同步到此为止，因为如果两端版本号是一样的，证明云端和本地是一致的
+                //如果为false，那只会是一种情况，云端的版本号更高，这就表示云端有我们本地没有的数据，此时我们将现在云端的整张表下载下来下来
+                if (!compareVersion("recordVer")) {
+                    try {
+                        downloadRecord();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    if (mRecordDoneListener != null) {
+                        mRecordDoneListener.done();
+                    }
+                }
             }
-            cursor.close();
-        } else {
-            Log.i("查询", "record没有数据可update");
-        }
+        }).start();
     }
 
     private void downloadRecord() throws Exception {
-        SQLite.getInstance().clearData(SQLite.RECORD_TABLE); //先清空整张表
-        AVQuery<RecordForCloud> query = new AVQuery<>("Record");
-        query.whereEqualTo("user", AVUser.getCurrentUser());
-        query.findInBackground(new FindCallback<RecordForCloud>() { //到云端将该用户下这张表的数据全部查询出来
+        new Thread(new Runnable() {
             @Override
-            public void done(List<RecordForCloud> list, AVException e) {
-                if (e == null) {
-                    ContentValues values = new ContentValues();  //之后循环保存
-                    for (int i = 0; i < list.size(); i++) {
-                        values.put("_id", list.get(i).getId());
-                        values.put("object_id", list.get(i).getObjectId());
-                        values.put("classify_id", list.get(i).getClassifyId());
-                        values.put("role_id", list.get(i).getRoleId());
-                        values.put("account", list.get(i).getAccount());
-                        values.put("borrow_name", list.get(i).getBorrowName());
-                        values.put("description", list.get(i).getDescription());
-                        values.put("money", list.get(i).getMoney());
-                        values.put("record_ms", list.get(i).getRecordMs());
-                        values.put("update_ms", list.get(i).getUpdateMs());
-                        values.put("available", list.get(i).getAvailable());
-                        values.put("isSave", ConstantContainer.TRUE);
+            public void run() {
+                SQLite.getInstance().clearData(SQLite.RECORD_TABLE); //先清空整张表
+                AVQuery<RecordForCloud> query = new AVQuery<>("Record");
+                query.whereEqualTo("user", AVUser.getCurrentUser());
+                query.findInBackground(new FindCallback<RecordForCloud>() { //到云端将该用户下这张表的数据全部查询出来
+                    @Override
+                    public void done(List<RecordForCloud> list, AVException e) {
+                        if (e == null) {
+                            ContentValues values = new ContentValues();  //之后循环保存
+                            for (int i = 0; i < list.size(); i++) {
+                                values.put("_id", list.get(i).getId());
+                                values.put("object_id", list.get(i).getObjectId());
+                                values.put("classify_id", list.get(i).getClassifyId());
+                                values.put("role_id", list.get(i).getRoleId());
+                                values.put("account", list.get(i).getAccount());
+                                values.put("borrow_name", list.get(i).getBorrowName());
+                                values.put("description", list.get(i).getDescription());
+                                values.put("money", list.get(i).getMoney());
+                                values.put("record_ms", list.get(i).getRecordMs());
+                                values.put("update_ms", list.get(i).getUpdateMs());
+                                values.put("available", list.get(i).getAvailable());
+                                values.put("isSave", ConstantContainer.TRUE);
 
-                        long successNum = mDatabase.insert(SQLite.RECORD_TABLE, null, values);
-                        values.clear();
-                        if (successNum == 0) {
+                                long successNum = mDatabase.insert(SQLite.RECORD_TABLE, null, values);
+                                values.clear();
+                                if (successNum == 0) {
+                                    if (mErrorListener != null) {
+                                        mErrorListener.error("下载record数据出错" + e.getMessage());
+                                    }
+                                }
+                            }
+
+                            if (mRecordDoneListener != null) {
+                                mRecordDoneListener.done();
+                            }
+                        } else {
                             if (mErrorListener != null) {
                                 mErrorListener.error("下载record数据出错" + e.getMessage());
                             }
                         }
                     }
-                } else {
-                    if (mErrorListener != null) {
-                        mErrorListener.error("下载record数据出错" + e.getMessage());
-                    }
-                }
+                });
             }
-        });
+        }).start();
     }
 
     @Override
     public void syncRole() {
-
+        // TODO: 16/4/2 用户角色因不影响业务主线，暂不实现同步
     }
 
     @Override
     public void syncClassify() {
-
+        // TODO: 16/4/2 分类因不影响业务主线，暂不实现同步
     }
 
     @Override
     public void syncBudget() {
         try {
             postBudgetAdd();
-            postBudgetUpdate();
-
-            //对比完版本号，如果是true，表示版本号相同，那么同步到此为止，因为如果两端版本号是一样的，证明云端和本地是一致的
-            //如果为false，那只会是一种情况，云端的版本号更高，这就表示云端有我们本地没有的数据，此时我们将现在云端的整张表下载下来下来
-            if (!compareVersion("budgetVer")) {
-                downloadBudget();
-            }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void postBudgetAdd() {
-        //objectId为空的代表是新增的，isSave为0的代表是未保存的
-        String sql = "select * from budget " +
-                "where object_id is null and " +
-                "isSave = ? and " +
-                "available = ?";
+    private void postBudgetAdd() throws Exception {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
 
-        //将符合条件的数据从数据库中查询出来
-        final Cursor cursor = mDatabase.rawQuery(sql, new String[]{ConstantContainer.FALSE + "", ConstantContainer.TRUE + ""});
-        if (cursor.getCount() != 0) {
-            while (cursor.moveToNext()) {
-                final BudgetForCloud budgetForCloud = new BudgetForCloud();
-                final String id = cursor.getString(cursor.getColumnIndex("_id"));
-                budgetForCloud.setId(id);
-                budgetForCloud.setClassifyId(cursor.getString(cursor.getColumnIndex("classify_id")));
-                budgetForCloud.setDescription(cursor.getString(cursor.getColumnIndex("description")));
-                budgetForCloud.setMoney(cursor.getInt(cursor.getColumnIndex("money")));
-                budgetForCloud.setStartTime(cursor.getLong(cursor.getColumnIndex("start_date")));
-                budgetForCloud.setEndTime(cursor.getLong(cursor.getColumnIndex("end_date")));
-                budgetForCloud.setUpdateMs(cursor.getLong(cursor.getColumnIndex("update_ms")));
-                budgetForCloud.setAvailable(cursor.getInt(cursor.getColumnIndex("available")));
-                budgetForCloud.setUser(AVUser.getCurrentUser());
+                //objectId为空的代表是新增的，isSave为0的代表是未保存的
+                String sql = "select * from budget " +
+                        "where object_id is null and " +
+                        "isSave = ? and " +
+                        "available = ?";
 
-                budgetForCloud.saveInBackground(new SaveCallback() {//每查一条保存一条到云端
-                    @Override
-                    public void done(AVException e) {
-                        if (e != null) {
-                            if (mErrorListener != null) {
-                                mErrorListener.error("上传budget表新增数据出错" + e.getMessage());
-                            }
-                        } else {
-                            //保存完毕，将这条数据生成的objectId保存到本地的该条数据中，并更新isSave为True
-                            ContentValues values = new ContentValues();
-                            values.put("object_id", budgetForCloud.getObjectId());
-                            values.put("isSave", ConstantContainer.TRUE);
-                            int success = mDatabase.update(SQLite.BUDGET_TABLE, values, "_id = ?", new String[]{id});
-                            if (success == 0) {
-                                if (mErrorListener != null) {
-                                    mErrorListener.error("budget保存objectId时出错");
+                //将符合条件的数据从数据库中查询出来
+                final Cursor cursor = mDatabase.rawQuery(sql, new String[]{ConstantContainer.FALSE + "", ConstantContainer.TRUE + ""});
+                if (cursor.getCount() != 0) {
+                    while (cursor.moveToNext()) {
+                        final BudgetForCloud budgetForCloud = new BudgetForCloud();
+                        final String id = cursor.getString(cursor.getColumnIndex("_id"));
+                        budgetForCloud.setId(id);
+                        budgetForCloud.setClassifyId(cursor.getString(cursor.getColumnIndex("classify_id")));
+                        budgetForCloud.setDescription(cursor.getString(cursor.getColumnIndex("description")));
+                        budgetForCloud.setMoney(cursor.getInt(cursor.getColumnIndex("money")));
+                        budgetForCloud.setStartTime(cursor.getLong(cursor.getColumnIndex("start_date")));
+                        budgetForCloud.setEndTime(cursor.getLong(cursor.getColumnIndex("end_date")));
+                        budgetForCloud.setUpdateMs(cursor.getLong(cursor.getColumnIndex("update_ms")));
+                        budgetForCloud.setAvailable(cursor.getInt(cursor.getColumnIndex("available")));
+                        budgetForCloud.setUser(AVUser.getCurrentUser());
+
+                        budgetForCloud.saveInBackground(new SaveCallback() {//每查一条保存一条到云端
+                            @Override
+                            public void done(AVException e) {
+                                if (e != null) {
+                                    if (mErrorListener != null) {
+                                        mErrorListener.error("上传budget表新增数据出错" + e.getMessage());
+                                    }
+                                } else {
+                                    //保存完毕，将这条数据生成的objectId保存到本地的该条数据中，并更新isSave为True
+                                    ContentValues values = new ContentValues();
+                                    values.put("object_id", budgetForCloud.getObjectId());
+                                    values.put("isSave", ConstantContainer.TRUE);
+                                    int success = mDatabase.update(SQLite.BUDGET_TABLE, values, "_id = ?", new String[]{id});
+                                    if (success == 0) {
+                                        if (mErrorListener != null) {
+                                            mErrorListener.error("budget保存objectId时出错");
+                                        }
+                                    }
+                                    values.clear();
                                 }
                             }
-                            values.clear();
-                        }
+                        });
                     }
-                });
-            }
-        } else {
-            Log.i("info", "没有budget数据可add");
-        }
+                } else {
+                    Log.i("info", "没有budget数据可add");
+                }
 
-        cursor.close();
+                try {
+                    postBudgetUpdate();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                cursor.close();
+            }
+        }).start();
     }
 
-    private void postBudgetUpdate() {
-        String sql = "select * from budget " +
-                "where object_id not null and " +
-                "isSave = ?";
+    private void postBudgetUpdate() throws Exception {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String sql = "select * from budget " +
+                        "where object_id not null and " +
+                        "isSave = ?";
 
-        final Cursor cursor = mDatabase.rawQuery(sql, new String[]{ConstantContainer.FALSE + ""});
-        AVQuery<BudgetForCloud> query = new AVQuery<>("Budget");
+                final Cursor cursor = mDatabase.rawQuery(sql, new String[]{ConstantContainer.FALSE + ""});
+                AVQuery<BudgetForCloud> query = new AVQuery<>("Budget");
 
-        if (cursor.getCount() != 0) {
-            while (cursor.moveToNext()) {
-                final String objectId = cursor.getString(cursor.getColumnIndex("object_id"));
-                final String classifyId = cursor.getString(cursor.getColumnIndex("classify_id"));
-                final long updateMs = cursor.getLong(cursor.getColumnIndex("update_ms"));
-                final String description = cursor.getString(cursor.getColumnIndex("description"));
-                final int money = cursor.getInt(cursor.getColumnIndex("money"));
-                final long startTime = cursor.getLong(cursor.getColumnIndex("start_date"));
-                final long endTime = cursor.getLong(cursor.getColumnIndex("end_date"));
-                final int available = cursor.getInt(cursor.getColumnIndex("available"));
+                if (cursor.getCount() != 0) {
+                    while (cursor.moveToNext()) {
+                        final String objectId = cursor.getString(cursor.getColumnIndex("object_id"));
+                        final String classifyId = cursor.getString(cursor.getColumnIndex("classify_id"));
+                        final long updateMs = cursor.getLong(cursor.getColumnIndex("update_ms"));
+                        final String description = cursor.getString(cursor.getColumnIndex("description"));
+                        final int money = cursor.getInt(cursor.getColumnIndex("money"));
+                        final long startTime = cursor.getLong(cursor.getColumnIndex("start_date"));
+                        final long endTime = cursor.getLong(cursor.getColumnIndex("end_date"));
+                        final int available = cursor.getInt(cursor.getColumnIndex("available"));
 
-                query.getInBackground(objectId, new GetCallback<BudgetForCloud>() {
-                    @Override
-                    public void done(final BudgetForCloud budgetForCloud, AVException e) {
-                        if (budgetForCloud.getUpdateMs() < updateMs) {
-                            budgetForCloud.setClassifyId(classifyId);
-                            budgetForCloud.setDescription(description);
-                            budgetForCloud.setMoney(money);
-                            budgetForCloud.setStartTime(startTime);
-                            budgetForCloud.setEndTime(endTime);
-                            budgetForCloud.setUpdateMs(updateMs);
-                            budgetForCloud.setAvailable(available);
-                            budgetForCloud.saveInBackground(new SaveCallback() {
-                                @Override
-                                public void done(AVException e) {
-                                    if (e != null) {
-                                        if (mErrorListener != null) {
-                                            mErrorListener.error("上传budget表更新出错" + e.getMessage());
-                                        }
-                                    } else {
-                                        //保存完毕，将这条数据生成的objectId保存到本地的该条数据中，并更新isSave为True
-                                        ContentValues values = new ContentValues();
-                                        values.put("isSave", ConstantContainer.TRUE);
-                                        int success = mDatabase.update(SQLite.BUDGET_TABLE, values, "object_id = ?", new String[]{objectId});
-                                        if (success == 0) {
-                                            if (mErrorListener != null) {
-                                                mErrorListener.error("budget更新保存状态时出错");
+                        query.getInBackground(objectId, new GetCallback<BudgetForCloud>() {
+                            @Override
+                            public void done(final BudgetForCloud budgetForCloud, AVException e) {
+                                if (budgetForCloud.getUpdateMs() < updateMs) {
+                                    budgetForCloud.setClassifyId(classifyId);
+                                    budgetForCloud.setDescription(description);
+                                    budgetForCloud.setMoney(money);
+                                    budgetForCloud.setStartTime(startTime);
+                                    budgetForCloud.setEndTime(endTime);
+                                    budgetForCloud.setUpdateMs(updateMs);
+                                    budgetForCloud.setAvailable(available);
+                                    budgetForCloud.saveInBackground(new SaveCallback() {
+                                        @Override
+                                        public void done(AVException e) {
+                                            if (e != null) {
+                                                if (mErrorListener != null) {
+                                                    mErrorListener.error("上传budget表更新出错" + e.getMessage());
+                                                }
+                                            } else {
+                                                //保存完毕，将这条数据生成的objectId保存到本地的该条数据中，并更新isSave为True
+                                                ContentValues values = new ContentValues();
+                                                values.put("isSave", ConstantContainer.TRUE);
+                                                int success = mDatabase.update(SQLite.BUDGET_TABLE, values, "object_id = ?", new String[]{objectId});
+                                                if (success == 0) {
+                                                    if (mErrorListener != null) {
+                                                        mErrorListener.error("budget更新保存状态时出错");
+                                                    }
+                                                }
+                                                values.clear();
                                             }
                                         }
-                                        values.clear();
-                                    }
+                                    });
                                 }
-                            });
-                        }
+                            }
+                        });
                     }
-                });
+                    cursor.close();
+                } else {
+                    Log.i("查询", "没有数据可up");
+                }
+
+                //对比完版本号，如果是true，表示版本号相同，那么同步到此为止，因为如果两端版本号是一样的，证明云端和本地是一致的
+                //如果为false，那只会是一种情况，云端的版本号更高，这就表示云端有我们本地没有的数据，此时我们将现在云端的整张表下载下来下来
+                if (!compareVersion("budgetVer")) {
+                    downloadBudget();
+                } else {
+                    if (mBudgetDoneListener != null) {
+                        mBudgetDoneListener.done();
+                    }
+                }
             }
-            cursor.close();
-        } else {
-            Log.i("查询", "没有数据可up");
-        }
+        }).start();
     }
 
     private void downloadBudget() {
-        SQLite.getInstance().clearData(SQLite.BUDGET_TABLE); //先清空整张表
-        AVQuery<BudgetForCloud> query = new AVQuery<>("Budget");
-        query.whereEqualTo("user", AVUser.getCurrentUser());
-        query.findInBackground(new FindCallback<BudgetForCloud>() { //到云端将该用户下这张表的数据全部查询出来
+        new Thread(new Runnable() {
             @Override
-            public void done(List<BudgetForCloud> list, AVException e) {
-                if (e == null) {
-                    ContentValues values = new ContentValues();  //之后循环保存
-                    for (int i = 0; i < list.size(); i++) {
-                        values.put("_id", list.get(i).getId());
-                        values.put("object_id", list.get(i).getObjectId());
-                        values.put("classify_id", list.get(i).getClassifyId());
-                        values.put("description", list.get(i).getDescription());
-                        values.put("money", list.get(i).getMoney());
-                        values.put("start_date", list.get(i).getStartTime());
-                        values.put("end_date", list.get(i).getEndTime());
-                        values.put("update_ms", list.get(i).getUpdateMs());
-                        values.put("available", list.get(i).getAvailable());
-                        values.put("isSave", ConstantContainer.TRUE);
+            public void run() {
+                SQLite.getInstance().clearData(SQLite.BUDGET_TABLE); //先清空整张表
+                AVQuery<BudgetForCloud> query = new AVQuery<>("Budget");
+                query.whereEqualTo("user", AVUser.getCurrentUser());
+                query.findInBackground(new FindCallback<BudgetForCloud>() { //到云端将该用户下这张表的数据全部查询出来
+                    @Override
+                    public void done(List<BudgetForCloud> list, AVException e) {
+                        if (e == null) {
+                            ContentValues values = new ContentValues();  //之后循环保存
+                            for (int i = 0; i < list.size(); i++) {
+                                values.put("_id", list.get(i).getId());
+                                values.put("object_id", list.get(i).getObjectId());
+                                values.put("classify_id", list.get(i).getClassifyId());
+                                values.put("description", list.get(i).getDescription());
+                                values.put("money", list.get(i).getMoney());
+                                values.put("start_date", list.get(i).getStartTime());
+                                values.put("end_date", list.get(i).getEndTime());
+                                values.put("update_ms", list.get(i).getUpdateMs());
+                                values.put("available", list.get(i).getAvailable());
+                                values.put("isSave", ConstantContainer.TRUE);
 
-                        long successNum = mDatabase.insert(SQLite.BUDGET_TABLE, null, values);
-                        values.clear();
-                        if (successNum == 0) {
+                                long successNum = mDatabase.insert(SQLite.BUDGET_TABLE, null, values);
+                                values.clear();
+                                if (successNum == 0) {
+                                    if (mErrorListener != null) {
+                                        mErrorListener.error("下载budget数据出错" + e.getMessage());
+                                    }
+                                }
+                            }
+
+                            if (mBudgetDoneListener != null) {
+                                mBudgetDoneListener.done();
+                            }
+                        } else {
                             if (mErrorListener != null) {
                                 mErrorListener.error("下载budget数据出错" + e.getMessage());
                             }
                         }
                     }
-                } else {
-                    if (mErrorListener != null) {
-                        mErrorListener.error("下载budget数据出错" + e.getMessage());
-                    }
-                }
+                });
             }
-        });
+        }).start();
     }
 
     @Override

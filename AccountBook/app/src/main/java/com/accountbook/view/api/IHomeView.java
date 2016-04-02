@@ -4,9 +4,6 @@ import com.accountbook.entity.local.AccountBill;
 
 import java.util.List;
 
-/**
- * Created by liuzipeng on 16/2/23.
- */
 public interface IHomeView {
     /**
      * 显示查询错误信息

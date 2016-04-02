@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 import com.accountbook.R;
 import com.accountbook.presenter.LogoutPresenter;
 import com.accountbook.presenter.service.SyncService;
+import com.accountbook.tools.ConstantContainer;
 import com.accountbook.tools.QuickSimpleIO;
 import com.accountbook.view.api.ILogoutView;
 import com.accountbook.view.api.ToolbarMenuOnClickListener;
@@ -223,6 +225,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      */
     public void goLogin(View view) {
         if (AVUser.getCurrentUser() == null) {
+            mDrawerLayout.closeDrawer(Gravity.LEFT);
             Intent intent = new Intent(MainActivity.this, LoginAndRegistryActivity.class);
             startActivityForResult(intent, 1);
         }
@@ -245,7 +248,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == 2) {
-            mDrawerLayout.closeDrawer(Gravity.LEFT);
             loadUserInfo();
             firstSync();
             FragmentManager fm = getSupportFragmentManager();
@@ -291,6 +293,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                mDrawerLayout.closeDrawer(Gravity.LEFT);
                 if (mLogoutPresenter == null) {
                     mLogoutPresenter = new LogoutPresenter(MainActivity.this);
                 }
@@ -320,7 +323,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      */
     @Override
     public void logoutComplete() {
-        mDrawerLayout.openDrawer(GravityCompat.START);
         loadUserInfo();
     }
 
@@ -331,7 +333,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      */
     @Override
     public void logoutFailed(String message) {
-//        showDialog(this, "注销失败", message);
+        Toast.makeText(this, "注销失败" + message, Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -339,6 +341,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      */
     @Override
     public void clearComplete() {
+        Intent intent = new Intent(ConstantContainer.LOGOUT_DONE_URI);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+
         Toast.makeText(MainActivity.this, "清除完成", Toast.LENGTH_SHORT).show();
     }
 
@@ -349,6 +354,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      */
     @Override
     public void clearFailed(String message) {
-//        showDialog(this, "清除数据失败", message);
+        Toast.makeText(this, "清空数据失败" + message, Toast.LENGTH_SHORT).show();
     }
 }

@@ -3,6 +3,7 @@ package com.accountbook.biz.impl;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.accountbook.biz.api.IBudgetBiz;
 import com.accountbook.entity.local.Budget;
@@ -59,6 +60,8 @@ public class BudgetBiz implements IBudgetBiz {
 
                 budgets.add(budget);
             }
+
+            Log.i("budgetSize", budgets.size() + "");
 
             cursor.close();
 

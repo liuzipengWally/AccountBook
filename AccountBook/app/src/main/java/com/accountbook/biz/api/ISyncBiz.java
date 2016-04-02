@@ -31,4 +31,8 @@ public interface ISyncBiz {
     void setOnPostErrorListener(SyncBiz.OnSyncErrorListener listener);
 
     void setOnSyncVersionListener(SyncBiz.OnSyncVersionListener listener);
+
+    void setOnSyncRecordDoneListener(SyncBiz.OnSyncRecordDoneListener listener);
+
+    void setOnSyncBudgetDoneListener(SyncBiz.OnSyncBudgetDoneListener listener);
 }

@@ -78,7 +78,7 @@ public class HomeBiz implements IHomeBiz {
                 bill.setIconResId(cursor.getInt(cursor.getColumnIndex("iconResId")));
                 bill.setType(cursor.getInt(cursor.getColumnIndex("type")));
 
-                Log.i("info", cursor.getString(cursor.getColumnIndex("classify")) + "  " + create_time + " " + create_time_curr);
+//                Log.i("info", cursor.getString(cursor.getColumnIndex("classify")) + "  " + create_time + " " + create_time_curr);
 
                 if (!create_time_curr.equals(create_time)) {
                     create_time = create_time_curr;
@@ -139,7 +139,7 @@ public class HomeBiz implements IHomeBiz {
     }
 
     @Override
-    public void queryInfoCardData(String expend, String income, String balance, OnQueryInfoCardDataListener listener) {
+    public void queryInfoCardData(OnQueryInfoCardDataListener listener) {
 
     }
 

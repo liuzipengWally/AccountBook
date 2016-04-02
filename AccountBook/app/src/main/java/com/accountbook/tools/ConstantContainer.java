@@ -4,8 +4,6 @@ package com.accountbook.tools;
  * 常量容器，用于放置本项目中会使用到的常量
  */
 public class ConstantContainer {
-
-    //// TODO: 16/2/25  下面四个常量分别代表收入，支出，借入，借出四种金钱类型
     /**
      * 收入
      */
@@ -36,4 +34,7 @@ public class ConstantContainer {
 
     public static final int EDIT_RECROD_REQUEST = 0;
     public static final int BUDGET_REQUEST = 1;
+
+    public static final String SYNC_URI = "com.accountbook.sync";
+    public static final String LOGOUT_DONE_URI = "com.accountbook.logout";
 }

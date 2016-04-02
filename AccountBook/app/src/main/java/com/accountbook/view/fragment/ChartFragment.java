@@ -1,10 +1,14 @@
 package com.accountbook.view.fragment;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.CardView;
@@ -74,9 +78,38 @@ public class ChartFragment extends Fragment implements IChartView {
         mLayoutView = inflater.inflate(R.layout.chart_fragment, container, false);
         ButterKnife.bind(this, mLayoutView);
         initView();
+        registerBroadCastReceiver();
         bindEvents();
         mPresenter = new ChartPresenter(this);
         return mLayoutView;
+    }
+
+    private void registerBroadCastReceiver() {
+        LocalBroadcastManager syncBroadcastManager = LocalBroadcastManager.getInstance(mContext);
+        IntentFilter syncIntentFilter = new IntentFilter();
+        syncIntentFilter.addAction(ConstantContainer.SYNC_URI);//建议把它写一个公共的变量，这里方便阅读就不写了。
+        BroadcastReceiver syncBroadCastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                mPresenter.loadClassifyPercent(ConstantContainer.EXPEND, mStartTime, mEndTime);
+                mPresenter.loadClassifyPercent(ConstantContainer.INCOME, mStartTime, mEndTime);
+            }
+        };
+        syncBroadcastManager.registerReceiver(syncBroadCastReceiver, syncIntentFilter);
+
+
+        LocalBroadcastManager logoutBroadcastManager = LocalBroadcastManager.getInstance(mContext);
+        IntentFilter logoutFilter = new IntentFilter();
+        logoutFilter.addAction(ConstantContainer.LOGOUT_DONE_URI);
+        BroadcastReceiver logoutReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                mPresenter.loadClassifyPercent(ConstantContainer.EXPEND, mStartTime, mEndTime);
+                mPresenter.loadClassifyPercent(ConstantContainer.INCOME, mStartTime, mEndTime);
+            }
+        };
+
+        logoutBroadcastManager.registerReceiver(logoutReceiver, logoutFilter);
     }
 
     private void bindEvents() {
@@ -90,7 +123,7 @@ public class ChartFragment extends Fragment implements IChartView {
         });
 
 
-        //// TODO: 16/3/16 反射改变spinner的选择事件，让其可重选
+        //反射改变spinner的选择事件，让其可重选
         mChartSpinner.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -231,7 +264,8 @@ public class ChartFragment extends Fragment implements IChartView {
 
     @Override
     public void loadClassifyPercentFailed() {
-        Log.i("exception", "数据获取失败");
+//        mIncomePieChart.clearValues();
+//        mExpendPieChart.clearValues();
     }
 
     class pagerAdapter extends PagerAdapter {

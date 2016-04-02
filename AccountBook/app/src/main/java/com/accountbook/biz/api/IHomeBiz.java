@@ -16,12 +16,8 @@ public interface IHomeBiz {
 
     /**
      * 查询主页卡片中的数据
-     *
-     * @param expend  支出
-     * @param income  收入
-     * @param balance 预算余额
      */
-    void queryInfoCardData(String expend, String income, String balance, HomeBiz.OnQueryInfoCardDataListener listener);
+    void queryInfoCardData(HomeBiz.OnQueryInfoCardDataListener listener);
 
     /**
      * 删除分类的方法

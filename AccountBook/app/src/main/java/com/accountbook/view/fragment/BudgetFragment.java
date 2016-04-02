@@ -1,25 +1,31 @@
 package com.accountbook.view.fragment;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.accountbook.R;
 import com.accountbook.entity.local.Budget;
 import com.accountbook.presenter.BudgetPresenter;
 import com.accountbook.presenter.service.SyncService;
+import com.accountbook.tools.ConstantContainer;
 import com.accountbook.tools.DialogManager;
 import com.accountbook.view.activity.EditBudgetActivity;
 import com.accountbook.view.adapter.BudgetListAdapter;
@@ -67,6 +73,7 @@ public class BudgetFragment extends Fragment implements IBudgetView {
         mLayoutView = inflater.inflate(R.layout.budget_fragment, container, false);
         ButterKnife.bind(this, mLayoutView);
         initView();
+        registerBroadCastReceiver();
         bindEvents();
 
         mPresenter = new BudgetPresenter(this, mContext);
@@ -85,14 +92,41 @@ public class BudgetFragment extends Fragment implements IBudgetView {
         mContext = context;
     }
 
+    private void registerBroadCastReceiver() {
+        LocalBroadcastManager syncBroadcastManager = LocalBroadcastManager.getInstance(mContext);
+        IntentFilter syncIntentFilter = new IntentFilter();
+        syncIntentFilter.addAction(ConstantContainer.SYNC_URI);//建议把它写一个公共的变量，这里方便阅读就不写了。
+        BroadcastReceiver syncBroadCastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                mPresenter.queryBudget();
+            }
+        };
+        syncBroadcastManager.registerReceiver(syncBroadCastReceiver, syncIntentFilter);
+
+
+        LocalBroadcastManager logoutBroadcastManager = LocalBroadcastManager.getInstance(mContext);
+        IntentFilter logoutFilter = new IntentFilter();
+        logoutFilter.addAction(ConstantContainer.LOGOUT_DONE_URI);
+        BroadcastReceiver logoutReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                mPresenter.queryBudget();
+            }
+        };
+
+        logoutBroadcastManager.registerReceiver(logoutReceiver, logoutFilter);
+    }
+
     private void bindEvents() {
         mRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 if (AVUser.getCurrentUser() != null) {
                     mContext.startService(new Intent(mContext, SyncService.class));
+                } else {
+                    mPresenter.queryBudget();
                 }
-                mPresenter.queryBudget();
             }
         });
 
@@ -135,7 +169,10 @@ public class BudgetFragment extends Fragment implements IBudgetView {
 
     @Override
     public void showLoadDataFailed() {
-
+        if (mBudgets != null) {
+            mBudgets.removeAll(mBudgets);
+            mAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override
