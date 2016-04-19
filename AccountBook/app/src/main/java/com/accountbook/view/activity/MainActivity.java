@@ -306,7 +306,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         builder.show();
     }
 
-
     /**
      * 是否清除数据
      *

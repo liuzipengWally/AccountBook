@@ -1,12 +1,15 @@
 package com.accountbook.application;
 
 import android.app.Application;
+import android.content.Intent;
 import android.database.sqlite.SQLiteException;
 
 import com.accountbook.biz.impl.SQLite;
 import com.accountbook.entity.cloud.BudgetForCloud;
 import com.accountbook.entity.cloud.RecordForCloud;
 import com.accountbook.entity.cloud.Version;
+import com.accountbook.presenter.service.NotificationService;
+import com.accountbook.presenter.service.SyncService;
 import com.accountbook.tools.QuickSimpleIO;
 import com.avos.avoscloud.AVOSCloud;
 import com.avos.avoscloud.AVObject;
@@ -22,8 +25,12 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
         init();
+        showNotification();
+    }
+
+    private void showNotification() {
+        startService(new Intent(this, NotificationService.class));
     }
 
     private void init() {

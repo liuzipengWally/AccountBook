@@ -33,6 +33,7 @@
         <activity android:name=".view.activity.RolesActivity" />
 
         <service android:name=".presenter.service.SyncService"></service>
+        <service android:name=".presenter.service.NotificationService"></service>
     </application>
 
 </manifest>

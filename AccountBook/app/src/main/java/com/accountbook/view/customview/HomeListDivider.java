@@ -20,7 +20,6 @@ public class HomeListDivider extends RecyclerView.ItemDecoration {
     private Drawable mDivider;
 
     public HomeListDivider(Context context) {
-
         TypedArray typedArray = context.obtainStyledAttributes(attrs); //将数组转化为TypedArray
 
         mDivider = typedArray.getDrawable(0);  //取出这个Drawable文件
