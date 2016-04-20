@@ -44,7 +44,7 @@ public class ClassifyPresenter {
             @Override
             public void deleteSuccess() {
                 mSimpleIO.setBoolean("needSync", true);
-                mSimpleIO.setInt("classifyVer", mSimpleIO.getInt("classifyVer") + 1);
+                mSimpleIO.setLong("classifyVer", mSimpleIO.getLong("classifyVer") + 1);
                 mClassifyView.deleteSuccess(id);
             }
 

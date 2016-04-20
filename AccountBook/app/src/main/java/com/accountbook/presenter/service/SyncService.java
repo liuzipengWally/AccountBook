@@ -5,11 +5,13 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.accountbook.biz.api.ISyncBiz;
 import com.accountbook.biz.impl.SyncBiz;
 import com.accountbook.tools.ConstantContainer;
 import com.accountbook.tools.QuickSimpleIO;
+import com.accountbook.tools.Util;
 import com.avos.avoscloud.AVException;
 
 public class SyncService extends Service {
@@ -27,26 +29,30 @@ public class SyncService extends Service {
     public int onStartCommand(Intent intent, int flags, final int startId) {
         final ISyncBiz syncBiz = new SyncBiz(this);
         final QuickSimpleIO io = new QuickSimpleIO(this, "version_sp");
-        if (io.getBoolean("isFirstSync")) {
-            syncBiz.syncVersion();
-            syncBiz.setOnSyncVersionListener(new SyncBiz.OnSyncVersionListener() {
+        if (Util.isNetworkAvailable(this)) {
+            if (io.getBoolean("isFirstSync")) {
+                syncBiz.syncVersion();
+                syncBiz.setOnSyncVersionListener(new SyncBiz.OnSyncVersionListener() {
+                    @Override
+                    public void done() {
+                        io.setBoolean("isFirstSync", false);
+                        sync(syncBiz);
+                    }
+                });
+            } else {
+                sync(syncBiz);
+            }
+
+            syncBiz.setOnPostErrorListener(new SyncBiz.OnSyncErrorListener() {
                 @Override
-                public void done() {
-                    io.setBoolean("isFirstSync", false);
-                    sync(syncBiz);
+                public void error(String e) {
+                    Log.e("error", e);
+                    stopSelf(startId);
                 }
             });
         } else {
-            sync(syncBiz);
+            Toast.makeText(this, "请检查网络是否可用", Toast.LENGTH_SHORT).show();
         }
-
-        syncBiz.setOnPostErrorListener(new SyncBiz.OnSyncErrorListener() {
-            @Override
-            public void error(String e) {
-                Log.e("error", e);
-                stopSelf(startId);
-            }
-        });
 
         stopSelf(startId);
         return START_STICKY;

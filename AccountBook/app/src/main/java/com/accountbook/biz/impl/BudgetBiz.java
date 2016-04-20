@@ -98,6 +98,8 @@ public class BudgetBiz implements IBudgetBiz {
     public void delete(String id, OnDeleteBudgetListener deleteBudgetListener) {
         ContentValues values = new ContentValues();
         values.put("available", ConstantContainer.FALSE);
+        values.put("isSave", ConstantContainer.FALSE);
+        values.put("update_ms", System.currentTimeMillis());
 
         int successfulNum = mDatabase.update(SQLite.BUDGET_TABLE, values, "_id = ?", new String[]{id});
         values.clear();

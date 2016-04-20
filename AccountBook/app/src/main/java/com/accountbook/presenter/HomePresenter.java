@@ -54,7 +54,7 @@ public class HomePresenter {
             @Override
             public void deleteSuccess() {
                 mSimpleIO.setBoolean("needSync", true);
-                mSimpleIO.setInt("recordVer", mSimpleIO.getInt("recordVer") + 1);
+                mSimpleIO.setLong("recordVer", mSimpleIO.getLong("recordVer") + 1);
                 mHomeView.deleteSuccess(id);
             }
 

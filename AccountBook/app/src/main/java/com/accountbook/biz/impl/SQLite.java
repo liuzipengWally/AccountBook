@@ -30,7 +30,6 @@ public class SQLite {
     private SQLiteDatabase mDatabase;
 
     private static SQLite mInstance;
-
     private SQLite() {
 
     }

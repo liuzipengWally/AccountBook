@@ -157,7 +157,6 @@ public class HomeFragment extends Fragment implements IHomeView {
                 mPresenter.queryAccountBills(mStartTime, mEndTime);
             }
         };
-
         logoutBroadcastManager.registerReceiver(logoutReceiver, logoutFilter);
     }
 
@@ -366,11 +365,6 @@ public class HomeFragment extends Fragment implements IHomeView {
             mSwipeRefreshLayout.setRefreshing(true);
             mContext.startService(new Intent(mContext, SyncService.class));
         } else {
-            mSpinner.setSelection(0);
-            Calendar calendar = Calendar.getInstance();
-            mEndTime = Util.formatDateNotCh(System.currentTimeMillis());
-            calendar.set(Calendar.DAY_OF_WEEK, calendar.getFirstDayOfWeek());
-            mStartTime = Util.formatDateNotCh(calendar.getTimeInMillis());
             mPresenter.queryAccountBills(mStartTime, mEndTime);
         }
     }

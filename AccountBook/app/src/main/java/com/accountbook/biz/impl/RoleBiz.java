@@ -75,6 +75,7 @@ public class RoleBiz implements IRoleBiz {
 
         ContentValues values = new ContentValues();
         values.put("available", ConstantContainer.FALSE);
+        values.put("isSave", ConstantContainer.FALSE);
 
         int successfulNum = mDatabase.update(SQLite.ROLE_TABLE, values, "_id = ?", new String[]{id});
         values.clear();

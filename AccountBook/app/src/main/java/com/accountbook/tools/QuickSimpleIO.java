@@ -39,6 +39,15 @@ public class QuickSimpleIO {
     }
 
     public int getInt(String key) {
-        return mPreferences.getInt(key, 4);
+        return mPreferences.getInt(key, 0);
+    }
+
+    public void setLong(String key, long value) {
+        mEditor.putLong(key, value);
+        mEditor.commit();
+    }
+
+    public long getLong(String key) {
+        return mPreferences.getLong(key, 0);
     }
 }

@@ -78,8 +78,6 @@ public class HomeBiz implements IHomeBiz {
                 bill.setIconResId(cursor.getInt(cursor.getColumnIndex("iconResId")));
                 bill.setType(cursor.getInt(cursor.getColumnIndex("type")));
 
-//                Log.i("info", cursor.getString(cursor.getColumnIndex("classify")) + "  " + create_time + " " + create_time_curr);
-
                 if (!create_time_curr.equals(create_time)) {
                     create_time = create_time_curr;
                     bill.setCreate_time(create_time);
@@ -147,6 +145,8 @@ public class HomeBiz implements IHomeBiz {
     public void delete(String id, OnDeleteAccountBillsListener deleteAccountBillsListener) {
         ContentValues values = new ContentValues();
         values.put("available", ConstantContainer.FALSE);
+        values.put("isSave", ConstantContainer.FALSE);
+        values.put("update_ms", System.currentTimeMillis());
 
         int successfulNum = mDatabase.update(SQLite.RECORD_TABLE, values, "_id = ?", new String[]{id});
         values.clear();

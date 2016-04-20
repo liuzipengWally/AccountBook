@@ -74,6 +74,7 @@ public class ClassifyBiz implements IClassifyBiz {
     public void delete(String id, OnDeleteClassifyListener deleteClassifyListener) {
         ContentValues values = new ContentValues();
         values.put("available", ConstantContainer.FALSE);
+        values.put("isSave", ConstantContainer.FALSE);
 
         int successfulNum = mDatabase.update(SQLite.CLASSIFY_TABLE, values, "_id = ?", new String[]{id});
         values.clear();

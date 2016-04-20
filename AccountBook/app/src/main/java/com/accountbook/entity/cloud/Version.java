@@ -5,35 +5,35 @@ import com.avos.avoscloud.AVObject;
 
 @AVClassName("Version")
 public class Version extends AVObject {
-    public int getRecordVer() {
-        return getInt("recordVer");
+    public long getRecordVer() {
+        return getLong("recordVer");
     }
 
-    public void setRecordVer(int ver) {
+    public void setRecordVer(long ver) {
         put("recordVer", ver);
     }
 
-    public int getBudgetVer() {
-        return getInt("budgetVer");
+    public long getBudgetVer() {
+        return getLong("budgetVer");
     }
 
-    public void setBudgetVer(int ver) {
+    public void setBudgetVer(long ver) {
         put("budgetVer", ver);
     }
 
-    public int getRoleVer() {
-        return getInt("roleVer");
+    public long getRoleVer() {
+        return getLong("roleVer");
     }
 
-    public void setRoleVer(int ver) {
+    public void setRoleVer(long ver) {
         put("roleVer", ver);
     }
 
-    public int getClassifyVer() {
-        return getInt("classifyVer");
+    public long getClassifyVer() {
+        return getLong("classifyVer");
     }
 
-    public void setClassifyVer(int ver) {
+    public void setClassifyVer(long ver) {
         put("classifyVer", ver);
     }
 }

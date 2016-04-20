@@ -46,7 +46,7 @@ public class RolePresenter {
             @Override
             public void deleteSuccess() {
                 mSimpleIO.setBoolean("isSave", false);
-                mSimpleIO.setInt("roleVer", mSimpleIO.getInt("roleVer") + 1);
+                mSimpleIO.setLong("roleVer", mSimpleIO.getLong("roleVer") + 1);
                 mRoleView.deleteSuccess();
             }
 
@@ -62,7 +62,7 @@ public class RolePresenter {
             @Override
             public void saveSuccess() {
                 mSimpleIO.setBoolean("isSave", false);
-                mSimpleIO.setInt("roleVer", mSimpleIO.getInt("roleVer") + 1);
+                mSimpleIO.setLong("roleVer", mSimpleIO.getLong("roleVer") + 1);
                 mRoleView.saveSuccess();
             }
 

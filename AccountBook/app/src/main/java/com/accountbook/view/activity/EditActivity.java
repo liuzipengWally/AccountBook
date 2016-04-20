@@ -318,6 +318,10 @@ public class EditActivity extends AppCompatActivity implements IEditView {
 
     @Override
     public void loadAlterRecordDate(Record record) {
+        if (record.getMoney() < 0) {
+            mType = ConstantContainer.EXPEND;
+        }
+
         mMoneyEdit.setText(Math.abs(record.getMoney()) + "");
         mDescriptionEdit.setText(record.getDescription());
         handleType(record.getBorrowName());
