@@ -24,7 +24,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contextClickable="true"
-                android:entries="@array/home_page_spinner"
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
 
         </android.support.v7.widget.Toolbar>

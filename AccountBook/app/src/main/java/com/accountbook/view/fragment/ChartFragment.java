@@ -28,6 +28,7 @@ import com.accountbook.presenter.ChartPresenter;
 import com.accountbook.tools.ConstantContainer;
 import com.accountbook.tools.DialogManager;
 import com.accountbook.tools.Util;
+import com.accountbook.view.adapter.ToolbarSpinnerAdapter;
 import com.accountbook.view.api.IChartView;
 import com.accountbook.view.api.ToolbarMenuOnClickListener;
 import com.github.mikephil.charting.charts.PieChart;
@@ -190,6 +191,8 @@ public class ChartFragment extends Fragment implements IChartView {
     }
 
     private void initView() {
+        mChartSpinner.setAdapter(new ToolbarSpinnerAdapter(mContext, getResources().getStringArray(R.array.home_page_spinner)));
+
         mViews = new ArrayList<>();
 
         mViews.add(LayoutInflater.from(mContext).inflate(R.layout.chart_fragment_page, null));

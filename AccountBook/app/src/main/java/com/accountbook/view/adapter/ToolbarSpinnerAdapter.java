@@ -36,10 +36,7 @@ public class ToolbarSpinnerAdapter extends ArrayAdapter<String> {
         TextView tv = (TextView) convertView
                 .findViewById(android.R.id.text1);
         tv.setText(mStrings[position]);
-        ViewGroup.LayoutParams params = tv.getLayoutParams();
-        params.width = 200;
-        tv.setLayoutParams(params);
-
+        tv.setTextColor(Color.parseColor("#86000000"));
         return convertView;
     }
 
@@ -51,19 +48,8 @@ public class ToolbarSpinnerAdapter extends ArrayAdapter<String> {
         }
         //此处text1是Spinner默认的用来显示文字的TextView
         TextView tv = (TextView) convertView.findViewById(android.R.id.text1);
-        if (position != mStrings.length - 1) {
-            tv.setText(mStrings[position]);
-        } else {
-            tv.setText(mCustomDate);
-        }
+        tv.setText(mStrings[position]);
         tv.setTextColor(Color.WHITE);
-        tv.setBackgroundColor(Color.parseColor("#ff9800"));
-
         return convertView;
-    }
-
-    public void setCustomTitle(String text) {
-        this.mCustomDate = text;
-        notifyDataSetChanged();
     }
 }

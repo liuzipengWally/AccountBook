@@ -33,6 +33,7 @@ import com.accountbook.tools.DialogManager;
 import com.accountbook.tools.Util;
 import com.accountbook.view.activity.EditActivity;
 import com.accountbook.view.adapter.HomeListAdapter;
+import com.accountbook.view.adapter.ToolbarSpinnerAdapter;
 import com.accountbook.view.api.IHomeView;
 import com.accountbook.view.api.ToolbarMenuOnClickListener;
 import com.accountbook.view.customview.AutoHideFab;
@@ -125,6 +126,8 @@ public class HomeFragment extends Fragment implements IHomeView {
     private void init() {
         //初始化presenter
         mPresenter = new HomePresenter(this, mContext);
+
+        mSpinner.setAdapter(new ToolbarSpinnerAdapter(mContext, getResources().getStringArray(R.array.home_page_spinner)));
 
         //初始化下拉刷新控件
         mSwipeRefreshLayout.setColorSchemeResources(R.color.colorAccent); //设置控件进度条颜色
