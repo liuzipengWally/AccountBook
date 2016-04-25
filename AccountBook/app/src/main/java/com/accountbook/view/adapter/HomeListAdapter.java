@@ -146,7 +146,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
     public int getItemCount() {
         return mAccountBills.size();
     }
-
+    
     /**
      * 添加数据
      *

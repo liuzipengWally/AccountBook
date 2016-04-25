@@ -139,7 +139,7 @@ public class HomeFragment extends Fragment implements IHomeView {
     private void registerBroadCastReceiver() {
         LocalBroadcastManager syncBroadcastManager = LocalBroadcastManager.getInstance(mContext);
         IntentFilter syncIntentFilter = new IntentFilter();
-        syncIntentFilter.addAction(ConstantContainer.SYNC_URI);//建议把它写一个公共的变量，这里方便阅读就不写了。
+        syncIntentFilter.addAction(ConstantContainer.SYNC_URI);
         BroadcastReceiver syncBroadCastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -183,7 +183,7 @@ public class HomeFragment extends Fragment implements IHomeView {
             }
         });
 
-        // 反射改变spinner的选择事件，让其可重选
+        // 反射改变spinner的选择事件，让其可重复选择
         mSpinner.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {

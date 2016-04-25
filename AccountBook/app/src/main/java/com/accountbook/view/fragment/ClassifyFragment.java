@@ -91,12 +91,6 @@ public class ClassifyFragment extends Fragment implements IClassifyView {
         mPresenter = new ClassifyPresenter(this, mContext);
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        bindEvent();
-    }
-
     private void bindEvent() {
         mAdapter.setOnItemClickListener(new ClassifyAdapter.OnItemClickListener() {
             @Override
@@ -159,6 +153,7 @@ public class ClassifyFragment extends Fragment implements IClassifyView {
     public void loadData(List<Classify> classifies) {
         mAdapter = new ClassifyAdapter(classifies, mContext);
         mClassifyList.setAdapter(mAdapter);
+        bindEvent();
     }
 
     @Override
