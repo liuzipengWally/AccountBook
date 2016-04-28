@@ -235,9 +235,11 @@ public class ChartFragment extends Fragment implements IChartView {
 
         if (type == ConstantContainer.EXPEND) {
             initChart(mExpendPieChart);
+            mExpendPieChart.setCenterText("支出");  //饼状图中间的文字
             mExpendPieChart.setData(pieData);
         } else {
             initChart(mIncomePieChart);
+            mIncomePieChart.setCenterText("收入");  //饼状图中间的文字
             mIncomePieChart.setData(pieData);
         }
     }
@@ -304,7 +306,6 @@ public class ChartFragment extends Fragment implements IChartView {
         chart.setDrawSlicesUnderHole(true);
         chart.setHoleRadius(60f);  //半径
         chart.setTransparentCircleRadius(64f); // 半透明圈
-        chart.setCenterText("支出");  //饼状图中间的文字
         chart.setDrawCenterText(true);  //饼状图中间可以添加文字
         chart.setDrawHoleEnabled(true);
         chart.setRotationEnabled(false);
