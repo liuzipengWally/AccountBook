@@ -15,6 +15,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".view.activity.MainActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/TransparentTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,13 +25,21 @@
         </activity>
         <activity
             android:name=".view.activity.LoginAndRegistryActivity"
-            android:label="" />
+            android:label=""
+            android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.EditActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Add_theme" />
-        <activity android:name=".view.activity.ClassifyActivity" />
-        <activity android:name=".view.activity.EditBudgetActivity" />
-        <activity android:name=".view.activity.RolesActivity" />
+        <activity
+            android:name=".view.activity.ClassifyActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.EditBudgetActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.RolesActivity"
+            android:screenOrientation="portrait" />
 
         <service android:name=".presenter.service.SyncService"></service>
         <service android:name=".presenter.service.NotificationService"></service>

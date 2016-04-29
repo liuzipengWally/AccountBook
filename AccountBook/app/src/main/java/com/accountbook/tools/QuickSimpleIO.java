@@ -48,6 +48,6 @@ public class QuickSimpleIO {
     }
 
     public long getLong(String key) {
-        return mPreferences.getLong(key, 0);
+        return mPreferences.getLong(key, 0l);
     }
 }

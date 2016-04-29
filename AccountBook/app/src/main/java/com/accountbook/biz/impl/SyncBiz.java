@@ -178,7 +178,7 @@ public class SyncBiz implements ISyncBiz {
                     public void done(final RecordForCloud recordForCloud, AVException e) {
                         if (e == null) {
                             if (recordForCloud.getUpdateMs() < updateMs) {
-                                Log.i("数据", "数据拿到"+money);
+                                Log.i("数据", "数据拿到" + money);
                                 recordForCloud.setClassifyId(classifyId);
                                 recordForCloud.setRoleId(roleId);
                                 recordForCloud.setAccount(account);

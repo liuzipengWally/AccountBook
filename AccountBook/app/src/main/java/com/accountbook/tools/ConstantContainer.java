@@ -26,6 +26,10 @@ public class ConstantContainer {
      */
     public static final int TOOLBAR_HEIGHT = 56;
 
+    /**
+     * 0：不可用
+     * 1：可用
+     */
     public static final int TRUE = 1;
     public static final int FALSE = 0;
 

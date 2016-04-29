@@ -72,10 +72,10 @@ public class MyApplication extends Application {
 
     private void initTableVersion() {
         QuickSimpleIO io = new QuickSimpleIO(this, "version_sp");
-        io.setInt("recordVer", 0);
-        io.setInt("budgetVer", 0);
-        io.setInt("roleVer", 0);
-        io.setInt("classifyVer", 0);
+        io.setLong("recordVer", 0l);
+        io.setLong("budgetVer", 0l);
+        io.setLong("roleVer", 0l);
+        io.setLong("classifyVer", 0l);
         io.setBoolean("needSync", true);
     }
 
