@@ -258,6 +258,8 @@ public class ChartFragment extends Fragment implements IChartView {
         PieDataSet pieDataSet = new PieDataSet(yValues, "分类示意"/*显示在比例图上*/);
         pieDataSet.setSliceSpace(0f); //设置个饼状图之间的距离
         pieDataSet.setColors(colors);
+        pieDataSet.setValueTextColor(Color.WHITE);
+        pieDataSet.setValueTextSize(14);
 
         DisplayMetrics metrics = getResources().getDisplayMetrics();
         float px = 5 * (metrics.densityDpi / 160f);
@@ -302,13 +304,14 @@ public class ChartFragment extends Fragment implements IChartView {
 
     private void initChart(PieChart chart) {
         chart.setDrawSliceText(false);
-        chart.setUsePercentValues(true);
         chart.setDrawSlicesUnderHole(true);
+        chart.setUsePercentValues(true);
         chart.setHoleRadius(60f);  //半径
         chart.setTransparentCircleRadius(64f); // 半透明圈
         chart.setDrawCenterText(true);  //饼状图中间可以添加文字
         chart.setDrawHoleEnabled(true);
         chart.setRotationEnabled(false);
+        chart.setCenterTextSize(20);
         chart.setRotationAngle(90); // 初始旋转角度
         Legend legend = chart.getLegend();  //设置比例图
         legend.setWordWrapEnabled(true);
