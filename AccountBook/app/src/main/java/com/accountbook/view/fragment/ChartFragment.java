@@ -16,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,6 +67,8 @@ public class ChartFragment extends Fragment implements IChartView {
     private Context mContext;
     private long mStartTime;
     private long mEndTime;
+
+    private boolean isClassify = true;
 
     private ToolbarMenuOnClickListener mToolbarMenuOnClickListener;
 
@@ -123,6 +126,25 @@ public class ChartFragment extends Fragment implements IChartView {
             }
         });
 
+        mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.classify_chart:
+                        isClassify = true;
+                        mPresenter.loadClassifyPercent(ConstantContainer.EXPEND, mStartTime, mEndTime);
+                        mPresenter.loadClassifyPercent(ConstantContainer.INCOME, mStartTime, mEndTime);
+                        break;
+                    case R.id.role_chart:
+                        isClassify = false;
+                        mPresenter.loadRolePercent(ConstantContainer.EXPEND, mStartTime, mEndTime);
+                        mPresenter.loadRolePercent(ConstantContainer.INCOME, mStartTime, mEndTime);
+                        break;
+                }
+                return false;
+            }
+        });
+
 
         //反射改变spinner的选择事件，让其可重选
         mChartSpinner.setOnTouchListener(new View.OnTouchListener() {
@@ -152,21 +174,36 @@ public class ChartFragment extends Fragment implements IChartView {
                     case 0:
                         calendar.set(Calendar.DAY_OF_WEEK, calendar.getFirstDayOfWeek());
                         mStartTime = Util.formatDateNotCh(calendar.getTimeInMillis());
-                        mPresenter.loadClassifyPercent(ConstantContainer.EXPEND, mStartTime, mEndTime);
-                        mPresenter.loadClassifyPercent(ConstantContainer.INCOME, mStartTime, mEndTime);
+                        if (isClassify) {
+                            mPresenter.loadClassifyPercent(ConstantContainer.EXPEND, mStartTime, mEndTime);
+                            mPresenter.loadClassifyPercent(ConstantContainer.INCOME, mStartTime, mEndTime);
+                        } else {
+                            mPresenter.loadRolePercent(ConstantContainer.EXPEND, mStartTime, mEndTime);
+                            mPresenter.loadRolePercent(ConstantContainer.INCOME, mStartTime, mEndTime);
+                        }
                         break;
                     case 1:
                         calendar.set(Calendar.DAY_OF_MONTH, 1);
                         mStartTime = Util.formatDateNotCh(calendar.getTimeInMillis());
-                        mPresenter.loadClassifyPercent(ConstantContainer.EXPEND, mStartTime, mEndTime);
-                        mPresenter.loadClassifyPercent(ConstantContainer.INCOME, mStartTime, mEndTime);
+                        if (isClassify) {
+                            mPresenter.loadClassifyPercent(ConstantContainer.EXPEND, mStartTime, mEndTime);
+                            mPresenter.loadClassifyPercent(ConstantContainer.INCOME, mStartTime, mEndTime);
+                        } else {
+                            mPresenter.loadRolePercent(ConstantContainer.EXPEND, mStartTime, mEndTime);
+                            mPresenter.loadRolePercent(ConstantContainer.INCOME, mStartTime, mEndTime);
+                        }
                         break;
                     case 2:
                         calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) - 2);
                         calendar.set(Calendar.DAY_OF_MONTH, 1);
                         mStartTime = Util.formatDateNotCh(calendar.getTimeInMillis());
-                        mPresenter.loadClassifyPercent(ConstantContainer.EXPEND, mStartTime, mEndTime);
-                        mPresenter.loadClassifyPercent(ConstantContainer.INCOME, mStartTime, mEndTime);
+                        if (isClassify) {
+                            mPresenter.loadClassifyPercent(ConstantContainer.EXPEND, mStartTime, mEndTime);
+                            mPresenter.loadClassifyPercent(ConstantContainer.INCOME, mStartTime, mEndTime);
+                        } else {
+                            mPresenter.loadRolePercent(ConstantContainer.EXPEND, mStartTime, mEndTime);
+                            mPresenter.loadRolePercent(ConstantContainer.INCOME, mStartTime, mEndTime);
+                        }
                         break;
                     case 3:
                         DialogManager dialogManager = new DialogManager(mContext);
@@ -175,8 +212,13 @@ public class ChartFragment extends Fragment implements IChartView {
                             public void dateRangeSet(long startMillisecond, long endMillisecond) {
                                 mStartTime = Util.formatDateNotCh(startMillisecond);
                                 mEndTime = Util.formatDateNotCh(endMillisecond);
-                                mPresenter.loadClassifyPercent(ConstantContainer.EXPEND, mStartTime, mEndTime);
-                                mPresenter.loadClassifyPercent(ConstantContainer.INCOME, mStartTime, mEndTime);
+                                if (isClassify) {
+                                    mPresenter.loadClassifyPercent(ConstantContainer.EXPEND, mStartTime, mEndTime);
+                                    mPresenter.loadClassifyPercent(ConstantContainer.INCOME, mStartTime, mEndTime);
+                                } else {
+                                    mPresenter.loadRolePercent(ConstantContainer.EXPEND, mStartTime, mEndTime);
+                                    mPresenter.loadRolePercent(ConstantContainer.INCOME, mStartTime, mEndTime);
+                                }
                             }
                         });
                         break;
@@ -192,6 +234,8 @@ public class ChartFragment extends Fragment implements IChartView {
 
     private void initView() {
         mChartSpinner.setAdapter(new ToolbarSpinnerAdapter(mContext, getResources().getStringArray(R.array.home_page_spinner)));
+
+        mToolbar.inflateMenu(R.menu.menu_chart);
 
         mViews = new ArrayList<>();
 
@@ -236,10 +280,28 @@ public class ChartFragment extends Fragment implements IChartView {
         if (type == ConstantContainer.EXPEND) {
             initChart(mExpendPieChart);
             mExpendPieChart.setCenterText("支出");  //饼状图中间的文字
+            mExpendPieChart.setDescription("分类收支占比饼图");
             mExpendPieChart.setData(pieData);
         } else {
             initChart(mIncomePieChart);
             mIncomePieChart.setCenterText("收入");  //饼状图中间的文字
+            mIncomePieChart.setDescription("分类收支占比饼图");
+            mIncomePieChart.setData(pieData);
+        }
+    }
+
+    @Override
+    public void loadRolePercent(List<ChartData> chartDatas, int type) {
+        PieData pieData = constructData(chartDatas);
+        if (type == ConstantContainer.EXPEND) {
+            initChart(mExpendPieChart);
+            mExpendPieChart.setCenterText("支出");  //饼状图中间的文字
+            mExpendPieChart.setDescription("人员收支占比饼图");
+            mExpendPieChart.setData(pieData);
+        } else {
+            initChart(mIncomePieChart);
+            mIncomePieChart.setCenterText("收入");  //饼状图中间的文字
+            mIncomePieChart.setDescription("人员收支占比饼图");
             mIncomePieChart.setData(pieData);
         }
     }
@@ -248,14 +310,24 @@ public class ChartFragment extends Fragment implements IChartView {
         ArrayList<String> xValues = new ArrayList<>();  //xVals用来表示每个饼块上的内容
         ArrayList<Integer> colors = new ArrayList<>();
         ArrayList<Entry> yValues = new ArrayList<>();  //yVals用来表示封装每个饼块的实际数据
-        for (int i = 0; i < chartDatas.size(); i++) {
-            xValues.add(chartDatas.get(i).getClassify());
-            yValues.add(new Entry(chartDatas.get(i).getPercent(), i));
-            colors.add(Color.parseColor(chartDatas.get(i).getColor()));
+        String[] roleColors = null;
+        if (!isClassify) {
+            roleColors = getResources().getStringArray(R.array.color);
+            for (int i = 0; i < chartDatas.size(); i++) {
+                xValues.add(chartDatas.get(i).getRole());
+                yValues.add(new Entry(chartDatas.get(i).getPercent(), i));
+                colors.add(Color.parseColor(roleColors[i]));
+            }
+        } else {
+            for (int i = 0; i < chartDatas.size(); i++) {
+                xValues.add(chartDatas.get(i).getClassify());
+                yValues.add(new Entry(chartDatas.get(i).getPercent(), i));
+                colors.add(Color.parseColor(chartDatas.get(i).getColor()));
+            }
         }
 
         //y轴的集合
-        PieDataSet pieDataSet = new PieDataSet(yValues, "分类示意"/*显示在比例图上*/);
+        PieDataSet pieDataSet = new PieDataSet(yValues, "类目示意"/*显示在比例图上*/);
         pieDataSet.setSliceSpace(0f); //设置个饼状图之间的距离
         pieDataSet.setColors(colors);
         pieDataSet.setValueTextColor(Color.WHITE);
@@ -270,7 +342,7 @@ public class ChartFragment extends Fragment implements IChartView {
     }
 
     @Override
-    public void loadClassifyPercentFailed() {
+    public void loadPercentFailed() {
 //        mIncomePieChart.clearValues();
 //        mExpendPieChart.clearValues();
     }
@@ -319,6 +391,5 @@ public class ChartFragment extends Fragment implements IChartView {
         legend.setXEntrySpace(7f);
         legend.setYEntrySpace(5f);
         chart.animateXY(1000, 1000);  //设置动画
-        chart.setDescription("收支占比饼图");
     }
 }

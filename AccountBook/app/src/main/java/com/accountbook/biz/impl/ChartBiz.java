@@ -19,14 +19,14 @@ public class ChartBiz implements IChartBiz {
         this.mDatabase = SQLite.getInstance().getDatabaseObject();
     }
 
-    public interface OnQueryClassifyPercentListener {
+    public interface OnQueryPercentListener {
         void querySuccess(List<ChartData> chartDatas);
 
         void queryFailed();
     }
 
     @Override
-    public void queryClassifyPercent(int type, long startTime, long endTime, OnQueryClassifyPercentListener onQueryClassifyPercentListener) {
+    public void queryClassifyPercent(int type, long startTime, long endTime, OnQueryPercentListener onQueryPercentListener) {
         String sql = "select c.classify,sum(r.money) sum,c.color  from record r inner join classify c " +
                 "on r.classify_id = c._id " +
                 "where r.available = ? and " +
@@ -50,15 +50,51 @@ public class ChartBiz implements IChartBiz {
                 chartDataList.add(chartData);
             }
 
-            if (onQueryClassifyPercentListener != null) {
-                onQueryClassifyPercentListener.querySuccess(chartDataList);
+            if (onQueryPercentListener != null) {
+                onQueryPercentListener.querySuccess(chartDataList);
             }
         } else {
-            if (onQueryClassifyPercentListener != null) {
-                onQueryClassifyPercentListener.queryFailed();
+            if (onQueryPercentListener != null) {
+                onQueryPercentListener.queryFailed();
             }
         }
     }
+
+    @Override
+    public void queryRolePercent(int type, long startTime, long endTime, OnQueryPercentListener onQueryPercentListener) {
+        String sql = "select e.role,sum(r.money) sum " +
+                "FROM role e inner join record r inner join classify c " +
+                "on r.classify_id = c._id and e._id = r.role_id " +
+                "where r.available = ? and " +
+                "r.record_ms>=? and r.record_ms<=? and " +
+                "e.available = ? and " +
+                "c.type =? " +
+                "group by e.role";
+
+        float moneyCount = queryMoneyCount(type, startTime, endTime);
+        List<ChartData> chartDataList = new ArrayList<>();
+
+        Cursor cursor = mDatabase.rawQuery(sql, new String[]{ConstantContainer.TRUE + "", startTime + "", endTime + "", ConstantContainer.TRUE + "", type + ""});
+        if (cursor.getCount() != 0) {
+            while (cursor.moveToNext()) {
+                ChartData chartData = new ChartData();
+                chartData.setRole(cursor.getString(cursor.getColumnIndex("role")));
+                float percent = (Math.abs(cursor.getFloat(cursor.getColumnIndex("sum"))) / moneyCount) * 100;
+                chartData.setPercent(percent);
+
+                chartDataList.add(chartData);
+            }
+
+            if (onQueryPercentListener != null) {
+                onQueryPercentListener.querySuccess(chartDataList);
+            }
+        } else {
+            if (onQueryPercentListener != null) {
+                onQueryPercentListener.queryFailed();
+            }
+        }
+    }
+
 
     private float queryMoneyCount(int type, long startTime, long endTime) {
         String sql = "select sum(r.money) sum from record r inner join classify c " +

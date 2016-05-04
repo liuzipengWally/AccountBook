@@ -17,7 +17,7 @@ public class ChartPresenter {
     }
 
     public void loadClassifyPercent(final int type, long startTime, long endTime) {
-        mChartBiz.queryClassifyPercent(type, startTime, endTime, new ChartBiz.OnQueryClassifyPercentListener() {
+        mChartBiz.queryClassifyPercent(type, startTime, endTime, new ChartBiz.OnQueryPercentListener() {
             @Override
             public void querySuccess(List<ChartData> chartDatas) {
                 mChartView.loadClassifyPercent(chartDatas, type);
@@ -25,7 +25,21 @@ public class ChartPresenter {
 
             @Override
             public void queryFailed() {
-                mChartView.loadClassifyPercentFailed();
+                mChartView.loadPercentFailed();
+            }
+        });
+    }
+
+    public void loadRolePercent(final int type, long startTime, long endTime) {
+        mChartBiz.queryRolePercent(type, startTime, endTime, new ChartBiz.OnQueryPercentListener() {
+            @Override
+            public void querySuccess(List<ChartData> chartDatas) {
+                mChartView.loadRolePercent(chartDatas, type);
+            }
+
+            @Override
+            public void queryFailed() {
+                mChartView.loadPercentFailed();
             }
         });
     }
