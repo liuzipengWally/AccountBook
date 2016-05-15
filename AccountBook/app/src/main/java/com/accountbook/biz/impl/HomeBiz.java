@@ -106,10 +106,11 @@ public class HomeBiz implements IHomeBiz {
      * @return
      */
     private String countMoney(String recordDate) {
-        String sql = "select money,record_ms from record"; //先把钱和时间全部查询出来
+        String sql = "select money,record_ms from record " +
+                "where available = ?"; //先把钱和时间全部查询出来
         int money = 0;
 
-        Cursor cursor = mDatabase.rawQuery(sql, null);
+        Cursor cursor = mDatabase.rawQuery(sql, new String[]{ConstantContainer.TRUE + ""});
 
         if (cursor.getCount() != 0) {
             while (cursor.moveToNext()) {
