@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.2"
 
     defaultConfig {
-        applicationId "com.accountbook"
+        applicationId "com.lzp.accountbook"
         minSdkVersion 14
         targetSdkVersion 23
         versionCode 1
@@ -30,7 +30,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.2.0'
     compile 'cn.leancloud.android:avoscloud-sdk:v3.7.2'
     compile 'cn.leancloud.android:avoscloud-search:v3.7.2@aar'
-    compile 'com.lzp.floatingactionbutton:floatingactionbuttonplus:0.3.2'
+    compile 'com.lzp.floatingactionbutton:floatingactionbuttonplus:1.0.0'
     compile 'com.android.support:recyclerview-v7:23.2.0'
     compile 'com.jakewharton:butterknife:7.0.0'
     compile 'org.jetbrains:annotations-java5:15.0'
