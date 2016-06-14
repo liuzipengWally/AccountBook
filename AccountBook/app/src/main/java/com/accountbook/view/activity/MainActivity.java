@@ -1,12 +1,12 @@
 package com.accountbook.view.activity;
 
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -22,7 +22,6 @@ import android.widget.Toast;
 
 import com.accountbook.R;
 import com.accountbook.presenter.LogoutPresenter;
-import com.accountbook.presenter.service.SyncService;
 import com.accountbook.tools.ConstantContainer;
 import com.accountbook.tools.QuickSimpleIO;
 import com.accountbook.view.api.ILogoutView;
@@ -66,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      * @param savedInstanceState savedInstanceState 不等于null时，代表应用的内存被重载了
      */
     private void recoveryFragment(Bundle savedInstanceState) {
-        FragmentManager fm = getSupportFragmentManager();
+        FragmentManager fm = getFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
 
         if (savedInstanceState != null) {
@@ -89,7 +88,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             mBudgetFragment = new BudgetFragment();
             mBudgetFragment.setToolbarMenuOnClickListener(this);
             transaction.add(R.id.frag_container, mBudgetFragment, "BudgetFragment");
-
             //将主页显示出来，其他隐藏
             transaction.hide(mChartFragment).hide(mBudgetFragment).show(mHomeFragment);
             transaction.commit();//提交事物
@@ -180,10 +178,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      */
     private void switchFragment(int id) {
         /*获取FragmentManager对象,必须选择v4包下的*/
-        FragmentManager fm = getSupportFragmentManager();
+        FragmentManager fm = getFragmentManager();
         /*获取一个Fragment事物，通过FragmentManager对象调用beginTransaction方法，开启一个事物*/
         FragmentTransaction transaction = fm.beginTransaction();
-
         switch (id) {
             case R.id.home_page:
                 /*先隐藏所有的Fragment*/
@@ -250,15 +247,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (requestCode == 1 && resultCode == 2) {
             loadUserInfo();
             firstSync();
-            FragmentManager fm = getSupportFragmentManager();
+            FragmentManager fm = getFragmentManager();
             mHomeFragment = (HomeFragment) fm.findFragmentByTag("HomeFragment");
             mHomeFragment.onActivityResult(requestCode, resultCode, data);
         } else if (resultCode == 11) {
-            FragmentManager fm = getSupportFragmentManager();
+            FragmentManager fm = getFragmentManager();
             mHomeFragment = (HomeFragment) fm.findFragmentByTag("HomeFragment");
             mHomeFragment.onActivityResult(requestCode, resultCode, data);
         } else if (requestCode == 12) {
-            FragmentManager fm = getSupportFragmentManager();
+            FragmentManager fm = getFragmentManager();
             mBudgetFragment = (BudgetFragment) fm.findFragmentByTag("BudgetFragment");
             mBudgetFragment.onActivityResult(requestCode, resultCode, data);
         }
